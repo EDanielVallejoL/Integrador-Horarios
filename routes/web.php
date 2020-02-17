@@ -14,11 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('home', function () {
-    return view('home');
-})->name('homee');
-
-Route::get('form_cargar', function () {
-    return view('form_cargar_datos_usuarios');
-});
