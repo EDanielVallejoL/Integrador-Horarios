@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+
+// PARA PASAR DATOS POR MEDIO DEL URL
+/*Route::get('user/{name?}', function ($name = null) {
+    return 'Bienvenido: ' . $name;
+});*/
+
+// POR CONTROLADORES
+Route::get('user/{id}', 'UserController@show');
+
+// PARA VISTAS y CONTROLADOR
+Route::get('/', 'UserController@saluda');
