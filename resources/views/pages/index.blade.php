@@ -23,7 +23,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 # Recomiendo poner la ruta absoluta si no está junto al script
 # Nota: no necesariamente tiene que tener la extensión XLSX
-$rutaArchivo = "../MateriasSA.xlsx";
+$rutaArchivo = "..\MateriasSA.xlsx";
 $documento = IOFactory::load($rutaArchivo);
 
 # Recuerda que un documento puede tener múltiples hojas
