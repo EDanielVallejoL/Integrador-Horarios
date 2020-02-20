@@ -11,8 +11,8 @@
 <?php
 /**
  * Demostrar lectura de hoja de cálculo o archivo
- * de Excel con PHPSpreadSheet: leer determinada fila
- * y columna por coordenadas
+ * de Excel con PHPSpreadSheet: leer todo el contenido
+ * de un archivo de Excel
  *
  * @author parzibyte
  */
@@ -23,7 +23,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 # Recomiendo poner la ruta absoluta si no está junto al script
 # Nota: no necesariamente tiene que tener la extensión XLSX
-$rutaArchivo = "../MateriasSA.xlsx";
+$rutaArchivo = "../Materia1.xlsx";
 $documento = IOFactory::load($rutaArchivo);
 
 # Recuerda que un documento puede tener múltiples hojas
@@ -32,29 +32,40 @@ $totalDeHojas = $documento->getSheetCount();
 
 # Iterar hoja por hoja
 for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
-
     # Obtener hoja en el índice que vaya del ciclo
     $hojaActual = $documento->getSheet($indiceHoja);
-    echo "<h3>Vamos en la hoja con índice $indiceHoja</h3>";
 
-    $coordenadas = "B1";
-
-    # Lo que hay en A1
-    $celda = $hojaActual->getCell($coordenadas);
-    # El valor, así como está en el documento
-    $valorRaw = $celda->getValue();
-
-    # Formateado por ejemplo como dinero o con decimales
-    $valorFormateado = $celda->getFormattedValue();
-
-    # Si es una fórmula y necesitamos su valor, llamamos a:
-    $valorCalculado = $celda->getCalculatedValue();
-
-    # Imprimir
-    echo "En <strong>$coordenadas</strong> tenemos el valor <strong>$valorRaw</strong>. ";
-    echo "Formateado es: <strong>$valorFormateado</strong>. ";
-    echo "Calculado es: <strong>$valorCalculado</strong><br><br>";
-
+    # Iterar filas
+    echo '<table class="table">'; 
+    $i = 0;
+    foreach ($hojaActual->getRowIterator() as $fila) {
+        if ($i == 0)
+        {
+            echo '<thead class="thead-dark">';
+            echo '<tr>';
+            foreach ($fila->getCellIterator() as $celda) {
+                # Si es una fórmula y necesitamos su valor, llamamos a:
+                $valorCalculado = $celda->getCalculatedValue();
+                echo "<th>$valorCalculado</th>";
+            }
+            echo '<tr>';
+            echo '</thead>';
+            $i = 1;
+        }
+        else
+        {
+            echo '<tbody>';
+            echo '<tr class="p-3 mb-2 bg-light text-dark">';
+            foreach ($fila->getCellIterator() as $celda) {
+                # Si es una fórmula y necesitamos su valor, llamamos a:
+                $valorCalculado = $celda->getCalculatedValue();
+                echo "<td>$valorCalculado</td>";
+            }
+            echo '<tr>';
+            echo '</tbody>';
+        }
+    }
+    echo '</table>'; 
 }
 
 ?>
