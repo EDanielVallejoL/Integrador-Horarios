@@ -14,9 +14,6 @@
     @include('inc.navbar')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-12 mb-3 col-md-3">
-                @include('inc.navlateral')
-            </div>
             <div class="col-sm-12 col-md-7">
                 @yield('content')
             </div>

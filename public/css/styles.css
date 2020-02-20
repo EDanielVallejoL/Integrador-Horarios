@@ -1,5 +1,5 @@
 .navbar {
-    background-color:  #FFBF42;
+    background-color: red;
 }
 
 #divMessage{
@@ -12,7 +12,7 @@ body {
     -moz-background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
-    background-color: #3E3631;
+    background-color: rgba(147,206,222,1);
     padding-top: 70px;
 }
   
@@ -20,7 +20,7 @@ body {
   background-color: #FF6641;
 }
 #cardColor2{
-  background-color:  #FFBF42;
+  background-color:  blue;
 }
 #cardColor3{
     background-color:  #CFC383;

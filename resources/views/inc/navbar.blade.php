@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-light fixed-top shadow-sm">
-    <a class="navbar-brand" href="#">Petbook</a>
+    <a class="navbar-brand" href="#">TimeBlock</a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navCollapse" aria-controls="navCollapse"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
