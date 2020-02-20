@@ -6,6 +6,6 @@
 
 <!-- Carga de datos -->
 
-<H1>Carga del Excel .xlsx</H1>
+<H1>Carga del Excel .xlsx por Baro</H1>
 
 @endsection 
