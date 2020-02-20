@@ -9,19 +9,21 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+*/ 
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
+/* Single pages */
+Route::get('/', 'PostsController@index');
+Route::get('/cares', 'PagesController@cuidados');
+Route::get('/recommendation', 'PagesController@recomendaciones');
+Route::get('/results', 'PagesController@results');
 
-// PARA PASAR DATOS POR MEDIO DEL URL
-/*Route::get('user/{name?}', function ($name = null) {
-    return 'Bienvenido: ' . $name;
-});*/
+/* Resources */
 
-// POR CONTROLADORES
-Route::get('user/{id}', 'UserController@show');
+Route::resource('users', 'UsersController');
+Route::resource('pet', 'PetsController');
+Route::resource('pets', 'PetsController');
+Route::resource('posts', 'PostsController');
+Route::resource('forums', 'ForumsController');
+Route::resource('comments', 'CommentsController');
 
-// PARA VISTAS y CONTROLADOR
-Route::get('/', 'UserController@saluda');
+Auth::routes();

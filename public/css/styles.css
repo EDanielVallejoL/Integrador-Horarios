@@ -1,0 +1,53 @@
+.navbar {
+    background-color:  #FFBF42;
+}
+
+#divMessage{
+    position:relative;
+}
+
+body {
+    /*background: url(img/MascotasCollage.png) no-repeat center center fixed;*/
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-color: #3E3631;
+    padding-top: 70px;
+}
+  
+#cardColor{
+  background-color: #FF6641;
+}
+#cardColor2{
+  background-color:  #FFBF42;
+}
+#cardColor3{
+    background-color:  #CFC383;
+}
+
+.cardColor3 {
+    background-color:  #FFBF42;
+}
+.cardColor2 {
+    color: white;
+    background-color:  #3E3631;
+}
+.cardColor1 {
+    color: white;
+    background-color:  #F71E50;
+}
+
+#messagesUserx{
+    overflow:scroll;
+    height:500px;
+}
+
+#messagesFast{
+    overflow:scroll;
+    height:650px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
