@@ -1,3 +1,4 @@
+<!--PAGINA INICIO IMPORTANTE!!!!!!!!!!!!!!!!!!!!!!!-->
 @extends('layouts.base')
 
 @section('title', 'Publicaciones')

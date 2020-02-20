@@ -1,5 +1,7 @@
 @extends('layouts.base2')
 
+<!--PAGINA DE PERFIL SE PUEDE RECICLAR-->
+
 @section('title', 'Petbook')
 
 @section('content')
