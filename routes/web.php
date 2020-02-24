@@ -12,7 +12,7 @@
 */ 
 
 /* Single pages */
-Route::get('/', 'PostsController@index');
+Route::any('/', 'PostsController@index');
 Route::get('/cares', 'PagesController@cuidados');
 Route::get('/recommendation', 'PagesController@recomendaciones');
 Route::get('/results', 'PagesController@results');

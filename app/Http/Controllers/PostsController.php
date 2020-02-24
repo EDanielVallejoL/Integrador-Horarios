@@ -18,17 +18,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $user = \App\User::find(Auth::id());
-        if ($user->is_forum_admin) {
-            return redirect('/forums/');
-        }
-        else {
-            $posts = \App\Post::all();
-            // $posts->reverse();
-            $authors = \App\User::all();
-            return view('pages/index', ['posts' => $posts, 'authors' => $authors]);
-        }
-        
+        return view('pages/index');
     }
 
     /**
