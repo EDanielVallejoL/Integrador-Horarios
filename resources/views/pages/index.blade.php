@@ -59,7 +59,6 @@
 </body>
 </html>
 
-<<<<<<< HEAD
 <form action= "?" method = "POST" enctype="multipart/form-data">
   @csrf
   <div class="form-group p-3 mb-2 bg-success text-white" >
@@ -70,9 +69,6 @@
   </div>
 </form>
 
-@endsection 
-=======
->>>>>>> 1a452db897b9581dbfd59863d6a85e5c5b9aecc9
 
 <?php
 

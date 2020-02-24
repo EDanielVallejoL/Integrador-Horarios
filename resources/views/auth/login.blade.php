@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/estilosManuales.css">
-    <title>Document</title>
+    <title>TimeBlock</title>
 </head>
 <body>
 
@@ -55,7 +55,12 @@
                         </div>
 
                     @endif
-                </div>
+                </div >
+                <div class="form-check mt-4">
+                    @if (Route::has('register'))
+                        <a class="btn btn-block mb-3  cardColor3 text-light btn btn-dark cardColor2 ingresar " href="{{ route('register') }}">{{ __('Regístrate') }}</a>
+                    @endif
+                </div >
                 
             </form>
         </div>
