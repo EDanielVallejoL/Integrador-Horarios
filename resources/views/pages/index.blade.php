@@ -91,11 +91,6 @@ if(isset($_POST['upload'])) {
     $file = $_FILES['file']['tmp_name'];
     $rutaArchivo = $file;
     $documento = IOFactory::load($rutaArchivo);
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 56e85493264552fa9c819b1858ac5a1cc6caa29e
     # Recuerda que un documento puede tener múltiples hojas
     # obtener conteo e iterar
     $totalDeHojas = $documento->getSheetCount();
