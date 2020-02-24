@@ -56,6 +56,10 @@ class PagesController extends Controller{
          return view('pages/pet');
     }
 
+    public function prueba() {
+        return view('auth/loginPrueba');
+   }
+
 
     // public function about() {
     //     return view('pages/about');

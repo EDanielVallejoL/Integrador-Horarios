@@ -15,7 +15,8 @@
 Route::any('/', 'PostsController@index');
 Route::get('/cares', 'PagesController@cuidados');
 Route::get('/recommendation', 'PagesController@recomendaciones');
-Route::get('/results', 'PagesController@results');
+Route::get('/pruebas', 'PagesController@loginPrueba');
+Route::get('/pruebasLogin', 'PagesController@loginPrueba');
 
 /* Resources */
 
