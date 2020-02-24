@@ -50,7 +50,7 @@
 
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <input id="ciudad" type="text" class="form-control" name="city" required autocomplete="ciudad" placeholder="Ciudad">
+                                    <input id="ciudad" type="text" class="form-control" name="city" required autocomplete="ciudad" placeholder="Carrera">
                                 </div>
                             </div>
 
