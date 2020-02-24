@@ -91,14 +91,81 @@ if(isset($_POST['upload'])) {
     $file = $_FILES['file']['tmp_name'];
     $rutaArchivo = $file;
     $documento = IOFactory::load($rutaArchivo);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 56e85493264552fa9c819b1858ac5a1cc6caa29e
     # Recuerda que un documento puede tener múltiples hojas
     # obtener conteo e iterar
     $totalDeHojas = $documento->getSheetCount();
 
-    # Iterar hoja por hoja
-    for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
+    # obtenemos la primera celda para la validacion del archivo CPM
+    $coordenadas = "A1";
+    $hojaActual = $documento->getSheet(0);
+    $celda = $hojaActual->getCell($coordenadas);
+    $valorRaw = $celda->getValue();
+
+    
+    $listaCarreras = array("");
+    $bandera = 0;
+    
+    foreach ($hojaActual->getRowIterator() as $fila) {
+      foreach ($fila->getCellIterator() as $celdaPrueba) {
+          // Aquí podemos obtener varias cosas interesantes
+          #https://phpoffice.github.io/PhpSpreadsheet/master/PhpOffice/PhpSpreadsheet/Cell/Cell.html
+
+          # El valor, así como está en el documento
+          $valorRaw = $celdaPrueba->getValue();
+
+
+
+          # Fila, que comienza en 1, luego 2 y así...
+          $fila = $celdaPrueba->getRow();
+          # Columna, que es la A, B, C y así...
+          $columna = $celdaPrueba->getColumn();
+
+          if($valorRaw != "")
+          {
+            if($columna == "B" || $columna =="D")
+            {
+              /*echo "En <strong>$columna$fila</strong> tenemos el valor <strong>$valorRaw</strong>. "; 
+              echo '<br>';*/
+              #Aqui metemos las materias en una lista
+              #valorRaw nos da lo que tenemos en las celdas
+              if($columna == "B")
+              {
+                if($valorRaw != "carrera")
+                {
+                  array_push($listaCarreras,$valorRaw);
+                }
+              }           
+            }
+          }  
+          
+      }
+       
+  }      
+}
+
+/*print_r(array_unique($listaCarreras));*/
+
+echo '<div class="btn-group">
+<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Carreras
+</button>
+<div class="dropdown-menu">';
+  foreach(array_unique($listaCarreras) as $c)
+  {
+    echo '<a class="dropdown-item" href="#">'; print_r($c); echo '</a>';
+  }
+echo '</div>
+</div>';
+
+    #Si cumple con que es el archivo buscado entonces realiza el mostrar
+    if($celda == "cve_carrera")
+    {
+      for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
         # Obtener hoja en el índice que vaya del ciclo
         $hojaActual = $documento->getSheet($indiceHoja);
 
@@ -134,7 +201,10 @@ if(isset($_POST['upload'])) {
         }
         echo '</table>'; 
     }
-}
-
+    }else{
+     echo  '<div class="alert alert-warning" role="alert">
+      El documento cargado no es el correcto.Cargar el archivo correspondiente.
+    </div>';
+    }
 
 ?>
