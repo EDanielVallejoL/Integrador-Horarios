@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand navbar-light bg-danger">
     <a class="navbar-brand" href="#">Cargar Archivos</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -57,10 +57,14 @@
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  <script>
-    let d = new Date();
-    document.body.innerHTML = "<h1>Time right now is:  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
-    "</h1>"
+  <script type="text/javascript">
+  // Daniel esto le sigues jS 
+    $(document).ready(function() {
+      $("a").click(function() {
+        var algo = $(this).attr("id");
+        alert($('#' + algo).text());
+      });
+    });
   </script>
 </body>
 
@@ -68,11 +72,21 @@
 
 <form action="?" method="POST" enctype="multipart/form-data">
   @csrf
-  <div class="form-group p-3 mb-2 bg-success text-white">
-    <p><input type="file" class="form-control-file" id="exampleFormControlFile1" name="file"></p>
-    <p><input type="file" class="form-control-file" id="exampleFormControlFile2" name="file2"></p>
-    <p><input type="file" class="form-control-file" id="exampleFormControlFile3" name="file3"></p>
-    <p><input type="submit" name="upload" value="Upload"></p>
+  <div class="card bg-success text-white" style="width: 25rem;">
+    <div class="card-header">
+      Archivos necesarios
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-secondary text-white">
+        <p><input type="file" class="form-control-file" id="exampleFormControlFile1" name="file"></p>
+      </li>
+      <li class="list-group-item bg-secondary text-white">
+        <p><input type="file" class="form-control-file" id="exampleFormControlFile2" name="file2"></p>
+      </li>
+      <li class="list-group-item bg-secondary text-white">
+        <p><input type="submit" name="upload" value="Upload"></p>
+      </li>
+    </ul>
   </div>
 </form>
 
@@ -137,17 +151,19 @@ if (isset($_POST['upload'])) {
   Carreras
 </button>
 <div class="dropdown-menu">';
+  $i = 0;
   foreach (array_unique($listaCarreras) as $c) {
-    echo '<a class="dropdown-item" href="#">';
+    echo '<a class="dropdown-item" id="carrera' . $i . '"  href="#">';
     print_r($c);
     echo '</a>';
+    $i += 1;
   }
   echo '</div>
 </div>';
 
   #Si cumple con que es el archivo buscado entonces realiza el mostrar
   if ($celda == "cve_carrera") {
-    for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
+    /*for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
       # Obtener hoja en el índice que vaya del ciclo
       $hojaActual = $documento->getSheet($indiceHoja);
 
@@ -179,7 +195,7 @@ if (isset($_POST['upload'])) {
         }
       }
       echo '</table>';
-    }
+    }*/
   } else {
     echo  '<div class="alert alert-warning" role="alert">
       El documento cargado no es el correcto.Cargar el archivo correspondiente.
