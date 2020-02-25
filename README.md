@@ -4,7 +4,7 @@
 
 - Jonathan Israel Baro De León
 - Daniel Vallejo
-- Miguel Vasquez
+- Miguel Angel Vazquez Vidales
 
 ## Objetivo del proyecto
 
