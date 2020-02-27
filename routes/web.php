@@ -17,6 +17,8 @@ Route::get('/cares', 'PagesController@cuidados');
 Route::get('/recommendation', 'PagesController@recomendaciones');
 Route::get('/pruebas', 'PagesController@loginPrueba');
 Route::get('/pruebasLogin', 'PagesController@loginPrueba');
+/*Route::get('/auth/register')->name('registro');*/
+Route::get('/registro', 'UserController@registro')->name('registro');
 
 /* Resources */
 

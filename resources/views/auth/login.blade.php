@@ -55,13 +55,7 @@
                         </div>
 
                     @endif
-                </div >
-                <div class="form-check mt-4">
-                    @if (Route::has('register'))
-                        <a class="btn btn-block mb-3  cardColor3 text-light btn btn-dark cardColor2 ingresar " href="{{ route('register') }}">{{ __('Regístrate') }}</a>
-                    @endif
-                </div >
-                
+                </div >                
             </form>
         </div>
     </div>

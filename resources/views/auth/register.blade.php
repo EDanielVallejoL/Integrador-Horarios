@@ -12,7 +12,7 @@
     <div class="row justify-content-centerv formulario2">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
-                            <h1 class="text-light">Registrar Usuario</h1>
+                            <h1 class="text-light">Registrar Coordinador</h1>
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Nombre">
@@ -71,32 +71,6 @@
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirma contraseña">
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label for="start" class="text-light">Fecha de nacimiento:</label>
-
-                                    <input type="date" id="start" name="trip-start" value="1997-11-23" min="1950-01-01" max="2018-12-31">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <ul class="list-group list-group-horizontal">
-                                        <li class="list-group-item">Mujer
-                                            <input type="radio" name="radio" id="Mujer" value="1" onclick="habilitar(this)">
-                                        </li>
-                                        <li class="list-group-item">Hombre
-                                            <input type="radio" name="radio" id="Hombre" value="2" onclick="habilitar(this)">
-                                        </li>
-                                        <li class="list-group-item">Personalizado
-                                            <input type="radio" name="radio" id="Personalizado" value="3" onclick="habilitar(this)">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
                             <div class="">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary text-center">

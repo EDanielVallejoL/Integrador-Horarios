@@ -10,8 +10,8 @@ class UserController extends Controller
         return 'UserID: ' .$id;
     }
 
-    public function saluda ()
+    public function registro ()
     {
-        return view('users', ['name' => 'Joanthan, Daniel y Miguel, Trabajen con Laravel']);
+        return view('Auth/Register');
     }
 }
