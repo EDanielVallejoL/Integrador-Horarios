@@ -8,7 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>BlockTime</title>
+
+    <!-- Aqui se cambia el icono de la pestaña-->
+    <link rel="shortcut icon" href="https://www.flaticon.es/premium-icon/icons/svg/1309/1309918.svg">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -28,7 +31,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm" id="NavBarIndex"> 
             <div class="container" >
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     BlockTime
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
