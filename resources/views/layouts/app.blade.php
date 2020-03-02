@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Pruebas...</title>
+    <title>Pruebas.</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -46,7 +46,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Regístrate') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Regístrate3') }}</a>
                                 </li>
                             @endif
                         @else

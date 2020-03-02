@@ -20,7 +20,7 @@ class CreateCordinadores2sTable extends Migration
             $table->string('email')->unique();
             $table->string('carrera');
             $table->string('password');
-            $table->boolean('is_coord_admin')->nullable();
+            $table->string('password_confirmation');
             $table->rememberToken();
             $table->timestamps(); 
         });

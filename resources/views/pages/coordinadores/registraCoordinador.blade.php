@@ -11,9 +11,9 @@
 <div class="container">
     <div class="row justify-content-center pt-5 mt-5 mr-1">
         <div class="row justify-content-centerv formulario2">
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ url('/cordinador2') }}" enctype="multipart/form-data">
                 @csrf
-                <h1 class="text-light">Administrador</h1>
+                <h1 class="text-light">Registrar Coordinador</h1>
                 <div class="form-group row">
                     <div class="col-md-12">
                         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Nombre">

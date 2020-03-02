@@ -14,7 +14,9 @@ class Cordinadores2Controller extends Controller
      */
     public function index()
     {
-        //
+        $datos['coordinadores'] = Cordinadores2::paginate(5);
+
+        return view('pages/coordinadores', $datos);
     }
 
     /**
@@ -35,7 +37,9 @@ class Cordinadores2Controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datosCoordinador=request()->except('_token');
+        Cordinadores2::insert($datosCoordinador);
+        return redirect('coordinadores');
     }
 
     /**
@@ -78,8 +82,14 @@ class Cordinadores2Controller extends Controller
      * @param  \App\Cordinadores2  $cordinadores2
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cordinadores2 $cordinadores2)
+    public function destroy($id)
     {
-        //
+        Cordinadores2::destroy($id);
+        return redirect('coordinadores');
+    }
+
+    public function registro ()
+    {
+        return view('pages/coordinadores/registraCoordinador');
     }
 }

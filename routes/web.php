@@ -11,18 +11,21 @@
 |
 */ 
 
+
 /* Single pages */
-Route::any('/', 'PostsController@index');
-Route::get('/cares', 'PagesController@cuidados');
-Route::get('/recommendation', 'PagesController@recomendaciones');
+Route::any('/', 'HomeController@index');
 Route::get('/pruebas', 'PagesController@loginPrueba');
 Route::get('/pruebasLogin', 'PagesController@loginPrueba');
-/*Route::get('/auth/register')->name('registro');*/
+Route::get('/registraCoordinador', 'Cordinadores2Controller@registro');
+Route::get('/coordinadores', 'Cordinadores2Controller@index');
 Route::get('/registro', 'UserController@registro')->name('registro');
 
 /* Resources */
 
 Route::resource('users', 'UsersController');
 Route::resource('coordinador', 'CoordinadorController');
+Route::resource('cordinador2', 'Cordinadores2Controller');
+
+Route::delete('/coordinadores/{id}', 'Cordinadores2Controller@destroy');
 
 Auth::routes();
