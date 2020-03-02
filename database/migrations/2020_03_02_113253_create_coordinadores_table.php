@@ -19,11 +19,10 @@ class CreateCoordinadoresTable extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('carrera');
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_coord_admin')->nullable();
+            $table->string('password_confirmation');
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 

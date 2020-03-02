@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Coordinadores;
 use Illuminate\Http\Request;
 
-class CoordinadorController extends Controller
+class CoordinadoresController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,6 +15,9 @@ class CoordinadorController extends Controller
     public function index()
     {
         //
+        $datos['coordinadores'] = Coordinadores::paginate(5);
+
+        return view('pages/coordinadores/listaC', $datos);
     }
 
     /**
@@ -34,18 +38,19 @@ class CoordinadorController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $datosCoordinador=request()->except('_token');
-        Request::insert($datosCoordinador);
-        return response()->json($datosCoordinador);
+        Coordinadores::insert($datosCoordinador);
+        return redirect('coordinadores');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Coordinadores  $coordinadores
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Coordinadores $coordinadores)
     {
         //
     }
@@ -53,10 +58,10 @@ class CoordinadorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Coordinadores  $coordinadores
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Coordinadores $coordinadores)
     {
         //
     }
@@ -65,10 +70,10 @@ class CoordinadorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Coordinadores  $coordinadores
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Coordinadores $coordinadores)
     {
         //
     }
@@ -76,11 +81,19 @@ class CoordinadorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Coordinadores  $coordinadores
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+        Coordinadores::destroy($id);
+        return redirect('coordinadores');
     }
+
+    public function registro()
+    {
+        return view('pages/coordinadores/registraCoordinador');
+    }
+
 }

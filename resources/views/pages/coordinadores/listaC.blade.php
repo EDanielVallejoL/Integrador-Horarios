@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coordinadores</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
     <h1>Coordinadores</h1>
     <table class="table table-light">
 
@@ -18,30 +14,32 @@
                 <th>Carrera</th>
                 <th>Acciones</th>
             </tr>
-        </thead> 
+        </thead>
 
         <tbody>
-        @foreach($coordinadores as $coordinador)
+            @foreach($coordinadores as $coordinador)
             <tr>
                 <td>{{$loop->iteration}}</td>
                 <td>{{$coordinador->name}}</td>
                 <td>{{$coordinador->lastname}}</td>
                 <td>{{$coordinador->email}}</td>
                 <td>{{$coordinador->carrera}}</td>
-                <td>Editar | 
+                <td>Editar |
 
-                <form method="post" action="{{ url('/coordinadores', ['id' => $coordinador->id])}}">
+                    <form method="post" action="{{ url('/coordinadores', ['id' => $coordinador->id])}}">
 
-                <button class="btn btn-default" type="submit" values="Delete" onclick="return confirm('Borrar?');" >Borrar</button>
-                @csrf
-                @method('delete')
-                </form>
+                        <button class="btn btn-danger" type="submit" values="Delete" onclick="return confirm('Borrar?');">Borrar</button>
+                        @csrf
+                        @method('delete')
+                    </form>
 
                 </td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
-         
+
     </table>
-</body>
-</html>
+
+</div>
+
+@endsection
