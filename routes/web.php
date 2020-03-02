@@ -23,10 +23,6 @@ Route::get('/registro', 'UserController@registro')->name('registro');
 /* Resources */
 
 Route::resource('users', 'UsersController');
-Route::resource('pet', 'PetsController');
-Route::resource('pets', 'PetsController');
-Route::resource('posts', 'PostsController');
-Route::resource('forums', 'ForumsController');
-Route::resource('comments', 'CommentsController');
+Route::resource('coordinador', 'CoordinadorController');
 
 Auth::routes();

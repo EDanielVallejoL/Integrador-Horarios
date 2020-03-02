@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Cordinadores2;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-
-class UsersController extends Controller
+class Cordinadores2Controller extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -42,35 +36,26 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Cordinadores2  $cordinadores2
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Cordinadores2 $cordinadores2)
     {
-        $user = \App\User::find(Auth::id());
-        $pets = Auth::user() -> pets;
-        $posts = \App\Post::all();
-        return view("pages/profile", [
-            'user' => $user,
-            'pets' => $pets,
-            'posts' => $posts
-        ]);
-        // return view("pages/profile", ['user' => $user]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Cordinadores2  $cordinadores2
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cordinadores2 $cordinadores2)
     {
         //
     }
@@ -79,10 +64,10 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Cordinadores2  $cordinadores2
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cordinadores2 $cordinadores2)
     {
         //
     }
@@ -90,10 +75,10 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Cordinadores2  $cordinadores2
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cordinadores2 $cordinadores2)
     {
         //
     }

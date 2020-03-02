@@ -3,16 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-
-class UsersController extends Controller
+class CoordinadorController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -41,8 +34,9 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
+        $datosCoordinador=request()->except('_token');
+        Request::insert($datosCoordinador);
+        return response()->json($datosCoordinador);
     }
 
     /**
@@ -53,15 +47,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = \App\User::find(Auth::id());
-        $pets = Auth::user() -> pets;
-        $posts = \App\Post::all();
-        return view("pages/profile", [
-            'user' => $user,
-            'pets' => $pets,
-            'posts' => $posts
-        ]);
-        // return view("pages/profile", ['user' => $user]);
+        //
     }
 
     /**
