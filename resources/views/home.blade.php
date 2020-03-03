@@ -67,10 +67,6 @@ if (isset($_POST['upload'])) {
 
       if ($valorRaw != "") {
         if ($columna == "B" || $columna == "D") {
-          /*echo "En <strong>$columna$fila</strong> tenemos el valor <strong>$valorRaw</strong>. "; 
-              echo '<br>';*/
-          #Aqui metemos las materias en una lista
-          #valorRaw nos da lo que tenemos en las celdas
           if ($columna == "B") {
             if ($valorRaw != "carrera") {
               array_push($listaCarreras, $valorRaw);
@@ -80,7 +76,6 @@ if (isset($_POST['upload'])) {
       }
     }
   }
-  /*print_r(array_unique($listaCarreras));*/
 
   echo '<div class="btn-group">
 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
