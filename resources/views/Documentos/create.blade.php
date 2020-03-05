@@ -19,14 +19,46 @@
   </div>
 </form>
 
+
+
+
 <?php
 
 
-# Indicar que usaremos el IOFactory
+
+
+
+$Carreras=array('INGENIERÍA AGROINDUSTRIAL'=>array(),
+                      'INGENIERÍA AMBIENTAL'=>array(),
+                      'INGENIERÍA CIVIL'=>array(),
+                      'INGENIERÍA EN COMPUTACIÓN'=>array(),
+                      'INGENIERÍA EN ELECTRICIDAD Y AUTOMATIZACIÓN'=>array(),
+                      'INGENIERÍA EN GEOINFORMÁTICA'=>array(),
+                      'INGENIERÍA EN GEOLOGÍA'=>array(),
+                      'INGENIERÍA EN MECATRÓNICA'=>array(),
+                      'INGENIERÍA EN SISTEMAS INTELIGENTES'=>array(),
+                      'INGENIERÍA EN TOPOGRAFÍA Y CONSTRUCCIÓN'=>array(),
+                      'INGENIERÍA MECÁNICA'=>array(),
+                      'INGENIERÍA MECÁNICA ADMINISTRATIVA'=>array(),
+                      'INGENIERÍA MECÁNICA ELÉCTRICA'=>array(),
+                      'INGENIERÍA METALÚRGICA Y DE MATERIALES'=>array());
+
+
+
+
+
+
+
+
+
+
+//print_r($listPerson);
+
+use Illuminate\Validation\Rules\Unique;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpParser\Node\Stmt\Else_;
+use Symfony\Component\VarDumper\VarDumper;
 
-$contador = 0;
 
 # Recomiendo poner la ruta absoluta si no está junto al script
 # Nota: no necesariamente tiene que tener la extensión XLSX
@@ -43,13 +75,10 @@ if (isset($_POST['upload'])) {
   $celda = $hojaActual->getCell($coordenadas);
   $valorRaw = $celda->getValue();
 
-  //temporales
-  $cve_carrera = "";
-  $carrera="";
-  $cve_materia ="";
-  $materia = "";
-  $nivel = "";
-  $columna = "";
+
+  $listaCarreras = array(array(""));
+  $bandera = 0;
+  $contadorCarreras = "1";
 
   foreach ($hojaActual->getRowIterator() as $fila) {
     foreach ($fila->getCellIterator() as $celdaPrueba) {
@@ -63,55 +92,56 @@ if (isset($_POST['upload'])) {
       # Columna, que es la A, B, C y así...
       $columna = $celdaPrueba->getColumn();
 
-                if($columna == 'A')
-                {
-                    //cve_carrera
-                    $cve_carrera = $valorRaw;
-                }else{
-                    if($columna == 'B')
-                    {
-                        //carrera
-                        $carrera = $valorRaw;
-                    }else{
-                        if($columna == 'C')
-                        {
-                            //cve_materia
-                            $cve_materia = $valorRaw;
-                        }else{
-                            if($columna == 'D')
-                            {
-                                //materia
-                                $materia = $valorRaw;
-                            }else{
-                                if($columna == 'E')
-                                {
-                                    //nivel
-                                    $nivel = $valorRaw;
-                                }else{
-                                    if($columna == 'F')
-                                    {
-                                        //columna
-                                        $columna = $valorRaw;
-                                        $lista = array($cve_carrera,$carrera,$cve_materia,$materia,$nivel,$columna);
-                                        var_dump($lista);
-                                        echo'<br>';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
+      if ($valorRaw != "" || $valorRaw != 'carrera' || $valorRaw != 'materia') {
+        if ($columna == "B" || $columna == "D") {
+          if ($columna == "B") {
+            $celda = $hojaActual->getCell($columna.$contadorCarreras);
+            $numeroTemporal = intval($contadorCarreras) + 1;
+            $contadorCarreras = strval($numeroTemporal);
+            $chido = $valorRaw;
+            if($chido != 'carrera')
+            {
+              
             }
-           
+          }else{
+            $materia = $valorRaw;
+            if($materia != 'materia')
+            {
+              $f = "'".$materia."'";
+              array_push($Carreras[$chido],$f);
+            }
+          }
         }
-
-        
-
+      }
     }
+  }
+
+  foreach($Carreras as $carrera => $informacion)
+{
+  echo'<h3>'.$carrera.'</h3>'; 
+  echo '<br>';
+  foreach($informacion as $in)
+  {
+    echo $in;
+    echo '<br>';
+  }
+}
 
 
 
-echo '<form action="" method="post" ></form>';
+  
+
+
+  echo '<div class="btn-group">
+  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Carreras
+  </button>
+  <div class="dropdown-menu">';
+
+
+    echo '</div>
+  </div>';
+
+}
 
 ?>

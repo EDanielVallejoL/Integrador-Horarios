@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::resource('Documentos', 'DocumentoController');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
