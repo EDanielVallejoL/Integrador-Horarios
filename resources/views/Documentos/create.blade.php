@@ -128,20 +128,9 @@ if (isset($_POST['upload'])) {
 }
 
 
-
-  
-
-
-  echo '<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Carreras
-  </button>
-  <div class="dropdown-menu">';
-
-
-    echo '</div>
-  </div>';
-
 }
+
+
+
 
 ?>
