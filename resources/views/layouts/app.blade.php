@@ -67,6 +67,9 @@
                             <a class="nav-link" href="{{ route('materias') }}">{{ __('Materias') }}</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('carreras') }}">{{ __('Carreras') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('plantilla') }}">{{ __('Plantilla') }}</a>
                         </li>
                         <li class="nav-item dropdown">
