@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/registraCoordinador', 'CoordinadoresController@registro')->name('registraCoordinador');
 Route::get('/coordinadores', 'CoordinadoresController@index')->name('coordinadores');
 Route::get('/materias', 'MateriasController@index')->name('materias');
+Route::get('/plantilla', 'PlantillaController@index')->name('materias');
 
 /* Resources */
 Route::resource('coordinador', 'CoordinadoresController');
