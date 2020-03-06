@@ -9,10 +9,15 @@
     <div class="card-header">
       Archivos necesarios
     </div>
+    
     <ul class="list-group list-group-flush">
       <li class="list-group-item bg-secondary text-white">
         <p><input type="file" class="form-control-file" id="exampleFormControlFile1" name="file"></p>
       </li>
+      <div class="barra">
+        <div class="barra_azul" id="barra_estado"></div>
+        <span></span>
+      </div>
       <li class="list-group-item bg-secondary text-white">
         <p><input type="file" class="form-control-file" id="exampleFormControlFile2" name="file2"></p>
       </li>
@@ -94,7 +99,8 @@ if (isset($_POST['upload'])) {
 
   #Si cumple con que es el archivo buscado entonces realiza el mostrar
   if ($celda == "cve_carrera") {
-    /*for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
+    /*
+    for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
       # Obtener hoja en el índice que vaya del ciclo
       $hojaActual = $documento->getSheet($indiceHoja);
 
