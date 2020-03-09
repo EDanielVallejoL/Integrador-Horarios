@@ -127,7 +127,7 @@ class CarrerasController extends Controller
     public function funcion1(string $nombre)
     {
         //
-        $var1 = $nombre;
+        $var1 = $nombre;//Recibe el nombre del archivo
 
         return response()->json($var1);
     }
@@ -165,9 +165,13 @@ class CarrerasController extends Controller
             $listaGrupos = $this->leeHorariosCompletos($name2);
 
 
+            echo "<h1> materias unicas </h1>";
+            $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
+
+            $archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
             // Imprime Lista de materias por carrera
-            foreach ($listaMateriasxCarrera as $c) {
+      /*      foreach ($listaMateriasxCarrera as $c) {
 
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
                 foreach ($c->listaMaterias as $d) {
@@ -176,12 +180,59 @@ class CarrerasController extends Controller
 
                 echo "<br>";
             }
-
+*/
             // IMPRESIONES
             // Imprime Lista de materias total
-            foreach ($listaGrupos as $c) {
-                echo "<b>Nombre Materia: </b>" . $c->nombreMateria . "---------" . $c->profesor . "---------" . $c->tipo . "---------" . $c->dias . "---------" . $c->horas . "<br>";
+            echo
+            "<table >
+            <thead >
+            <tr>
+            <th>Nombre</th>
+            <th>Hora</th>
+            <th>Lunes</th>
+            <th>Martes</th>
+            <th>Miercoles</th>
+            <th>Jueves</th>
+            <th>Viernes</th>
+            <th>Sabado</th>
+            </tr>
+            </thead>
+            ";
+
+            
+            foreach($matUnicas as $carr)
+            {
+                //echo "<tr> <td>". $carr->nombreCarrera . "</td> </tr> " ;
+                foreach($carr as $c)
+                {
+                    echo "<tr> <td>" . $c->nombreMateria . "</td> 
+                    <td>" . $c->horas . "</td>  
+                    <td>" . $c->lunes . "</td>
+                    <td>" . $c->martes . "</td>
+                    <td>" . $c->miercoles . "</td>
+                    <td>" . $c->jueves . "</td>
+                    <td>" . $c->viernes . "</td>
+                    
+                    </br>";
+                }
             }
+                
+            /*
+            foreach ($archivos["Grupos"] as $c) {
+                echo "<tr> <td>" . $c->nombreMateria . "</td> 
+                            <td>" . $c->horas . "</td>  
+                            <td>" . $c->lunes . "</td>
+                            <td>" . $c->martes . "</td>
+                            <td>" . $c->miercoles . "</td>
+                            <td>" . $c->jueves . "</td>
+                            <td>" . $c->viernes . "</td>
+                            
+                            </br>";
+            }*/
+            
+            echo "</table>";
+
+            //return view('pages/Carreras/listaCarreras',$matUnicas);
             return "";
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
@@ -434,5 +485,85 @@ class CarrerasController extends Controller
 
 
         return $listaGrupos;
+    }
+
+    public function ObtenUnicas($lMatxCarr, $lGrpos)//Carrera, Grupos
+    {
+        $unicas = array( );
+        $noUnicas = array();
+        $unicaxC = array();
+        foreach($lMatxCarr as $carr)//Carrera
+        {
+            
+            foreach($carr->listaMaterias as $mat)//Materias
+            {
+                
+                $matunica = $this->ObtenMateriaUnica($lGrpos, $mat);//Solo obtiene la materia si es unica
+
+                if($matunica != null)
+                {
+                    
+                    array_push($unicaxC,  $matunica);//agrega la materia unica
+                }
+
+            }
+
+
+            $unicas = array($carr->nombreCarrera=>$unicaxC);
+            
+        }
+        return $unicas;
+    }
+
+    public function ObtenMaterias($lGrpos, $mat)
+    {
+        $absoluta = array();
+        $cont = 0;
+        foreach($lgpos as $gpo)
+        {
+            if($mt == $gpo->nombreMateria )//Verifica que ambos nombres sean iguales
+            {
+
+                array_push($absoluta, $gpo);
+                $cont = 1;
+            }
+        }
+
+        if($cont == 1)
+        {
+
+            return $absoluta;
+        }
+        //return $abs;
+
+    }
+
+    
+
+    public function ObtenMateriaUnica($lgpos, $mt)
+    {
+        $absoluta = array();
+        $cont = 0;
+        $abs;
+
+        foreach($lgpos as $gpo)
+        {
+            if($gpo->nombreMateria == $mt)
+            {
+                $cont = $cont+1;
+
+                if($cont == 1)
+                {
+                    $abs = $gpo;  
+                }
+                //array_push($absoluta,$gpo);
+            }
+        }
+        if($cont == 1)
+        {
+            
+            return $abs;
+        }
+       
     }
 }

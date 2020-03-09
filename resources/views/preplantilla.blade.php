@@ -5,14 +5,13 @@
 <?php 
 
 // multidimensional array 
-
 //Array total de un horario
 $marks = array( 
 	
 	// Encabezado Hora 
 	"Hora" => array( 
 		
-		
+
 		// Key =>  Valor entero
 		"7" => 7, 
 		"8" => 8, 
