@@ -24,8 +24,6 @@
 
 
 
-<<<<<<< HEAD
-=======
 <?php
 
 
@@ -93,7 +91,8 @@ if (isset($_POST['upload'])) {
 
   #Si cumple con que es el archivo buscado entonces realiza el mostrar
   if ($celda == "cve_carrera") {
-    /*for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
+    /*
+    for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
       # Obtener hoja en el índice que vaya del ciclo
       $hojaActual = $documento->getSheet($indiceHoja);
 
@@ -135,4 +134,3 @@ if (isset($_POST['upload'])) {
 
 
 ?>
->>>>>>> bbad3e1ae831fbc104d8737fa40638f8a8d26b98

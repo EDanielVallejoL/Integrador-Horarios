@@ -5,18 +5,29 @@
 <?php 
 
 // multidimensional array 
-
 //Array total de un horario
 $marks = array( 
 	
 	// Encabezado Hora 
 	"Hora" => array( 
 		
-		
+
 		// Key =>  Valor entero
 		"7" => 7, 
 		"8" => 8, 
-		"9" => 9, 
+        "9" => 9, 
+        "10" => 10, 
+        "11" => 11, 
+        "12" => 12, 
+        "13" => 13, 
+        "14" => 14, 
+        "15" => 15, 
+        "15" => 16, 
+        "17" => 17, 
+        "18" => 18, 
+        "19" => 19, 
+        "20" => 20, 
+        "21" => 21, 
 	), 
 		
 	// Arreglo de materias por hora del Lunes
@@ -53,6 +64,10 @@ echo $marks['Hora']['8'] . "\n";
 	
 // Acceso al array usando un ciclo Muestra el contenido de todos los array y de cada una de las horas
 foreach($marks as $mark) { 
+    //foreach($mark['7'] as $m)
+    //{
+      //  echo $m . "\n";
+    //}
 	echo $mark['7']. " ".$mark['8']." ".$mark['9']."\n"; 
 } 
 	
@@ -71,7 +86,36 @@ foreach($marks as $mark) {
             <th>Sabado</th>
         </tr>
     </thead>
-    
+
+    <tr>
+    <?php
+        foreach($marks as $mark)
+        {
+    ?>  
+        <td><?php echo $mark['7'] ?></td>
+    <?php
+        }
+    ?>
+    </tr>
+    <?php
+        foreach($marks as $mark)
+        {
+    ?>  
+        <td><?php echo $mark['8'] ?></td>
+    <?php
+        }
+    ?>
+    </tr>
+    <?php
+        foreach($marks as $mark)
+        {
+    ?>  
+        <td><?php echo $mark['9'] ?></td>
+    <?php
+        }
+    ?>
+    </tr>
+
     <tr>
         <td>
             <?php
