@@ -2,24 +2,21 @@
 
 @section('content')
 
-<form action="?" method="POST" enctype="multipart/form-data">
+<form action="carrera" method="POST" enctype="multipart/form-data">
   @csrf
-  @method('GET')
   <div class="card bg-success text-white" style="width: 25rem;">
     <div class="card-header">
       Archivos necesarios
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item bg-secondary text-white">
-        <p><input type="file" class="form-control-file" id="exampleFormControlFile1" name="file"></p>
-      </li>
-      <li class="list-group-item bg-secondary text-white">
-        <p><input type="file" class="form-control-file" id="exampleFormControlFile2" name="file2"></p>
-      </li>
-      <li class="list-group-item bg-secondary text-white">
-        <p><input type="submit" name="upload" value="Upload"></p>
-      </li>
-    </ul>
+    <div class="form-group">
+      <label for="">Archivo MPN</label>
+      <input type="file" name="excel">
+
+      <label for="">Archivo horarios</label>
+      <input type="file" name="grupos">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
   </div>
 </form>
 
@@ -94,7 +91,8 @@ if (isset($_POST['upload'])) {
 
   #Si cumple con que es el archivo buscado entonces realiza el mostrar
   if ($celda == "cve_carrera") {
-    /*for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
+    /*
+    for ($indiceHoja = 0; $indiceHoja < $totalDeHojas; $indiceHoja++) {
       # Obtener hoja en el índice que vaya del ciclo
       $hojaActual = $documento->getSheet($indiceHoja);
 

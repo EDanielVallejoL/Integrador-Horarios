@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
 <div class="container">
     <h1>Coordinadores</h1>
     <table class="table table-light">

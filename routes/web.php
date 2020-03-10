@@ -23,9 +23,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/registraCoordinador', 'CoordinadoresController@registro')->name('registraCoordinador');
 Route::get('/coordinadores', 'CoordinadoresController@index')->name('coordinadores');
 Route::get('/materias', 'MateriasController@index')->name('materias');
+Route::get('/plantilla', 'PlantillaController@index')->name('plantilla');
+
+Route::get('/carreras', 'CarrerasController@index')->name('carreras');
+Route::get('/carrerasShow', 'CarrerasController@store')->name('carrerasShow');
+Route::get('/funcion1/{nombre}', 'CarrerasController@funcion1')->name('funcion1');
+//Route::get('/plantilla', 'PlantillaController@index')->name('materias');
+
 
 /* Resources */
 Route::resource('coordinador', 'CoordinadoresController');
+Route::resource('carrera', 'CarrerasController');
 
 // DELETE
 Route::delete('/coordinadores/{id}', 'CoordinadoresController@destroy');
