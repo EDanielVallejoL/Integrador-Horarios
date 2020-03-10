@@ -8,6 +8,25 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
+//$listaMateriasxCarrera-> variable que ya tiene lista de carrera
+// desglosa (abs,unicas y normales)
+
+Class PlantillaXCarrera
+{
+    // solo sera un valor entero para saber el numero de plantillas
+    public $NumeroDePlantilla;
+    //con esto buscaremos la hora en la que se imparte
+    public $listaABSXCarrera = array();
+    //se agregara materia y hora {'Lunes' => {"Computacion obicua","8","Telematica","10"}} como ejemplo
+        public $listaPlantilla = array("Lunes" =>array(),
+                             array("Martes" =>array(),
+                             array("Miercoles" =>array(),
+                             array("Jueves" =>array(),
+                             array("Viernes" =>array(),
+                             array("Sabado" =>array()))))));
+}
+
+
 class MateriaXCarrera
 {
     // Atributos
@@ -163,9 +182,13 @@ class CarrerasController extends Controller
 
             $listaMateriasxCarrera = $this->leeMPC($name);
             $listaGrupos = $this->leeHorariosCompletos($name2);
+            $c = $this->GenerarPlantillasAbs($listaMateriasxCarrera);
+            echo 'carreras para abslutas'.$c;
 
 
             echo "<h1> materias unicas </h1>";
+
+            //aqui estan las materias unicas
             $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
 
             $archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
@@ -216,6 +239,8 @@ class CarrerasController extends Controller
                     </br>";
                 }
             }
+
+            
                 
             /*
             foreach ($archivos["Grupos"] as $c) {
@@ -515,7 +540,7 @@ class CarrerasController extends Controller
         return $unicas;
     }
 
-    public function ObtenMaterias($lGrpos, $mat)
+   /* public function ObtenMaterias($lGrpos, $mat)
     {
         $absoluta = array();
         $cont = 0;
@@ -536,7 +561,7 @@ class CarrerasController extends Controller
         }
         //return $abs;
 
-    }
+    }*/
 
     
 
@@ -544,7 +569,7 @@ class CarrerasController extends Controller
     {
         $absoluta = array();
         $cont = 0;
-        $abs;
+        $abs = "";
 
         foreach($lgpos as $gpo)
         {
@@ -565,5 +590,17 @@ class CarrerasController extends Controller
             return $abs;
         }
        
+    }
+
+    public function GenerarPlantillasAbs($listaMateriasxCarreraABS)
+    {
+        //recibimos materias y separamos en 3 clases 
+        //como las aboslutas y unicas ya se supone que estan separadas
+        //comparamos contra la lista de "materiasxcarrera" 
+        foreach($listaMateriasxCarreraABS as $carreras)
+        {
+            //solo quiero sacar las carreras
+            return $carreras;
+        }
     }
 }
