@@ -32,12 +32,14 @@ class MateriaXCarrera
     // Atributos
     public $nombreCarrera;
     public $listaMaterias = array("");
+    public $listaClaves = array();
 
 
-    public function __construct($nombreCarrera, array $listaMaterias = [])
+    public function __construct($nombreCarrera, array $listaMaterias = [], array $listaClaves = [])
     {
         $this->nombreCarrera = $nombreCarrera;
         $this->listaMaterias = $listaMaterias;
+        $this->listaClaves = $listaClaves;
     }
 
     public function __toString()
@@ -181,20 +183,29 @@ class CarrerasController extends Controller
             $file2->move(\public_path() . '/archivos', $name2);
 
             $listaMateriasxCarrera = $this->leeMPC($name);
+            
+            foreach($listaMateriasxCarrera as $mpc)
+            {
+                    echo  $mpc->nombreCarrera;
+            }
+
             $listaGrupos = $this->leeHorariosCompletos($name2);
-            $c = $this->GenerarPlantillasAbs($listaMateriasxCarrera);
-            echo 'carreras para abslutas'.$c;
+
+            echo 'Materias';
+            
+
 
 
             echo "<h1> materias unicas </h1>";
 
             //aqui estan las materias unicas
             $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
-
             $archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
+
+            
             // Imprime Lista de materias por carrera
-      /*      foreach ($listaMateriasxCarrera as $c) {
+         foreach ($listaMateriasxCarrera as $c) {
 
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
                 foreach ($c->listaMaterias as $d) {
@@ -203,7 +214,8 @@ class CarrerasController extends Controller
 
                 echo "<br>";
             }
-*/
+
+            $listaPlantillaXcarrera = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
             // IMPRESIONES
             // Imprime Lista de materias total
             echo
@@ -223,27 +235,10 @@ class CarrerasController extends Controller
             ";
 
             
-            foreach($matUnicas as $carr)
-            {
-                //echo "<tr> <td>". $carr->nombreCarrera . "</td> </tr> " ;
-                foreach($carr as $c)
-                {
-                    echo "<tr> <td>" . $c->nombreMateria . "</td> 
-                    <td>" . $c->horas . "</td>  
-                    <td>" . $c->lunes . "</td>
-                    <td>" . $c->martes . "</td>
-                    <td>" . $c->miercoles . "</td>
-                    <td>" . $c->jueves . "</td>
-                    <td>" . $c->viernes . "</td>
-                    
-                    </br>";
-                }
-            }
-
-            
+       
                 
-            /*
-            foreach ($archivos["Grupos"] as $c) {
+            
+           /* foreach ($archivos["Grupos"] as $c) {
                 echo "<tr> <td>" . $c->nombreMateria . "</td> 
                             <td>" . $c->horas . "</td>  
                             <td>" . $c->lunes . "</td>
@@ -255,7 +250,6 @@ class CarrerasController extends Controller
                             </br>";
             }*/
             
-            echo "</table>";
 
             //return view('pages/Carreras/listaCarreras',$matUnicas);
             return "";
@@ -372,6 +366,14 @@ class CarrerasController extends Controller
 
                             if ($valorRaw != "materia") {
                                 array_push($listaMaterias, $valorRaw);
+                            }
+                        }else{
+                            if ($columna == "C") {
+
+
+                                if ($valorRaw != "cve_carrera") {
+                                    array_push($listaMaterias, $valorRaw);
+                                }
                             }
                         }
                     }
@@ -540,7 +542,7 @@ class CarrerasController extends Controller
         return $unicas;
     }
 
-   /* public function ObtenMaterias($lGrpos, $mat)
+   public function ObtenMaterias($lGrpos, $mat)
     {
         $absoluta = array();
         $cont = 0;
@@ -561,7 +563,7 @@ class CarrerasController extends Controller
         }
         //return $abs;
 
-    }*/
+    }
 
     
 
@@ -591,16 +593,57 @@ class CarrerasController extends Controller
         }
        
     }
-
-    public function GenerarPlantillasAbs($listaMateriasxCarreraABS)
+    
+    
+    public function ObtenPlantilla($listaCarrerasyMaterias,$listaMateriasTotales)
     {
-        //recibimos materias y separamos en 3 clases 
-        //como las aboslutas y unicas ya se supone que estan separadas
-        //comparamos contra la lista de "materiasxcarrera" 
-        foreach($listaMateriasxCarreraABS as $carreras)
+       /* foreach($listaMateriasTotales as $ccc)
         {
-            //solo quiero sacar las carreras
-            return $carreras;
+            echo $ccc->horas;
+            echo'<br>';
         }
+        $contador = 0;
+        
+        echo'<br>';
+        foreach ($listaCarrerasyMaterias as $c) {
+            echo "<b>" . $c->nombreCarrera . "</b> <br>";
+            foreach ($c->listaMaterias as $d) {
+                if($d != "")
+                {
+                    foreach($listaMateriasTotales as $lg)
+                    {
+                        if($lg->horas!='Nombre de la Materia')
+                        //echo 'se compara: '.$d.'contra: '.$lg->horas;
+                        //echo'<br>';
+                        if($d == $lg->$profesor)
+                        {
+                            //nos indica que existe en las materias
+                            $contador = $contador + 1;
+                        }
+                    }
+                    if($contador ==1)
+                    {
+                        echo "La materia ".$d.' Es Absoluta';
+                        echo'<br>';
+                        $contador = 0;
+                    }else{
+                        $contador = 0;
+                    }
+                }
+            }
+        }*/
+        $listaNachito = array();
+        foreach($listaMateriasTotales as $mt)
+        {
+            echo $mt->profesor;
+            echo'<br>';
+            array_push($listaNachito,$mt->profesor);
+        }
+
+        print_r(array_count_values($listaNachito));
     }
+
+   
+
+
 }
