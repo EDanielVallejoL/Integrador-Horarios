@@ -184,22 +184,15 @@ class CarrerasController extends Controller
 
             $listaMateriasxCarrera = $this->leeMPC($name);
             
-            foreach($listaMateriasxCarrera as $mpc)
+            /*foreach($listaMateriasxCarrera as $mpc)
             {
-                    echo  $mpc->nombreCarrera;
                     foreach ($mpc->listaClaves as $d) {
                         echo $d . "<br>";
                     }
 
-            }
+            }*/
 
             $listaGrupos = $this->leeHorariosCompletos($name2);
-
-            echo 'Materias';
-            
-
-
-
             echo "<h1> materias unicas </h1>";
 
             //aqui estan las materias unicas
@@ -639,8 +632,6 @@ class CarrerasController extends Controller
         $listaNachito = array();
         foreach($listaMateriasTotales as $mt)
         {
-            echo $mt->profesor;
-            echo'<br>';
             array_push($listaNachito,$mt->profesor);
         }
 
