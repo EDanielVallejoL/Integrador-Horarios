@@ -37,9 +37,36 @@ Class PlantillaXCarrera
     }
 }
 
+Class PlantillaXCarrera
+{
+    // solo sera un valor entero para saber el numero de plantillas
+    public $Carrera;
+    public $nombreMateria;
+    public $lunes;
+    public $martes;
+    public $miercoles;
+    public $jueves;
+    public $viernes;
+    public $sabado;
+    //con esto buscaremos la hora en la que se imparte
+
+    public function __construct($Carrera,$nombreMateria,$lunes, $martes, $miercoles, $jueves, $viernes, $sabado)
+    {
+        $this->Carrera = $Carrera;
+        $this->nombreMateria = $nombreMateria;
+        $this->lunes = $lunes;
+        $this->martes = $martes;
+        $this->miercoles = $miercoles;
+        $this->jueves = $jueves;
+        $this->viernes = $viernes;
+        $this->sabado = $sabado;
+    }
+}
 
 
-class PlantillasXCarrera
+
+
+class PlantillasXCarreras
 {
     // Atributos
     public $NumeroDePlantilla;
@@ -399,13 +426,10 @@ class CarrerasController extends Controller
             //$archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
 
-<<<<<<< HEAD
             $plantillasAbs = $this->GeneraPlantillas($matUnicas);
 
            foreach($matUnicas as $mtunic)
-=======
            /*foreach($matUnicas as $mtunic)
->>>>>>> e25195247a8b55e4c02a37b0eccb15f47f125f42
            {
                 echo "<br>". $mtunic->nombreCarrera ."</br>";
                 //print_r($mtunic->listaAbsolutas);
