@@ -64,6 +64,32 @@ class MateriaXCarrera
     //Metodos
 }
 
+class AbsolutasXCarrera
+{
+    // Atributos
+    public $nombreCarrera;
+    public $listaAbsolutas = array("");
+    
+
+
+    public function __construct($nombreCarrera, array $listaAbsolutas = [])
+    {
+        $this->nombreCarrera = $nombreCarrera;
+        $this->listaAbsolutas = $listaAbsolutas;
+    }
+
+    public function __toString()
+    {
+        $dato1 = "hola";
+        foreach ($this->listaAbsolutas as $c) {
+            $dato1 = $c;
+        }
+        return $this->nombreCarrera . "<br>" . $dato1;
+    }
+
+    //Metodos
+}
+
 class HoraClase
 {
     // Atributos
@@ -217,10 +243,21 @@ class CarrerasController extends Controller
             //$archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
 
+           foreach($matUnicas as $mtunic)
+           {
+                echo "<br>". $mtunic->nombreCarrera ."</br>";
+                //print_r($mtunic->listaAbsolutas);
+                foreach($mtunic->listaAbsolutas as $m)
+                {
+                    echo "<br>" . $m->horas ." ". $m->lunes . $m->martes . $m->miercoles . $m->jueves . $m->viernes . $m->sabado. $m->cupo. $m->salon ."</br>";
+                }
+           }
             
             // Imprime Lista de materias por carrera
          /*foreach ($listaMateriasxCarrera as $c) {
 
+                echo "<b>" . $c . "</b> <br>";
+                
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
                 //echo $c->listaMaterias;
 
