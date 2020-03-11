@@ -607,8 +607,11 @@ class CarrerasController extends Controller
                 {
                     foreach($listaMateriasTotales as $mt)
                     {
+                        //echo "Se compara ".$d . "contra: ".$mt->profesor;
+                        //echo'<br>';
                         if($mt->profesor == $d)
                         {
+                            //echo  $d . "coincide****************".$mt->profesor;
                             $contador = $contador + 1;
                         }
                     }
@@ -624,6 +627,12 @@ class CarrerasController extends Controller
                 }
             }
            echo "<br>";
+        }
+
+        foreach($listaMateriasTotales as $mt)
+        {
+            echo $mt->profesor;
+            echo '<br>';
         }
     }
 
