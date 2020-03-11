@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 Class PlantillaXCarrera
 {
+    //carrera
     // solo sera un valor entero para saber el numero de plantillas
     public $Carrera;
     public $nombreMateria;
@@ -40,6 +41,7 @@ Class PlantillaXCarrera
 
 class MateriaXCarrera
 {
+    //Matera
     // Atributos
     public $nombreCarrera;
     public $listaMaterias = array("");
@@ -93,6 +95,7 @@ class AbsolutasXCarrera
 
 class HoraClase
 {
+    //grupo
     // Atributos
     public $nombreMateria;
     public $creditos;
@@ -234,7 +237,7 @@ class CarrerasController extends Controller
 
             $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
 
-            echo "<br> <h2>listaABS </h2>";
+            /*echo "<br> <h2>listaABS </h2>";
             foreach($listaABS as $a)
             {
                 $a->nombreMateria;
@@ -242,7 +245,9 @@ class CarrerasController extends Controller
                 echo "<br> Nombre de la materia: ".$a->nombreMateria;
                 echo "<br> Lunes: ".$a->lunes;
                 
-            }
+            }*/
+
+            $listashoras = $this->llenaPlantillas($listaABS);
 
             //aqui estan las materias unicas
             //$matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
@@ -619,8 +624,48 @@ class CarrerasController extends Controller
                     }
                 }
                //echo "<br>";
-            }
+          }
+        return $listaABS;  
+    }
 
-        return $listaABS;    
+    public function llenaPlantillas($listaAbs)
+    {
+        //esta bandera nos indica el cambio de carrera
+        $listahoras = array();
+        $bandera = 0;
+        foreach($listaAbs as $a)
+            {
+                if($bandera == 0)
+                {
+                    //es la primera vez que entra
+                    $temp = $a->Carrera;
+                    $bandera = 1;
+                    echo'<h2>'.'Carrera: '.$a->Carrera.'</h2>';
+                    echo $Lun = $a->lunes;
+                    echo '   ';
+                    echo $Materia = $a->nombreMateria;
+                    /*$Lun = $a->lunes;
+                    $mar = $a->lunes;
+                    $mie = $a->lunes;
+                    $jue = $a->lunes;
+                    $vie = $a->lunes;
+                    $sab = $a->lunes;*/
+                    //$rest = substr($Lun,0, -5);
+                    echo '<br>';
+                }else{
+                    
+                    if($temp == $a->Carrera)
+                    {
+                        $bandera = 0;
+                        echo $Lun = $a->lunes;
+                        echo '   ';
+                        echo $Materia = $a->nombreMateria;
+                        echo '<br>';
+                    }else{
+
+                    }
+                }                    
+            }
+            return $listahoras;
     }
 }
