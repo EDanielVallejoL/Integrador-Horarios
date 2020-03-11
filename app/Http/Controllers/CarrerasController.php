@@ -54,6 +54,32 @@ class MateriaXCarrera
     //Metodos
 }
 
+class AbsolutasXCarrera
+{
+    // Atributos
+    public $nombreCarrera;
+    public $listaAbsolutas = array("");
+    
+
+
+    public function __construct($nombreCarrera, array $listaAbsolutas = [])
+    {
+        $this->nombreCarrera = $nombreCarrera;
+        $this->listaAbsolutas = $listaAbsolutas;
+    }
+
+    public function __toString()
+    {
+        $dato1 = "hola";
+        foreach ($this->listaAbsolutas as $c) {
+            $dato1 = $c;
+        }
+        return $this->nombreCarrera . "<br>" . $dato1;
+    }
+
+    //Metodos
+}
+
 class HoraClase
 {
     // Atributos
@@ -202,14 +228,12 @@ class CarrerasController extends Controller
 
            foreach($matUnicas as $mtunic)
            {
-                
-               foreach($mtunic as $m)
-               {
-                   echo "<br>" . $m->horas ." ". $m->lunes . $m->martes . $m->miercoles . $m->jueves . $m->viernes . $m->sabado. $m->cupo. $m->salon ."</br>";
-                   
-               }
-               
-
+                echo "<br>". $mtunic->nombreCarrera ."</br>";
+                //print_r($mtunic->listaAbsolutas);
+                foreach($mtunic->listaAbsolutas as $m)
+                {
+                    echo "<br>" . $m->horas ." ". $m->lunes . $m->martes . $m->miercoles . $m->jueves . $m->viernes . $m->sabado. $m->cupo. $m->salon ."</br>";
+                }
            }
             
             // Imprime Lista de materias por carrera
@@ -534,26 +558,20 @@ class CarrerasController extends Controller
     {
         $unicas = array( );
         $noUnicas = array();
-        $unicaxC = array();
         foreach($lMatxCarr as $carr)//Carrera
-        {
-            echo "<br>" ."***". $carr ."***". "</br>";
+        {   
+            $unicaxC = array();
             foreach($carr->listaClaves as $cve)//Materias
             {
                 
                 $matunica = $this->ObtenMateriaUnica($lGrpos, $cve);//Solo obtiene la materia si es unica
-
                 if($matunica != null)
                 {
-                    
                     array_push($unicaxC,  $matunica);//agrega la materia unica
                 }
-
             }
-
-
-            $unicas = array($carr->nombreCarrera=>$unicaxC);
-            
+            $Carrera = new AbsolutasXCarrera($carr->nombreCarrera, $unicaxC);
+            array_push($unicas,$Carrera); 
         }
         return $unicas;
     }
@@ -592,6 +610,7 @@ class CarrerasController extends Controller
         $cont = 0;
         $abs = "";
 
+        
         foreach($lgpos as $gpo)
         {
             
@@ -611,8 +630,6 @@ class CarrerasController extends Controller
         }
         if($cont == 1)
         {
-            echo "<br>"."Materia Unica". $abs->profesor ."</br>";
-            
             return $abs;
         }
        
