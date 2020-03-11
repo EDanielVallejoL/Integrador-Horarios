@@ -27,6 +27,156 @@ Class PlantillaXCarrera
 }
 
 
+
+class PlantillasXCarrera
+{
+    // Atributos
+    public $NumeroDePlantilla;
+
+    public $Horario = array(
+        "Hora" => array( 
+        "7" => 7, 
+        "8" => 8, 
+        "9" => 9, 
+        "10" => 10, 
+        "11" => 11, 
+        "12" => 12, 
+        "13" => 13, 
+        "14" => 14, 
+        "15" => 15, 
+        "15" => 16, 
+        "17" => 17, 
+        "18" => 18, 
+        "19" => 19, 
+        "20" => 20, 
+        "21" => 21, 
+    ),
+    "Lunes" => array( 
+        "7" => "Libre", 
+        "8" => "Libre", 
+        "9" => "Libre", 
+        "10" => "Libre", 
+        "11" => "Libre", 
+        "12" => "Libre", 
+        "13" => "Libre", 
+        "14" => "Libre", 
+        "15" => "Libre", 
+        "16" => "Libre", 
+        "17" => "Libre", 
+        "18" => "Libre", 
+        "19" => "Libre", 
+        "20" => "Libre", 
+        "21" => "Libre",  
+    ), 
+    "Martes" => array( 
+        "7" => "Libre", 
+        "8" => "Libre", 
+        "9" => "Libre", 
+        "10" => "Libre", 
+        "11" => "Libre", 
+        "12" => "Libre", 
+        "13" => "Libre", 
+        "14" => "Libre", 
+        "15" => "Libre", 
+        "16" => "Libre", 
+        "17" => "Libre", 
+        "18" => "Libre", 
+        "19" => "Libre", 
+        "20" => "Libre", 
+        "21" => "Libre",  
+    ), 
+    "Miercoles" => array( 
+        "7" => "Libre", 
+        "8" => "Libre", 
+        "9" => "Libre", 
+        "10" => "Libre", 
+        "11" => "Libre", 
+        "12" => "Libre", 
+        "13" => "Libre", 
+        "14" => "Libre", 
+        "15" => "Libre", 
+        "16" => "Libre", 
+        "17" => "Libre", 
+        "18" => "Libre", 
+        "19" => "Libre", 
+        "20" => "Libre", 
+        "21" => "Libre", 
+    ),
+    "Jueves" => array( 
+        "7" => "Libre", 
+        "8" => "Libre", 
+        "9" => "Libre", 
+        "10" => "Libre", 
+        "11" => "Libre", 
+        "12" => "Libre", 
+        "13" => "Libre", 
+        "14" => "Libre", 
+        "15" => "Libre", 
+        "16" => "Libre", 
+        "17" => "Libre", 
+        "18" => "Libre", 
+        "19" => "Libre", 
+        "20" => "Libre", 
+        "21" => "Libre", 
+    ), 
+    "Viernes" => array( 
+        "7" => "Libre", 
+        "8" => "Libre", 
+        "9" => "Libre", 
+        "10" => "Libre", 
+        "11" => "Libre", 
+        "12" => "Libre", 
+        "13" => "Libre", 
+        "14" => "Libre", 
+        "15" => "Libre", 
+        "16" => "Libre", 
+        "17" => "Libre", 
+        "18" => "Libre", 
+        "19" => "Libre", 
+        "20" => "Libre", 
+        "21" => "Libre", 
+    ), 
+    "Sabado" => array( 
+        "7" => "Libre", 
+        "8" => "Libre", 
+        "9" => "Libre", 
+        "10" => "Libre", 
+        "11" => "Libre", 
+        "12" => "Libre", 
+        "13" => "Libre", 
+        "14" => "Libre", 
+        "15" => "Libre", 
+        "16" => "Libre", 
+        "17" => "Libre", 
+        "18" => "Libre", 
+        "19" => "Libre", 
+        "20" => "Libre", 
+        "21" => "Libre", 
+    ) );
+
+
+    public function __construct($NumeroDePlantilla, array $Horario = [], array $listaClaves = [])
+    {
+        $this->NumeroDePlantilla = $NumeroDePlantilla;
+        $this->Horario = $Horario;
+        //$this->listaClaves = $listaClaves;
+    }
+
+    public function __toString()
+    {
+        /*
+        $dato1 = "hola";
+        foreach ($this->listaMaterias as $c) {
+            $dato1 = $c;
+        }
+        return $this->nombreCarrera . "<br>" . $dato1;*/
+    }
+
+    //Metodos
+}
+
+
+
 class MateriaXCarrera
 {
     // Atributos
@@ -225,6 +375,8 @@ class CarrerasController extends Controller
             $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
             $archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
+
+            $plantillasAbs = $this->GeneraPlantillas($matUnicas);
 
            foreach($matUnicas as $mtunic)
            {
@@ -675,5 +827,84 @@ class CarrerasController extends Controller
             echo '<br>';
         }
     }
+
+
+    public function GeneraPlantillas($matUnicas)
+    {
+
+        foreach($matUnicas as $xcarr)
+        {
+            foreach($xcarr as $hrs)
+            {
+
+            }
+        }
+        $marks = array( 
+	
+            // Encabezado Hora 
+            "Hora" => array( 
+                
+        
+                // Key =>  Valor entero
+                "7" => 7, 
+                "8" => 8, 
+                "9" => 9, 
+                "10" => 10, 
+                "11" => 11, 
+                "12" => 12, 
+                "13" => 13, 
+                "14" => 14, 
+                "15" => 15, 
+                "15" => 16, 
+                "17" => 17, 
+                "18" => 18, 
+                "19" => 19, 
+                "20" => 20, 
+                "21" => 21, 
+            ), 
+                
+            // Arreglo de materias por hora del Lunes
+            "Lunes" => array( 
+                
+                // Key =>  Nombre de la materia
+                "7" => "Libre", 
+                "8" => "Quimica A", 
+                "9" => "Libre", 
+            ), 
+            
+            // Arreglo de materias por hora del Martes
+            "Martes" => array( 
+                
+                // Key =>  Nombre de la materia
+                "7" => "Libre", 
+                "8" => "Libre", 
+                "9" => "Libre", 
+            ), 
+              // Arreglo de materias por hora del Miercoles
+            "Miercoles" => array( 
+                
+                // Key =>  Nombre de la materia
+                "7" => "Libre", 
+                "8" => "Quimica A", 
+                "9" => "Libre", 
+            ), 
+        ); 
+        
+        // Acceso a los elementos del array 
+            
+        // Muestra el valor de El arreglo Hora y la Key 8 el cual es 8
+        echo $marks['Hora']['8'] . "\n"; 
+            
+        // Acceso al array usando un ciclo Muestra el contenido de todos los array y de cada una de las horas
+        foreach($marks as $mark) { 
+            //foreach($mark['7'] as $m)
+            //{
+              //  echo $m . "\n";
+            //}
+            echo $mark['7']. " ".$mark['8']." ".$mark['9']."\n"; 
+        } 
+            
+    }
+
 
 }
