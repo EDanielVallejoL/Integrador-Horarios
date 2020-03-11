@@ -44,16 +44,6 @@ $Carreras=array('INGENIERÍA AGROINDUSTRIAL'=>array(),
                       'INGENIERÍA METALÚRGICA Y DE MATERIALES'=>array());
 
 
-
-
-
-
-
-
-
-
-//print_r($listPerson);
-
 use Illuminate\Validation\Rules\Unique;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpParser\Node\Stmt\Else_;
