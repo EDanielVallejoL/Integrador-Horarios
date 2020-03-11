@@ -205,7 +205,8 @@ class CarrerasController extends Controller
          foreach ($listaMateriasxCarrera as $c) {
 
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
-                foreach ($c->listaMaterias as $d) {
+
+                foreach ($c->listaClaves as $d) {
                     echo $d . "<br>";
                 }
 
@@ -316,6 +317,8 @@ class CarrerasController extends Controller
         // Sin comillas para objetos
         $listaMateriasxCarrera = array();
 
+        $listaClaves = array();
+
 
         $nombreDeCarrera = "";
         $band = 0;
@@ -346,12 +349,13 @@ class CarrerasController extends Controller
                                     if ($nombreDeCarrera != $valorRaw) {
 
                                         // CREACION DEL OBJETO
-                                        $Carrera1 = new MateriaXCarrera($nombreDeCarrera, $listaMaterias);
+                                        $Carrera1 = new MateriaXCarrera($nombreDeCarrera, $listaMaterias,$listaClaves);
 
                                         // Inserta el objeto en el array de materiasPorCarrera
                                         array_push($listaMateriasxCarrera, $Carrera1);
 
                                         while (count($listaMaterias)) array_pop($listaMaterias);
+                                        while (count($listaClaves)) array_pop($listaClaves);
 
                                         $band = 0;
                                     }
@@ -369,7 +373,7 @@ class CarrerasController extends Controller
 
 
                                 if ($valorRaw != "cve_carrera") {
-                                    array_push($listaMaterias, $valorRaw);
+                                    array_push($listaClaves, $valorRaw);
                                 }
                             }
                         }
