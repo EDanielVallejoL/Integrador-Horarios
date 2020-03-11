@@ -14,16 +14,26 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 Class PlantillaXCarrera
 {
     // solo sera un valor entero para saber el numero de plantillas
-    public $NumeroDePlantilla;
+    public $Carrera;
+    public $nombreMateria;
+    public $lunes;
+    public $martes;
+    public $miercoles;
+    public $jueves;
+    public $viernes;
+    public $sabado;
     //con esto buscaremos la hora en la que se imparte
-    public $listaABSXCarrera = array();
-    //se agregara materia y hora {'Lunes' => {"Computacion obicua","8","Telematica","10"}} como ejemplo
-        public $listaPlantilla = array("Lunes" =>array(),
-                             array("Martes" =>array(),
-                             array("Miercoles" =>array(),
-                             array("Jueves" =>array(),
-                             array("Viernes" =>array(),
-                             array("Sabado" =>array()))))));
+
+    public function __construct($Carrera,$nombreMateria,$lunes, $martes, $miercoles, $jueves, $viernes, $sabado)
+    {
+        $this->nombreMateria = $nombreMateria;
+        $this->lunes = $lunes;
+        $this->martes = $martes;
+        $this->miercoles = $miercoles;
+        $this->jueves = $jueves;
+        $this->viernes = $viernes;
+        $this->sabado = $sabado;
+    }
 }
 
 
@@ -195,14 +205,21 @@ class CarrerasController extends Controller
             $listaGrupos = $this->leeHorariosCompletos($name2);
             echo "<h1> materias unicas </h1>";
 
+            $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
+
+            foreach($listaABS as $a)
+            {
+                $a->nombreMateria;
+            }
+
             //aqui estan las materias unicas
-            $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
-            $archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
+            //$matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
+            //$archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
 
             
             // Imprime Lista de materias por carrera
-         foreach ($listaMateriasxCarrera as $c) {
+         /*foreach ($listaMateriasxCarrera as $c) {
 
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
                 //echo $c->listaMaterias;
@@ -211,9 +228,8 @@ class CarrerasController extends Controller
                     echo $d . "<br>";
                 }
                echo "<br>";
-            }
+            }*/
 
-            $listaPlantillaXcarrera = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
             // IMPRESIONES
             // Imprime Lista de materias total
             echo
@@ -515,103 +531,53 @@ class CarrerasController extends Controller
         return $listaGrupos;
     }
 
-    public function ObtenUnicas($lMatxCarr, $lGrpos)//Carrera, Grupos
-    {
-        $unicas = array( );
-        $noUnicas = array();
-        $unicaxC = array();
-        foreach($lMatxCarr as $carr)//Carrera
-        {
-            
-            foreach($carr->listaMaterias as $mat)//Materias
-            {
-                
-                $matunica = $this->ObtenMateriaUnica($lGrpos, $mat);//Solo obtiene la materia si es unica
-
-                if($matunica != null)
-                {
-                    
-                    array_push($unicaxC,  $matunica);//agrega la materia unica
-                }
-
-            }
-
-
-            $unicas = array($carr->nombreCarrera=>$unicaxC);
-            
-        }
-        return $unicas;
-    }
-
-
-    
-
-    public function ObtenMateriaUnica($lgpos, $mt)
-    {
-        $absoluta = array();
-        $cont = 0;
-        $abs = "";
-
-        foreach($lgpos as $gpo)
-        {
-            if($gpo->nombreMateria == $mt)
-            {
-                $cont = $cont+1;
-
-                if($cont == 1)
-                {
-                    $abs = $gpo;  
-                }
-                //array_push($absoluta,$gpo);
-            }
-        }
-        if($cont == 1)
-        {
-            
-            return $abs;
-        }
-       
-    }
-    
     //ayuda
     public function ObtenPlantilla($listaCarrerasyMaterias,$listaMateriasTotales)
     {
         $contador = 0;
-        foreach ($listaCarrerasyMaterias as $c) {
+        $listaABS = array();
+          foreach ($listaCarrerasyMaterias as $c) {
 
-            echo "<b>" . $c->nombreCarrera . "</b> <br>";
-            foreach ($c->listaClaves as $d) {
-                if($d != "cve_materia")
-                {
+                echo "<b>" . $c->nombreCarrera . "</b> <br>";
+                foreach ($c->listaMaterias as $d) {
+                    $tempCarrera = $c->nombreCarrera;
                     foreach($listaMateriasTotales as $mt)
                     {
-                        //echo "Se compara ".$d . "contra: ".$mt->profesor;
-                        //echo'<br>';
-                        if($mt->profesor == $d)
+                        if($d == $mt->nombreMateria)
                         {
-                            //echo  $d . "coincide****************".$mt->profesor;
                             $contador = $contador + 1;
+                            $tempLun = $mt->lunes;
+                            $tempMar = $mt->martes;
+                            $tempMie = $mt->miercoles;
+                            $tempJue = $mt->jueves;
+                            $tempVie = $mt->viernes;
+                            $tempSab = $mt->sabado;
                         }
                     }
                     if($contador == 1)
                     {
-                        echo $d." Es absouluta";
-                        echo "<br>";
+                        //es materia ABS
+                        //echo 'la materia: ' .$d. ' Es absoluta';
+                        //c->Carrera; d->Materia
+                        $tempLun;
+                        $tempMar;
+                        $tempMie;
+                        $tempJue;
+                        $tempVie;
+                        $tempSab;
+                        $plantilla = new PlantillaXCarrera($tempCarrera,$d,$tempLun,$tempMar,$tempMie,$tempJue,$tempVie,$tempSab);
+                        echo "carrera: ".$c->nombreCarrera. ' Materia: '.$d. ' Lunes: '.$tempLun.''. ' Martes: '.$tempMar.''. ' Miercoles: '.$tempMie.''. ' Jueves: '.$tempJue.''. ' Viernes: '.$tempVie.''. ' Sabado: '.$tempSab;
+                        array_push($listaABS,$plantilla);
                         $contador = 0;
-                    }else
-                    {
+                        echo'<br>';
+                    }else{
+                        //se reinicia contador
                         $contador = 0;
                     }
                 }
+               //echo "<br>";
             }
-           echo "<br>";
-        }
 
-        foreach($listaMateriasTotales as $mt)
-        {
-            echo $mt->profesor;
-            echo '<br>';
-        }
+        return $listaABS;    
     }
-
 }
