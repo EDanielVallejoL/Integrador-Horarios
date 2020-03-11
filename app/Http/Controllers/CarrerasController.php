@@ -543,28 +543,6 @@ class CarrerasController extends Controller
         return $unicas;
     }
 
-   public function ObtenMaterias($lGrpos, $mat)
-    {
-        $absoluta = array();
-        $cont = 0;
-        foreach($lgpos as $gpo)
-        {
-            if($mt == $gpo->nombreMateria )//Verifica que ambos nombres sean iguales
-            {
-
-                array_push($absoluta, $gpo);
-                $cont = 1;
-            }
-        }
-
-        if($cont == 1)
-        {
-
-            return $absoluta;
-        }
-        //return $abs;
-
-    }
 
     
 
