@@ -205,12 +205,12 @@ class CarrerasController extends Controller
          foreach ($listaMateriasxCarrera as $c) {
 
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
+                //echo $c->listaMaterias;
 
                 foreach ($c->listaClaves as $d) {
                     echo $d . "<br>";
                 }
-
-                echo "<br>";
+               echo "<br>";
             }
 
             $listaPlantillaXcarrera = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
@@ -372,7 +372,7 @@ class CarrerasController extends Controller
                             if ($columna == "C") {
 
 
-                                if ($valorRaw != "cve_carrera") {
+                                if ($valorRaw != "cve_materia") {
                                     array_push($listaClaves, $valorRaw);
                                 }
                             }
@@ -595,54 +595,36 @@ class CarrerasController extends Controller
        
     }
     
-    
+    //ayuda
     public function ObtenPlantilla($listaCarrerasyMaterias,$listaMateriasTotales)
     {
-       /* foreach($listaMateriasTotales as $ccc)
-        {
-            echo $ccc->horas;
-            echo'<br>';
-        }
         $contador = 0;
-        
-        echo'<br>';
         foreach ($listaCarrerasyMaterias as $c) {
+
             echo "<b>" . $c->nombreCarrera . "</b> <br>";
-            foreach ($c->listaMaterias as $d) {
-                if($d != "")
+            foreach ($c->listaClaves as $d) {
+                if($d != "cve_materia")
                 {
-                    foreach($listaMateriasTotales as $lg)
+                    foreach($listaMateriasTotales as $mt)
                     {
-                        if($lg->horas!='Nombre de la Materia')
-                        //echo 'se compara: '.$d.'contra: '.$lg->horas;
-                        //echo'<br>';
-                        if($d == $lg->$profesor)
+                        if($mt->profesor == $d)
                         {
-                            //nos indica que existe en las materias
                             $contador = $contador + 1;
                         }
                     }
-                    if($contador ==1)
+                    if($contador == 1)
                     {
-                        echo "La materia ".$d.' Es Absoluta';
-                        echo'<br>';
+                        echo $d." Es absouluta";
+                        echo "<br>";
                         $contador = 0;
-                    }else{
+                    }else
+                    {
                         $contador = 0;
                     }
                 }
             }
-        }*/
-        $listaNachito = array();
-        foreach($listaMateriasTotales as $mt)
-        {
-            array_push($listaNachito,$mt->profesor);
+           echo "<br>";
         }
-
-        print_r(array_count_values($listaNachito));
     }
-
-   
-
 
 }
