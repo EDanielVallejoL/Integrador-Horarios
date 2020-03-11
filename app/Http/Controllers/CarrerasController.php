@@ -233,9 +233,8 @@ class CarrerasController extends Controller
 
             $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
 
-            foreach($listaABS as $a)
-            {
-                $a->nombreMateria;
+             foreach ($listaABS as $c) {
+                echo "<b>" . $c->Carrera . "</b> <br>";
             }
 
             //aqui estan las materias unicas
@@ -243,7 +242,7 @@ class CarrerasController extends Controller
             //$archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
 
-           foreach($matUnicas as $mtunic)
+           /*foreach($matUnicas as $mtunic)
            {
                 echo "<br>". $mtunic->nombreCarrera ."</br>";
                 //print_r($mtunic->listaAbsolutas);
@@ -251,7 +250,7 @@ class CarrerasController extends Controller
                 {
                     echo "<br>" . $m->horas ." ". $m->lunes . $m->martes . $m->miercoles . $m->jueves . $m->viernes . $m->sabado. $m->cupo. $m->salon ."</br>";
                 }
-           }
+           }*/
             
             // Imprime Lista de materias por carrera
          /*foreach ($listaMateriasxCarrera as $c) {
