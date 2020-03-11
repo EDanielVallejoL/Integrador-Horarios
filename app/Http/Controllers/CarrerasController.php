@@ -187,6 +187,10 @@ class CarrerasController extends Controller
             foreach($listaMateriasxCarrera as $mpc)
             {
                     echo  $mpc->nombreCarrera;
+                    foreach ($mpc->listaClaves as $d) {
+                        echo $d . "<br>";
+                    }
+
             }
 
             $listaGrupos = $this->leeHorariosCompletos($name2);
