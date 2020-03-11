@@ -537,8 +537,7 @@ class CarrerasController extends Controller
         //return $abs;
 
     }
-
-    
+   
 
     public function ObtenMateriaUnica($lgpos, $mt)
     {
