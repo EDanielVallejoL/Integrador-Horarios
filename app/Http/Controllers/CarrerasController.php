@@ -200,18 +200,26 @@ class CarrerasController extends Controller
             $archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
 
+           foreach($matUnicas as $mtunic)
+           {
+                
+               foreach($mtunic as $m)
+               {
+                   echo "<br>" . $m->horas ." ". $m->lunes . $m->martes . $m->miercoles . $m->jueves . $m->viernes . $m->sabado. $m->cupo. $m->salon ."</br>";
+                   
+               }
+               
+
+           }
             
             // Imprime Lista de materias por carrera
             echo "<b>" . "--------Materias por carrera--------" . "</b> <br>";
          foreach ($listaMateriasxCarrera as $c) {
 
-<<<<<<< HEAD
                 echo "<b>" . $c . "</b> <br>";
                 
-=======
                 echo "<b>" . $c->nombreCarrera . "</b> <br>";
                 //echo $c->listaMaterias;
->>>>>>> c30c51520d5a1e930aa6dc6afa2b06dc8961f840
 
                 foreach ($c->listaClaves as $d) {
                     echo $d . "<br>";
