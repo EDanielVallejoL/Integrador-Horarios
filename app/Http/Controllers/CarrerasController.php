@@ -202,9 +202,11 @@ class CarrerasController extends Controller
 
             
             // Imprime Lista de materias por carrera
+            echo "<b>" . "--------Materias por carrera--------" . "</b> <br>";
          foreach ($listaMateriasxCarrera as $c) {
 
-                echo "<b>" . $c->nombreCarrera . "</b> <br>";
+                echo "<b>" . $c . "</b> <br>";
+                
 
                 foreach ($c->listaClaves as $d) {
                     echo $d . "<br>";
@@ -515,6 +517,7 @@ class CarrerasController extends Controller
         return $listaGrupos;
     }
 
+    //$listaMaterias,$listaClaves
     public function ObtenUnicas($lMatxCarr, $lGrpos)//Carrera, Grupos
     {
         $unicas = array( );
@@ -522,11 +525,11 @@ class CarrerasController extends Controller
         $unicaxC = array();
         foreach($lMatxCarr as $carr)//Carrera
         {
-            
-            foreach($carr->listaMaterias as $mat)//Materias
+            echo "<br>" ."***". $carr ."***". "</br>";
+            foreach($carr->listaClaves as $cve)//Materias
             {
                 
-                $matunica = $this->ObtenMateriaUnica($lGrpos, $mat);//Solo obtiene la materia si es unica
+                $matunica = $this->ObtenMateriaUnica($lGrpos, $cve);//Solo obtiene la materia si es unica
 
                 if($matunica != null)
                 {
@@ -549,6 +552,7 @@ class CarrerasController extends Controller
         $cont = 0;
         foreach($lgpos as $gpo)
         {
+            
             if($mt == $gpo->nombreMateria )//Verifica que ambos nombres sean iguales
             {
 
@@ -567,28 +571,35 @@ class CarrerasController extends Controller
     }
 
     
+    
 
-    public function ObtenMateriaUnica($lgpos, $mt)
+    public function ObtenMateriaUnica($lgpos, $cv)
     {
+     
         $absoluta = array();
         $cont = 0;
         $abs = "";
 
         foreach($lgpos as $gpo)
         {
-            if($gpo->nombreMateria == $mt)
+            
+            if($gpo->profesor == $cv)
             {
                 $cont = $cont+1;
+                
+    
+                    if($cont == 1)
+                    {
+                        $abs = $gpo;  
+                    }
 
-                if($cont == 1)
-                {
-                    $abs = $gpo;  
-                }
-                //array_push($absoluta,$gpo);
             }
+        
+           
         }
         if($cont == 1)
         {
+            echo "<br>"."Materia Unica". $abs->profesor ."</br>";
             
             return $abs;
         }
