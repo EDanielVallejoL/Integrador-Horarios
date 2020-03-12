@@ -37,7 +37,7 @@ Class PlantillaXCarrera
     }
 }
 
-Class PlantillaXCarrera
+Class PlantillaXCarrerass
 {
     // solo sera un valor entero para saber el numero de plantillas
     public $Carrera;
@@ -414,6 +414,7 @@ class CarrerasController extends Controller
             echo "<br> <h2>listaABS </h2>";
             foreach($listaABS as $a)
             {
+                echo "hola";
                 $a->nombreMateria;
                 echo "<br> Nombre de Carrera:".$a->Carrera;
                 echo "<br> Nombre de la materia: ".$a->nombreMateria;
@@ -422,13 +423,13 @@ class CarrerasController extends Controller
             }
 
             //aqui estan las materias unicas
-            //$matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
+            $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
             //$archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
             // IMPRESIONES
 
             $plantillasAbs = $this->GeneraPlantillas($matUnicas);
 
-           foreach($matUnicas as $mtunic)
+           //foreach($matUnicas as $mtunic)
            /*foreach($matUnicas as $mtunic)
            {
                 echo "<br>". $mtunic->nombreCarrera ."</br>";
@@ -803,7 +804,74 @@ class CarrerasController extends Controller
 
         return $listaABS;    
     }
-<<<<<<< HEAD
+
+
+    public function ObtenUnicas($lMatxCarr, $lGrpos)//Carrera, Grupos
+    {
+        $unicas = array( );
+        $noUnicas = array();
+        $unicaxC = array();
+        foreach($lMatxCarr as $carr)//Carrera
+        {
+            //echo "<br>" ."***". $carr ."***". "</br>";
+        //{   
+            $unicaxC = array();
+            foreach($carr->listaClaves as $cve)//Materias
+            {
+
+                $matunica = $this->ObtenMateriaUnica($lGrpos, $cve);//Solo obtiene la materia si es unica
+
+                if($matunica != null)
+                {
+
+                    array_push($unicaxC,  $matunica);//agrega la materia unica
+                }
+
+            }
+
+
+            $unicas = array($carr->nombreCarrera=>$unicaxC);
+
+            $Carrera = new AbsolutasXCarrera($carr->nombreCarrera, $unicaxC);
+            array_push($unicas,$Carrera); 
+        }
+        return $unicas;
+    }
+
+    
+    public function ObtenMateriaUnica($lgpos, $cv)
+    {
+     
+        $absoluta = array();
+        $cont = 0;
+        $abs = "";
+
+
+        foreach($lgpos as $gpo)
+        {
+
+            if($gpo->profesor == $cv)
+            {
+                $cont = $cont+1;
+                
+    
+                    if($cont == 1)
+                    {
+                        $abs = $gpo;  
+                    }
+            }
+        
+           
+        }
+        if($cont == 1)
+        {
+            return $abs;
+        }
+
+    }
+
+
+
 
 
     public function GeneraPlantillas($matUnicas)
@@ -884,6 +952,4 @@ class CarrerasController extends Controller
     }
 
 
-=======
->>>>>>> e25195247a8b55e4c02a37b0eccb15f47f125f42
 }
