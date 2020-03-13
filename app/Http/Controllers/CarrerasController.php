@@ -7,31 +7,8 @@ use Illuminate\Http\Request;
 # Indicar que usaremos el IOFactory
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-Class PlantillaXCarrera
-{
-    //carrera
-    // solo sera un valor entero para saber el numero de plantillas
-    public $Carrera;
-    public $nombreMateria;
-    public $lunes;
-    public $martes;
-    public $miercoles;
-    public $jueves;
-    public $viernes;
-    public $sabado;
 
-    public function __construct($Carrera,$nombreMateria,$lunes, $martes, $miercoles, $jueves, $viernes, $sabado)
-    {
-        $this->Carrera = $Carrera;
-        $this->nombreMateria = $nombreMateria;
-        $this->lunes = $lunes;
-        $this->martes = $martes;
-        $this->miercoles = $miercoles;
-        $this->jueves = $jueves;
-        $this->viernes = $viernes;
-        $this->sabado = $sabado;
-    }
-}
+//CLASES
 
 class Materias
 {
@@ -68,57 +45,6 @@ class Carrera
     }
 }
 
-
-
-class MateriaXCarrera
-{
-
-    public $nombreCarrera;
-    public $listaMaterias = array("");
-    public $listaClaves = array();
-
-
-    public function __construct($nombreCarrera, array $listaMaterias = [], array $listaClaves = [])
-    {
-        $this->nombreCarrera = $nombreCarrera;
-        $this->listaMaterias = $listaMaterias;
-        $this->listaClaves = $listaClaves;
-    }
-
-    public function __toString()
-    {
-        $dato1 = "hola";
-        foreach ($this->listaMaterias as $c) {
-            $dato1 = $c;
-        }
-        return $this->nombreCarrera . "<br>" . $dato1;
-    }
-}
-
-class AbsolutasXCarrera
-{
-    // Atributos
-    public $nombreCarrera;
-    public $listaAbsolutas = array("");
-    
-
-
-    public function __construct($nombreCarrera, array $listaAbsolutas = [])
-    {
-        $this->nombreCarrera = $nombreCarrera;
-        $this->listaAbsolutas = $listaAbsolutas;
-    }
-
-    public function __toString()
-    {
-        $dato1 = "hola";
-        foreach ($this->listaAbsolutas as $c) {
-            $dato1 = $c;
-        }
-        return $this->nombreCarrera . "<br>" . $dato1;
-    }
-
-}
 
 class HoraClase
 {
@@ -166,35 +92,18 @@ class HoraClase
         }
         return $this->nombreCarrera . "<br>" . $dato1;
     }
-
-    //Metodos
 }
 
+//En construccion
 class Horario
 {
-    // Atributos
-    public $nombreCarrera;
-    public $lunes = array("");
-    public $martes = array("");
-    public $miercoles = array("");
-    public $jueves = array("");
-    public $viernes = array("");
-    public $sabado = array("");
-
-
-    public function __construct($nombreCarrera, array $lunes = [], array $martes = [], array $miercoles = [], array $jueves = [], array $viernes = [], array $sabado = [])
-    {
-        $this->nombreCarrera = $nombreCarrera;
-        $this->lunes = $lunes;
-        $this->martes = $martes;
-        $this->miercoles = $miercoles;
-        $this->jueves = $jueves;
-        $this->viernes = $viernes;
-        $this->sabado = $sabado;
-    }
-
-    //Metodos
+    //son listas de objetos *Se podria omitirlos ya que tenemos las referencias de valor Grupo*
+    public $listaMateriasAbsolutas= array();
+    public $listaMateriasUnicas = array();
+    public $listaMateriasComunes = array();
 }
+
+//FIN CLASES
 
 
 class CarrerasController extends Controller
@@ -252,28 +161,13 @@ class CarrerasController extends Controller
             $file2->move(\public_path() . '/archivos', $name2);
 
             //empezamos a crear
-            echo "<h1> materias unicas </h1>";
-            //Creacion de las materias por carreras regresa {}
-            $listaMateriasxCarrera = $this->leeMPC($name);
+            //echo "<h1> materias unicas </h1>";
             $listaGrupos = $this->leeHorariosCompletos($name2);
-           // $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
-           // $listashoras = $this->llenaPlantillas($listaABS);
             $listaFinal = $this->Carreras($name);
             $this->AsignaValor($listaFinal,$listaGrupos);
+            $this->Imprime($listaFinal);
+            
 
-            foreach($listaFinal as $lf)
-            {
-                echo '<h2>'.$lf->nombreCarrera.'</h2>';
-                foreach($lf->listaMaterias as $listass){
-                        echo $listass->Materia.'       '; 
-                        echo 'Valor por Grupo: '.$listass->valorGrupo.'       ';
-                        echo 'Valor por Materia: '.$listass->valorMateria.'       ';     
-                        echo '<br>';
-                }
-                echo'<br>';
-                echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
-                
-            }
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -322,94 +216,25 @@ class CarrerasController extends Controller
         //
     }
 
-    public function leeMPC($nombreArchivo)
+    public function Imprime($listaFinal)
     {
-        $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
-        $documento = IOFactory::load($rutaArchivo);
-
-        # obtenemos la primera celda para la validacion del archivo CPM
-        $coordenadas = "A1";
-        $hojaActual = $documento->getSheet(0);
-        $celda = $hojaActual->getCell($coordenadas);
-        $valorRaw = $celda->getValue();
-
-
-        $listaCarreras = array("");
-        $listaMaterias = array("");
-
-        // Sin comillas para objetos
-        $listaMateriasxCarrera = array();
-
-        $listaClaves = array();
-
-
-        $nombreDeCarrera = "";
-        $band = 0;
-        foreach ($hojaActual->getRowIterator() as $fila) {
-            foreach ($fila->getCellIterator() as $celdaPrueba) {
-
-                # El valor, así como está en el documento
-                $valorRaw = $celdaPrueba->getValue();
-
-
-                # Fila, que comienza en 1, luego 2 y así...
-                $fila = $celdaPrueba->getRow();
-                # Columna, que es la A, B, C y así...
-                $columna = $celdaPrueba->getColumn();
-
-
-                if ($valorRaw != "") {
-                    if ($columna == "B" || $columna == "D" || $columna == "C") {
-                        #Aqui metemos las materias en una lista
-                        #valorRaw nos da lo que tenemos en las celdas
-                        if ($columna == "B") {
-                            if ($valorRaw != "carrera") {
-                                array_push($listaCarreras, $valorRaw);
-                                if ($band == 0) {
-                                    $nombreDeCarrera = $valorRaw;
-                                    $band = 1;
-                                } else {
-                                    if ($nombreDeCarrera != $valorRaw) {
-
-                                        // CREACION DEL OBJETO
-                                        $Carrera1 = new MateriaXCarrera($nombreDeCarrera, $listaMaterias,$listaClaves);
-
-                                        // Inserta el objeto en el array de materiasPorCarrera
-                                        array_push($listaMateriasxCarrera, $Carrera1);
-
-                                        while (count($listaMaterias)) array_pop($listaMaterias);
-                                        while (count($listaClaves)) array_pop($listaClaves);
-
-                                        $band = 0;
-                                    }
-                                }
-                            }
-                        }
-                        if ($columna == "D") {
-
-
-                            if ($valorRaw != "materia") {
-                                array_push($listaMaterias, $valorRaw);
-                            }
-                        }else{
-                            if ($columna == "C") {
-
-
-                                if ($valorRaw != "cve_materia") {
-                                    array_push($listaClaves, $valorRaw);
-                                }
-                            }
-                        }
-                    }
-                }
+        foreach($listaFinal as $lf)
+        {
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            foreach($lf->listaMaterias as $listass){
+                    echo $listass->Materia.'       '; 
+                    echo 'Valor por Grupo: '.$listass->valorGrupo.'       ';
+                    echo 'Valor por Materia: '.$listass->valorMateria.'       ';     
+                    echo '<br>';
             }
+            echo'<br>';
+            echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
+            
         }
 
-
-
-        return $listaMateriasxCarrera;
     }
 
+    //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO
     public function leeHorariosCompletos($nombreArchivo)
     {
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
@@ -541,79 +366,6 @@ class CarrerasController extends Controller
         return $listaGrupos;
     }
 
-    public function ObtenPlantilla($listaCarrerasyMaterias,$listaMateriasTotales)
-    {
-        $contador = 0;
-        $listaABS = array();
-          foreach ($listaCarrerasyMaterias as $c) {
-
-                echo "<b>" . $c->nombreCarrera . "</b> <br>";
-                foreach ($c->listaMaterias as $d) {
-                    $tempCarrera = $c->nombreCarrera;
-                    foreach($listaMateriasTotales as $mt)
-                    {
-                        if($d == $mt->nombreMateria)
-                        {
-                            $contador = $contador + 1;
-                            $tempLun = $mt->lunes;
-                            $tempMar = $mt->martes;
-                            $tempMie = $mt->miercoles;
-                            $tempJue = $mt->jueves;
-                            $tempVie = $mt->viernes;
-                            $tempSab = $mt->sabado;
-                        }
-                    }
-                    if($contador == 1)
-                    {
-                        $tempLun;
-                        $tempMar;
-                        $tempMie;
-                        $tempJue;
-                        $tempVie;
-                        $tempSab;
-                        $plantilla = new PlantillaXCarrera($tempCarrera,$d,$tempLun,$tempMar,$tempMie,$tempJue,$tempVie,$tempSab);
-                        echo "carrera: ".$c->nombreCarrera. ' Materia: '.$d. ' Lunes: '.$tempLun.''. ' Martes: '.$tempMar.''. ' Miercoles: '.$tempMie.''. ' Jueves: '.$tempJue.''. ' Viernes: '.$tempVie.''. ' Sabado: '.$tempSab;
-                        array_push($listaABS,$plantilla);
-                        $contador = 0;
-                        echo'<br>';
-                    }else{
-                        $contador = 0;
-                    }
-                }
-               //echo "<br>";
-          }
-        return $listaABS;  
-    }
-
-    //Miguel
-    public function llenaPlantillas($listaAbs)
-    {
-        //esta bandera nos indica el cambio de carrera
-        $listahoras = array();
-        $bandera = 0;
-        foreach($listaAbs as $a)
-            {
-                    //es la primera vez que entra
-                    echo'<h2>'.'Carrera: '.$a->Carrera.'</h2>';
-                    echo $Lun = $a->lunes;
-                    echo '   ';
-                    echo $Materia = $a->nombreMateria;
-                    /*$Lun = $a->lunes;
-                    $mar = $a->lunes;
-                    $mie = $a->lunes;
-                    $jue = $a->lunes;
-                    $vie = $a->lunes;
-                    $sab = $a->lunes;*/
-                    //$rest = substr($Lun,0, -5);
-                    echo '<br>';
-                                
-            }
-            return $listahoras;
-    }
-
-
-
-
     //aqui de dos listas que teniamos ahora se convirtio en una sola
     //ahora en una sola lista de objetos se puede acceder a las carreras con sus propiedades
     //y a las materias por carrera con sus propiedades
@@ -717,8 +469,6 @@ class CarrerasController extends Controller
             }
 
 
-
-
             $contadorM = 0;
             foreach($listaCarreras as $lf)
             {
@@ -756,8 +506,8 @@ class CarrerasController extends Controller
                     $contador = $contador + 1;
                     $acumulador = $acumulador + $listass->valorGrupo;
                 }
-                $lf->PromedioCarrera = ($acumulador/$contador);
-                //
+                $numero =  round( $acumulador/$contador, 1, PHP_ROUND_HALF_UP);
+                $lf->PromedioCarrera = $numero;
             }
     }
 }
