@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 # Indicar que usaremos el IOFactory
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+
+//$listaMateriasxCarrera-> variable que ya tiene lista de carrera
+// desglosa (abs,unicas y normales)
+
 Class PlantillaXCarrera
 {
-    //carrera
     // solo sera un valor entero para saber el numero de plantillas
     public $Carrera;
     public $nombreMateria;
@@ -19,6 +22,7 @@ Class PlantillaXCarrera
     public $jueves;
     public $viernes;
     public $sabado;
+    //con esto buscaremos la hora en la que se imparte
 
     public function __construct($Carrera,$nombreMateria,$lunes, $martes, $miercoles, $jueves, $viernes, $sabado)
     {
@@ -213,7 +217,7 @@ class PlantillasXCarreras
 
 class MateriaXCarrera
 {
-
+    // Atributos
     public $nombreCarrera;
     public $listaMaterias = array("");
     public $listaClaves = array();
@@ -234,6 +238,8 @@ class MateriaXCarrera
         }
         return $this->nombreCarrera . "<br>" . $dato1;
     }
+
+    //Metodos
 }
 
 class AbsolutasXCarrera
@@ -259,11 +265,11 @@ class AbsolutasXCarrera
         return $this->nombreCarrera . "<br>" . $dato1;
     }
 
+    //Metodos
 }
 
 class HoraClase
 {
-    //grupo
     // Atributos
     public $nombreMateria;
     public $creditos;
@@ -381,13 +387,11 @@ class CarrerasController extends Controller
     {
 
         if ($request->hasfile('excel') || $request->hasfile('grupos')) {
-
-            //Primer archivo MPN
             $file = $request->file('excel');
             $name = $file->getClientOriginalName();
             $file->move(\public_path() . '/archivos', $name);
 
-            // Segundo archivo "Horarios Completos"
+            // Segundo archivo
             $file2 = $request->file('grupos');
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
@@ -396,14 +400,23 @@ class CarrerasController extends Controller
             echo "<h1> materias unicas </h1>";
             //Creacion de las materias por carreras regresa {}
             $listaMateriasxCarrera = $this->leeMPC($name);
+            
+            /*foreach($listaMateriasxCarrera as $mpc)
+            {
+                    foreach ($mpc->listaClaves as $d) {
+                        echo $d . "<br>";
+                    }
+
+            }*/
+
             $listaGrupos = $this->leeHorariosCompletos($name2);
+            echo "<h1> materias unicas </h1>";
+
             $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
-<<<<<<< HEAD
 
             echo "<br> <h2>listaABS </h2>";
             foreach($listaABS as $a)
             {
-                echo "hola";
                 $a->nombreMateria;
                 echo "<br> Nombre de Carrera:".$a->Carrera;
                 echo "<br> Nombre de la materia: ".$a->nombreMateria;
@@ -480,9 +493,6 @@ class CarrerasController extends Controller
 
             //return view('pages/Carreras/listaCarreras',$matUnicas);
             return "";
-=======
-            $listashoras = $this->llenaPlantillas($listaABS);
->>>>>>> c379e45e1fef3f23f8977166638cf6efb3ca72f5
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -747,6 +757,7 @@ class CarrerasController extends Controller
         return $listaGrupos;
     }
 
+    //ayuda
     public function ObtenPlantilla($listaCarrerasyMaterias,$listaMateriasTotales)
     {
         $contador = 0;
@@ -771,6 +782,9 @@ class CarrerasController extends Controller
                     }
                     if($contador == 1)
                     {
+                        //es materia ABS
+                        //echo 'la materia: ' .$d. ' Es absoluta';
+                        //c->Carrera; d->Materia
                         $tempLun;
                         $tempMar;
                         $tempMie;
@@ -783,53 +797,14 @@ class CarrerasController extends Controller
                         $contador = 0;
                         echo'<br>';
                     }else{
+                        //se reinicia contador
                         $contador = 0;
                     }
                 }
                //echo "<br>";
-          }
-        return $listaABS;  
-    }
-
-    public function llenaPlantillas($listaAbs)
-    {
-        //esta bandera nos indica el cambio de carrera
-        $listahoras = array();
-        $bandera = 0;
-        foreach($listaAbs as $a)
-            {
-                if($bandera == 0)
-                {
-                    //es la primera vez que entra
-                    $temp = $a->Carrera;
-                    $bandera = 1;
-                    echo'<h2>'.'Carrera: '.$a->Carrera.'</h2>';
-                    echo $Lun = $a->lunes;
-                    echo '   ';
-                    echo $Materia = $a->nombreMateria;
-                    /*$Lun = $a->lunes;
-                    $mar = $a->lunes;
-                    $mie = $a->lunes;
-                    $jue = $a->lunes;
-                    $vie = $a->lunes;
-                    $sab = $a->lunes;*/
-                    //$rest = substr($Lun,0, -5);
-                    echo '<br>';
-                }else{
-                    
-                    if($temp == $a->Carrera)
-                    {
-                        $bandera = 0;
-                        echo $Lun = $a->lunes;
-                        echo '   ';
-                        echo $Materia = $a->nombreMateria;
-                        echo '<br>';
-                    }else{
-
-                    }
-                }                    
             }
-            return $listahoras;
+
+        return $listaABS;    
     }
 
 
