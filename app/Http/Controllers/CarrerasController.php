@@ -37,20 +37,6 @@ Class PlantillaXCarrera
     }
 }
 
-<<<<<<< HEAD
-Class PlantillaXCarrerass
-{
-    // solo sera un valor entero para saber el numero de plantillas
-    public $Carrera;
-    public $nombreMateria;
-    public $lunes;
-    public $martes;
-    public $miercoles;
-    public $jueves;
-    public $viernes;
-    public $sabado;
-    //con esto buscaremos la hora en la que se imparte
-=======
 class Materias
 {
     public $Materia;
@@ -84,10 +70,9 @@ class Carrera
         $this->PromedioCarrera = $PromedioCarrera;
         
     }
-}
 
 
->>>>>>> f44712964eac3ae1bc37790677dd133e7f5e078a
+
 
     public function __construct($Carrera,$nombreMateria,$lunes, $martes, $miercoles, $jueves, $viernes, $sabado)
     {
@@ -449,91 +434,6 @@ class CarrerasController extends Controller
             }*/
 
             $listaGrupos = $this->leeHorariosCompletos($name2);
-<<<<<<< HEAD
-            echo "<h1> materias unicas </h1>";
-
-            $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
-
-            echo "<br> <h2>listaABS </h2>";
-            foreach($listaABS as $a)
-            {
-                $a->nombreMateria;
-                echo "<br> Nombre de Carrera:".$a->Carrera;
-                echo "<br> Nombre de la materia: ".$a->nombreMateria;
-                echo "<br> Lunes: ".$a->lunes;
-                
-            }
-
-            //aqui estan las materias unicas
-            $matUnicas= $this->ObtenUnicas($listaMateriasxCarrera, $listaGrupos);//Obtiene las materias unicas
-            //$archivos = array("MateriasxCarrera"=>$listaMateriasxCarrera, "Grupos"=>$listaGrupos);
-            // IMPRESIONES
-
-            $plantillasAbs = $this->GeneraPlantillas($matUnicas);
-
-           //foreach($matUnicas as $mtunic)
-           /*foreach($matUnicas as $mtunic)
-           {
-                echo "<br>". $mtunic->nombreCarrera ."</br>";
-                //print_r($mtunic->listaAbsolutas);
-                foreach($mtunic->listaAbsolutas as $m)
-                {
-                    echo "<br>" . $m->horas ." ". $m->lunes . $m->martes . $m->miercoles . $m->jueves . $m->viernes . $m->sabado. $m->cupo. $m->salon ."</br>";
-                }
-           }
-            */
-            // Imprime Lista de materias por carrera
-         /*foreach ($listaMateriasxCarrera as $c) {
-
-                echo "<b>" . $c . "</b> <br>";
-                
-                echo "<b>" . $c->nombreCarrera . "</b> <br>";
-                //echo $c->listaMaterias;
-
-                foreach ($c->listaClaves as $d) {
-                    echo $d . "<br>";
-                }
-               echo "<br>";
-            }*/
-
-            // IMPRESIONES
-            // Imprime Lista de materias total
-            echo
-            "<table >
-            <thead >
-            <tr>
-            <th>Nombre</th>
-            <th>Hora</th>
-            <th>Lunes</th>
-            <th>Martes</th>
-            <th>Miercoles</th>
-            <th>Jueves</th>
-            <th>Viernes</th>
-            <th>Sabado</th>
-            </tr>
-            </thead>
-            ";
-
-            
-       
-                
-            
-           /* foreach ($archivos["Grupos"] as $c) {
-                echo "<tr> <td>" . $c->nombreMateria . "</td> 
-                            <td>" . $c->horas . "</td>  
-                            <td>" . $c->lunes . "</td>
-                            <td>" . $c->martes . "</td>
-                            <td>" . $c->miercoles . "</td>
-                            <td>" . $c->jueves . "</td>
-                            <td>" . $c->viernes . "</td>
-                            
-                            </br>";
-            }*/
-            
-
-            //return view('pages/Carreras/listaCarreras',$matUnicas);
-            return "";
-=======
            // $listaABS = $this->ObtenPlantilla($listaMateriasxCarrera,$listaGrupos);
            // $listashoras = $this->llenaPlantillas($listaABS);
             $listaFinal = $this->Carreras($name);
@@ -552,7 +452,6 @@ class CarrerasController extends Controller
                 echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
                 
             }
->>>>>>> f44712964eac3ae1bc37790677dd133e7f5e078a
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -600,6 +499,7 @@ class CarrerasController extends Controller
     {
         //
     }
+    
 
     public function leeMPC($nombreArchivo)
     {
@@ -870,13 +770,8 @@ class CarrerasController extends Controller
         return $listaABS;    
     }
 
-<<<<<<< HEAD
-
-    public function ObtenUnicas($lMatxCarr, $lGrpos)//Carrera, Grupos
-=======
     //Miguel
     public function llenaPlantillas($listaAbs)
->>>>>>> f44712964eac3ae1bc37790677dd133e7f5e078a
     {
         $unicas = array( );
         $noUnicas = array();
@@ -888,58 +783,6 @@ class CarrerasController extends Controller
             $unicaxC = array();
             foreach($carr->listaClaves as $cve)//Materias
             {
-<<<<<<< HEAD
-
-                $matunica = $this->ObtenMateriaUnica($lGrpos, $cve);//Solo obtiene la materia si es unica
-
-                if($matunica != null)
-                {
-
-                    array_push($unicaxC,  $matunica);//agrega la materia unica
-                }
-
-            }
-
-
-            $unicas = array($carr->nombreCarrera=>$unicaxC);
-
-            $Carrera = new AbsolutasXCarrera($carr->nombreCarrera, $unicaxC);
-            array_push($unicas,$Carrera); 
-        }
-        return $unicas;
-    }
-
-    
-    public function ObtenMateriaUnica($lgpos, $cv)
-    {
-     
-        $absoluta = array();
-        $cont = 0;
-        $abs = "";
-
-
-        foreach($lgpos as $gpo)
-        {
-
-            if($gpo->profesor == $cv)
-            {
-                $cont = $cont+1;
-                
-    
-                    if($cont == 1)
-                    {
-                        $abs = $gpo;  
-                    }
-            }
-        
-           
-        }
-        if($cont == 1)
-        {
-            return $abs;
-        }
-
-=======
                     //es la primera vez que entra
                     echo'<h2>'.'Carrera: '.$a->Carrera.'</h2>';
                     echo $Lun = $a->lunes;
@@ -1106,7 +949,6 @@ class CarrerasController extends Controller
                 $lf->PromedioCarrera = ($acumulador/$contador);
                 //
             }
->>>>>>> f44712964eac3ae1bc37790677dd133e7f5e078a
     }
 
 
