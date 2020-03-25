@@ -160,11 +160,18 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
-            //empezamos a crear
+            //LISTAS
             //echo "<h1> materias unicas </h1>";
+            //Se optiene la informacion del segundo documento
             $listaGrupos = $this->leeHorariosCompletos($name2);
+
+            //se obtiene informacion del primer documento pero tambien otros calculados
             $listaFinal = $this->Carreras($name);
+
+            //con este se hace recorrido sobre los datos previamente 
             $this->AsignaValor($listaFinal,$listaGrupos);
+
+            //Este solo sirve para imprimir
             $this->Imprime($listaFinal);
             
 
