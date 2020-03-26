@@ -184,6 +184,8 @@ class CarrerasController extends Controller
             echo '<h2>'."Orden de Inscripcion".'</h2>';
             $this->ImprimeOrden($listaPrioridad,$listaFinal);
 
+            $this->AsignaHoras($listaFinal,$listaGrupos);
+
             /*foreach($listaPrioridad as $lp)
             {
                 echo $lp;
@@ -251,7 +253,7 @@ class CarrerasController extends Controller
                     echo '<br>';
             }
             echo'<br>';
-            //echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
+            echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
             
         }
 
@@ -592,6 +594,36 @@ class CarrerasController extends Controller
            
         }
         return $listaOrdenCarreras;
+    }
+
+
+    public function AsignaHoras($listaFin,$listaGru)
+    {
+        
+        foreach($listaFin as $lf)
+        {
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            foreach($lf->listaMaterias as $listass){
+                echo $listass->Materia;
+                echo '<br>';
+                $referencia = 1;
+                foreach($listaGru as $lg)
+                {
+                    if($listass->Materia == $lg->nombreMateria)
+                    {
+                        echo "Opcion Numero: ".$referencia."     ";
+                        echo "lunes: ".$lg->lunes."       ";
+                        echo "martes: ".$lg->martes."       ";
+                        echo "Miercoles: ".$lg->miercoles."       ";
+                        echo "Jueves: ".$lg->jueves."       ";
+                        echo "viernes: ".$lg->viernes."       ";
+                        echo "Sabado: ".$lg->sabado."       ";
+                        echo'<br>';
+                        $referencia ++;
+                    }
+                }   
+            }
+        }   
     }
 }
 
