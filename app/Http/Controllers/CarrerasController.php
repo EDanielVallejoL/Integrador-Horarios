@@ -28,6 +28,43 @@ class Materias
     }  
 }
 
+class Hora
+{
+    public $hora;
+    public $campo;
+
+    public function __construct($hora, array $campo)
+    {
+        $this->hora = $hora;
+        $this->campo = $campo;
+    }
+}
+
+class Dia
+{
+    public $dia;
+    public $horas = array();
+
+    public function __construct($dia, array $listaHoras = [])
+    {
+        $this->dia = $dia;
+        $this->listaHoras = $listaHoras;
+    }
+}
+
+class Horari
+{
+
+    public $nomcarrera;
+    public $listadias = array();
+
+    public function __construct($nomcarrera, array $listadias = [])
+    {
+        $this->nomcarrera = $nomcarrera;
+        $this->listadias = $listadias;
+    }
+}
+
 class Carrera
 {
     //nombre de la carrera
@@ -181,10 +218,14 @@ class CarrerasController extends Controller
 
             $listaPrioridad = $this -> OrdenInscripcion($listaFinal);
 
+            
+
             echo '<h2>'."Orden de Inscripcion".'</h2>';
             $this->ImprimeOrden($listaPrioridad,$listaFinal);
 
             $this->AsignaHoras($listaFinal,$listaGrupos);
+
+            
 
             /*foreach($listaPrioridad as $lp)
             {
@@ -597,6 +638,30 @@ class CarrerasController extends Controller
     }
 
 
+    public function llenaHorario($listaFin)
+    {
+        foreach($listaFin as $lf)
+        {
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            foreach($lf->listaMaterias as $listass){
+                echo $listass->Materia;
+                echo '<br>';
+                $referencia = 1;
+                foreach($listaGru as $lg)
+                {
+                    if($listass->Materia == $lg->nombreMateria)
+                    {
+
+                        
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
     public function AsignaHoras($listaFin,$listaGru)
     {
         
@@ -626,9 +691,6 @@ class CarrerasController extends Controller
         }   
     }
 }
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> f6f184d036c586791249391443688c76592d08ad
