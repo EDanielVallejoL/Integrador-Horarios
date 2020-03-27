@@ -198,6 +198,15 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
+            // Generar validaciones de empalmes de horarios de materias absolutas o materia tipo 1
+
+            
+
+
+
+
+
+            //empezamos a crear
             //LISTAS
             //echo "<h1> materias unicas </h1>";
 
