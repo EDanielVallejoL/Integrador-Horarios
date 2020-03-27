@@ -12,6 +12,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 //CLASES
 
+<<<<<<< HEAD
 class Materias
 {
     public $Materia;
@@ -65,6 +66,8 @@ class Horari
     }
 }
 
+=======
+>>>>>>> de27b0a29a2ce66a47c065a651a9e236f4ab32bf
 class Carrera
 {
     //nombre de la carrera
@@ -83,6 +86,24 @@ class Carrera
         
     }
 }
+
+class Materias
+{
+    public $Materia;
+    public $valorGrupo;
+    public $valorMateria;
+
+
+    public function __construct($Materia,$valorGrupo,$valorMateria)
+    {
+        $this->Materia = $Materia;
+        $this->valorGrupo = $valorGrupo;
+        $this->valorMateria = $valorMateria;
+        
+    }  
+}
+
+
 
 
 class HoraClase
@@ -133,13 +154,46 @@ class HoraClase
     }
 }
 
+
+/*PROPUESTA*/ 
 //En construccion
-class Horario
+class Horas
 {
-    //son listas de objetos *Se podria omitirlos ya que tenemos las referencias de valor Grupo*
-    public $listaMateriasAbsolutas= array();
-    public $listaMateriasUnicas = array();
-    public $listaMateriasComunes = array();
+    //aqui se insertara disponible/ocupado dando referencia a la hora
+    public $ocho;
+    public $nueve;
+    public $diez;
+    public $once;
+    public $doce;
+    public $una;
+    public $dos;
+    public $tres;
+    public $cuatro;
+    public $cinco;
+    public $seis;
+    public $siete;
+    public $ochoPM;
+    public $nuevePM;
+}
+
+class Dia
+{
+    //El nombre del dia
+    public $dia;
+    //lista de el objeto hora que debemos verificar para insertar
+    public $listaHoras = array();
+}
+
+class HorarioFinal
+{
+    //necesitamos recorrer al final de la insercion para hacer una valoracion
+    public $HoraInicial;
+    //para ver cuando acaba el horario
+    public $Horafinal;
+    //valoracion
+    public $HorasLibresTotales;
+    //lista de Dias (Se que esta bien puerco pensar en una lista de lista de listas)
+    public $ListaDias = array();
 }
 
 //FIN CLASES
@@ -200,11 +254,21 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
+            // Generar validaciones de empalmes de horarios de materias absolutas o materia tipo 1
+
+            
+
+
+
+
+
+            //empezamos a crear
             //LISTAS
             //echo "<h1> materias unicas </h1>";
 
             //aqui esta lo que buscaba ya esta hechoooooooooooooooo
             //Se optiene la informacion del segundo documento
+            //Toda la informacion del segundo documento HORACLASE
             $listaGrupos = $this->leeHorariosCompletos($name2);
 
             //se obtiene informacion del primer documento pero tambien otros calculados
