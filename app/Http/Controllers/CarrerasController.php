@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
+
+
 //CLASES
 
 class Materias
@@ -148,6 +150,7 @@ class CarrerasController extends Controller
     public function store(Request $request)
     {
 
+
         if ($request->hasfile('excel') || $request->hasfile('grupos')) {
 
             //Primer archivo MPN
@@ -160,12 +163,34 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
-            //empezamos a crear
+            //LISTAS
             //echo "<h1> materias unicas </h1>";
+
+            //aqui esta lo que buscaba ya esta hechoooooooooooooooo
+            //Se optiene la informacion del segundo documento
             $listaGrupos = $this->leeHorariosCompletos($name2);
+
+            //se obtiene informacion del primer documento pero tambien otros calculados
             $listaFinal = $this->Carreras($name);
+
+            //con este se hace recorrido sobre los datos previamente 
             $this->AsignaValor($listaFinal,$listaGrupos);
+
+            //Este solo sirve para imprimir
             $this->Imprime($listaFinal);
+
+            $listaPrioridad = $this -> OrdenInscripcion($listaFinal);
+
+            echo '<h2>'."Orden de Inscripcion".'</h2>';
+            $this->ImprimeOrden($listaPrioridad,$listaFinal);
+
+            $this->AsignaHoras($listaFinal,$listaGrupos);
+
+            /*foreach($listaPrioridad as $lp)
+            {
+                echo $lp;
+                echo '<br>';
+            }*/
             
 
         } else {
@@ -234,7 +259,7 @@ class CarrerasController extends Controller
 
     }
 
-    //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO
+    //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO NOS DA TODA LA INFORMACION
     public function leeHorariosCompletos($nombreArchivo)
     {
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
@@ -369,6 +394,7 @@ class CarrerasController extends Controller
     //aqui de dos listas que teniamos ahora se convirtio en una sola
     //ahora en una sola lista de objetos se puede acceder a las carreras con sus propiedades
     //y a las materias por carrera con sus propiedades
+    //SOLO DEL PRIMER DOCUMENTOOOOOOOOOOOOOOOOOO MPN
     public function Carreras($nombreArchivo)
     {
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
@@ -442,6 +468,8 @@ class CarrerasController extends Controller
         return $listaCarreraFinal;
     }
 
+
+    //AQUI SE JUNTAN LAS DOS LISTAS ANTERIORES DE LOS DOS COUMENTOS Y SO OBTIENEN DATOS IMPORTNATES
     public function AsignaValor($listaCarreras,$listaMateriasGlobal)
     {
             $contador = 0;
@@ -453,13 +481,16 @@ class CarrerasController extends Controller
                     foreach($listaMateriasGlobal as $mg)
                     {
                         //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->nombreMateria;
+                        //echo "Se compara ".$mg->nombreMateria."contra:  ".$listass->Materia."  ";
                        if($mg->nombreMateria == $listass->Materia)
                        {
+                            //echo "COINCIDEN";
                             $contador = $contador + 1;
-                            //echo '   entro'.'<br>';
+                            //echo '<br>';
                        }else{
                         //echo '   NO entro'.'<br>';
                        }
+                       
                     }
                     $listass->valorGrupo = $contador;
                     //echo 'La materia: '.$listass->Materia.'          es de valor: '.$contador;
@@ -510,4 +541,94 @@ class CarrerasController extends Controller
                 $lf->PromedioCarrera = $numero;
             }
     }
+
+    //DEFINIMOS MATEMATICAMENTE QUE CARRERA ES MAS IMPORTANTE DE INSCRIBIR PRIMERO
+    public function OrdenInscripcion($listaFinal)
+    {
+        //ordenamos los promedios
+        $listaFinalOrdA = array();
+
+        
+            foreach($listaFinal as $lf)
+            {
+                //echo '<h2>'.$lf->nombreCarrera.'</h2>';
+                //echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
+                $aux = $lf->PromedioCarrera;
+                array_push($listaFinalOrdA,$aux);
+            }
+
+            sort($listaFinalOrdA);
+             //$listaFinalOrd = arsort($listaFinalOrdA);
+             /*foreach($listaFinalOrdA as $fin)
+             {
+                 echo $fin;
+                 echo'<br>';
+             }*/
+             return $listaFinalOrdA;  
+    }
+
+
+    //SOLO ES PARA IMPRIMIR EL ORDEN
+    public function ImprimeOrden($listaOrdenada,$lfinal)
+    {
+        $listaOrdenCarreras = array();
+        $bandera = 0;
+        $orden = 1;
+        foreach($listaOrdenada as $lfa)
+        {
+            foreach($lfinal as $lfi)
+            {
+                    if($lfa == $lfi->PromedioCarrera);
+                    {
+                        echo 'Carrera No: '.$orden."     ";
+                        echo $lfi->nombreCarrera."      ";
+                        echo "   ".$lfi->PromedioCarrera;
+                        $orden ++;
+                        array_push($listaOrdenCarreras,$lfi->nombreCarrera);
+                        echo '<br>';
+                    }            
+            }
+            //$bandera = $bandera + 1;
+            //echo '<h2>'.$bandera.'</h2>';
+            break;
+           
+        }
+        return $listaOrdenCarreras;
+    }
+
+
+    public function AsignaHoras($listaFin,$listaGru)
+    {
+        
+        foreach($listaFin as $lf)
+        {
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            foreach($lf->listaMaterias as $listass){
+                echo $listass->Materia;
+                echo '<br>';
+                $referencia = 1;
+                foreach($listaGru as $lg)
+                {
+                    if($listass->Materia == $lg->nombreMateria)
+                    {
+                        echo "Opcion Numero: ".$referencia."     ";
+                        echo "lunes: ".$lg->lunes."       ";
+                        echo "martes: ".$lg->martes."       ";
+                        echo "Miercoles: ".$lg->miercoles."       ";
+                        echo "Jueves: ".$lg->jueves."       ";
+                        echo "viernes: ".$lg->viernes."       ";
+                        echo "Sabado: ".$lg->sabado."       ";
+                        echo'<br>';
+                        $referencia ++;
+                    }
+                }   
+            }
+        }   
+    }
 }
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> f6f184d036c586791249391443688c76592d08ad
