@@ -12,6 +12,24 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 //CLASES
 
+class Materias
+{
+    public $Materia;
+    public $valorGrupo;
+    public $valorMateria;
+
+
+    public function __construct($Materia,$valorGrupo,$valorMateria)
+    {
+        $this->Materia = $Materia;
+        $this->valorGrupo = $valorGrupo;
+        $this->valorMateria = $valorMateria;
+        
+    }  
+}
+
+
+
 class Carrera
 {
     //nombre de la carrera
@@ -31,22 +49,43 @@ class Carrera
     }
 }
 
-class Materias
+
+class Hora1
 {
-    public $Materia;
-    public $valorGrupo;
-    public $valorMateria;
+    public $hora;//08-09  
+    public $campo;// Quimica
 
-
-    public function __construct($Materia,$valorGrupo,$valorMateria)
+    public function __construct($hora, array $campo)
     {
-        $this->Materia = $Materia;
-        $this->valorGrupo = $valorGrupo;
-        $this->valorMateria = $valorMateria;
-        
-    }  
+        $this->hora = $hora;
+        $this->campo = $campo;
+    }
 }
 
+class Dia1
+{
+    public $dia;//lunes
+    public $horas = array();
+
+    public function __construct($dia, array $listaHoras = [])
+    {
+        $this->dia = $dia;
+        $this->listaHoras = $listaHoras;
+    }
+}
+
+class Horari1
+{
+
+    public $nomcarrera;//compu
+    public $listadias = array();//Lunes Martes Mircoles
+
+    public function __construct($nomcarrera, array $listadias = [])
+    {
+        $this->nomcarrera = $nomcarrera;
+        $this->listadias = $listadias;
+    }
+}
 
 
 
