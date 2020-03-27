@@ -12,62 +12,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 //CLASES
 
-<<<<<<< HEAD
-class Materias
-{
-    public $Materia;
-    public $valorGrupo;
-    public $valorMateria;
-
-
-    public function __construct($Materia,$valorGrupo,$valorMateria)
-    {
-        $this->Materia = $Materia;
-        $this->valorGrupo = $valorGrupo;
-        $this->valorMateria = $valorMateria;
-        
-    }  
-}
-
-class Hora
-{
-    public $hora;
-    public $campo;
-
-    public function __construct($hora, array $campo)
-    {
-        $this->hora = $hora;
-        $this->campo = $campo;
-    }
-}
-
-class Dia
-{
-    public $dia;
-    public $horas = array();
-
-    public function __construct($dia, array $listaHoras = [])
-    {
-        $this->dia = $dia;
-        $this->listaHoras = $listaHoras;
-    }
-}
-
-class Horari
-{
-
-    public $nomcarrera;
-    public $listadias = array();
-
-    public function __construct($nomcarrera, array $listadias = [])
-    {
-        $this->nomcarrera = $nomcarrera;
-        $this->listadias = $listadias;
-    }
-}
-
-=======
->>>>>>> de27b0a29a2ce66a47c065a651a9e236f4ab32bf
 class Carrera
 {
     //nombre de la carrera
@@ -155,7 +99,6 @@ class HoraClase
 }
 
 
-/*PROPUESTA*/ 
 //En construccion
 class Horas
 {
@@ -254,15 +197,6 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
-            // Generar validaciones de empalmes de horarios de materias absolutas o materia tipo 1
-
-            
-
-
-
-
-
-            //empezamos a crear
             //LISTAS
             //echo "<h1> materias unicas </h1>";
 
@@ -282,14 +216,10 @@ class CarrerasController extends Controller
 
             $listaPrioridad = $this -> OrdenInscripcion($listaFinal);
 
-            
-
             echo '<h2>'."Orden de Inscripcion".'</h2>';
             $this->ImprimeOrden($listaPrioridad,$listaFinal);
 
             $this->AsignaHoras($listaFinal,$listaGrupos);
-
-            
 
             /*foreach($listaPrioridad as $lp)
             {
@@ -699,30 +629,6 @@ class CarrerasController extends Controller
            
         }
         return $listaOrdenCarreras;
-    }
-
-
-    public function llenaHorario($listaFin)
-    {
-        foreach($listaFin as $lf)
-        {
-            echo '<h2>'.$lf->nombreCarrera.'</h2>';
-            foreach($lf->listaMaterias as $listass){
-                echo $listass->Materia;
-                echo '<br>';
-                $referencia = 1;
-                foreach($listaGru as $lg)
-                {
-                    if($listass->Materia == $lg->nombreMateria)
-                    {
-
-                        
-                    }
-                }
-            }
-        }
-
-
     }
 
 
