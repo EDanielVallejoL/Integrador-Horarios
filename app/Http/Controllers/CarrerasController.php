@@ -12,22 +12,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 //CLASES
 
-class Materias
-{
-    public $Materia;
-    public $valorGrupo;
-    public $valorMateria;
-
-
-    public function __construct($Materia,$valorGrupo,$valorMateria)
-    {
-        $this->Materia = $Materia;
-        $this->valorGrupo = $valorGrupo;
-        $this->valorMateria = $valorMateria;
-        
-    }  
-}
-
 class Carrera
 {
     //nombre de la carrera
@@ -46,6 +30,24 @@ class Carrera
         
     }
 }
+
+class Materias
+{
+    public $Materia;
+    public $valorGrupo;
+    public $valorMateria;
+
+
+    public function __construct($Materia,$valorGrupo,$valorMateria)
+    {
+        $this->Materia = $Materia;
+        $this->valorGrupo = $valorGrupo;
+        $this->valorMateria = $valorMateria;
+        
+    }  
+}
+
+
 
 
 class HoraClase
@@ -168,6 +170,7 @@ class CarrerasController extends Controller
 
             //aqui esta lo que buscaba ya esta hechoooooooooooooooo
             //Se optiene la informacion del segundo documento
+            //Toda la informacion del segundo documento HORACLASE
             $listaGrupos = $this->leeHorariosCompletos($name2);
 
             //se obtiene informacion del primer documento pero tambien otros calculados
