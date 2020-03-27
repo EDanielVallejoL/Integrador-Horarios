@@ -45,7 +45,6 @@ class Carrera
     }
 }
 
-
 class HoraClase
 {
     //grupo
@@ -159,6 +158,14 @@ class CarrerasController extends Controller
             $file2 = $request->file('grupos');
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
+
+            // Generar validaciones de empalmes de horarios de materias absolutas o materia tipo 1
+
+            
+
+
+
+
 
             //empezamos a crear
             //echo "<h1> materias unicas </h1>";
