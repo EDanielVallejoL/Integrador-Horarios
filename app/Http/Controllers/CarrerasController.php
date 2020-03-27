@@ -98,13 +98,46 @@ class HoraClase
     }
 }
 
+
+/*PROPUESTA*/ 
 //En construccion
-class Horario
+class Horas
 {
-    //son listas de objetos *Se podria omitirlos ya que tenemos las referencias de valor Grupo*
-    public $listaMateriasAbsolutas= array();
-    public $listaMateriasUnicas = array();
-    public $listaMateriasComunes = array();
+    //aqui se insertara disponible/ocupado dando referencia a la hora
+    public $ocho;
+    public $nueve;
+    public $diez;
+    public $once;
+    public $doce;
+    public $una;
+    public $dos;
+    public $tres;
+    public $cuatro;
+    public $cinco;
+    public $seis;
+    public $siete;
+    public $ochoPM;
+    public $nuevePM;
+}
+
+class Dia
+{
+    //El nombre del dia
+    public $dia;
+    //lista de el objeto hora que debemos verificar para insertar
+    public $listaHoras = array();
+}
+
+class HorarioFinal
+{
+    //necesitamos recorrer al final de la insercion para hacer una valoracion
+    public $HoraInicial;
+    //para ver cuando acaba el horario
+    public $Horafinal;
+    //valoracion
+    public $HorasLibresTotales;
+    //lista de Dias (Se que esta bien puerco pensar en una lista de lista de listas)
+    public $ListaDias = array();
 }
 
 //FIN CLASES
