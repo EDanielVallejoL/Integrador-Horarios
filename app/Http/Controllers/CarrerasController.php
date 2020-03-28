@@ -12,6 +12,59 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 //CLASES
 
+class Materias
+{
+    public $Materia;
+    public $valorGrupo;
+    public $valorMateria;
+
+
+    public function __construct($Materia,$valorGrupo,$valorMateria)
+    {
+        $this->Materia = $Materia;
+        $this->valorGrupo = $valorGrupo;
+        $this->valorMateria = $valorMateria;
+        
+    }  
+}
+
+class Hora1
+{
+    public $hora;//08-09  
+    public $campo;// Quimica
+
+    public function __construct($hora, array $campo)
+    {
+        $this->hora = $hora;
+        $this->campo = $campo;
+    }
+}
+
+class Dia1
+{
+    public $dia;//lunes
+    public $horas = array();
+
+    public function __construct($dia, array $listaHoras = [])
+    {
+        $this->dia = $dia;
+        $this->listaHoras = $listaHoras;
+    }
+}
+
+class Horari1
+{
+
+    public $nomcarrera;//compu
+    public $listadias = array();//Lunes Martes Mircoles
+
+    public function __construct($nomcarrera, array $listadias = [])
+    {
+        $this->nomcarrera = $nomcarrera;
+        $this->listadias = $listadias;
+    }
+}
+
 class Carrera
 {
     //nombre de la carrera
@@ -30,7 +83,7 @@ class Carrera
     }
 }
 
-class Materias
+class Materias1
 {
     public $Materia;
     public $valorGrupo;
@@ -96,13 +149,46 @@ class HoraClase
     }
 }
 
+
+/*PROPUESTA*/ 
 //En construccion
-class Horario
+class Horas
 {
-    //son listas de objetos *Se podria omitirlos ya que tenemos las referencias de valor Grupo*
-    public $listaMateriasAbsolutas = array();
-    public $listaMateriasUnicas = array();
-    public $listaMateriasComunes = array();
+    //aqui se insertara disponible/ocupado dando referencia a la hora
+    public $ocho;
+    public $nueve;
+    public $diez;
+    public $once;
+    public $doce;
+    public $una;
+    public $dos;
+    public $tres;
+    public $cuatro;
+    public $cinco;
+    public $seis;
+    public $siete;
+    public $ochoPM;
+    public $nuevePM;
+}
+
+class Dia
+{
+    //El nombre del dia
+    public $dia;
+    //lista de el objeto hora que debemos verificar para insertar
+    public $listaHoras = array();
+}
+
+class HorarioFinal
+{
+    //necesitamos recorrer al final de la insercion para hacer una valoracion
+    public $HoraInicial;
+    //para ver cuando acaba el horario
+    public $Horafinal;
+    //valoracion
+    public $HorasLibresTotales;
+    //lista de Dias (Se que esta bien puerco pensar en una lista de lista de listas)
+    public $ListaDias = array();
 }
 
 //FIN CLASES
@@ -191,10 +277,14 @@ class CarrerasController extends Controller
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
-            echo '<h2>' . "Orden de Inscripcion" . '</h2>';
-            $this->ImprimeOrden($listaPrioridad, $listaFinal);
+            
+
+            echo '<h2>'."Orden de Inscripcion".'</h2>';
+            $this->ImprimeOrden($listaPrioridad,$listaFinal);
 
             $this->AsignaHoras($listaFinal, $listaGrupos);
+
+            
 
             /*foreach($listaPrioridad as $lp)
             {
@@ -601,7 +691,35 @@ class CarrerasController extends Controller
     }
 
 
+<<<<<<< HEAD
     public function AsignaHoras($listaFin, $listaGru)
+=======
+    public function llenaHorario($listaFin)
+    {
+        foreach($listaFin as $lf)
+        {
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            foreach($lf->listaMaterias as $listass){
+                echo $listass->Materia;
+                echo '<br>';
+                $referencia = 1;
+                foreach($listaGru as $lg)
+                {
+                    if($listass->Materia == $lg->nombreMateria)
+                    {
+
+                        
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
+    public function AsignaHoras($listaFin,$listaGru)
+>>>>>>> 401589a4e6a496370a242ee0f7305bfcb6702cd6
     {
 
         foreach ($listaFin as $lf) {
