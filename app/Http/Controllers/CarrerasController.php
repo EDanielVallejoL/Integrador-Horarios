@@ -50,43 +50,6 @@ class Carrera
 }
 
 
-class Hora1
-{
-    public $hora;//08-09  
-    public $campo;// Quimica
-
-    public function __construct($hora, array $campo)
-    {
-        $this->hora = $hora;
-        $this->campo = $campo;
-    }
-}
-
-class Dia1
-{
-    public $dia;//lunes
-    public $horas = array();
-
-    public function __construct($dia, array $listaHoras = [])
-    {
-        $this->dia = $dia;
-        $this->listaHoras = $listaHoras;
-    }
-}
-
-class Horari1
-{
-
-    public $nomcarrera;//compu
-    public $listadias = array();//Lunes Martes Mircoles
-
-    public function __construct($nomcarrera, array $listadias = [])
-    {
-        $this->nomcarrera = $nomcarrera;
-        $this->listadias = $listadias;
-    }
-}
-
 
 
 class HoraClase
@@ -138,45 +101,45 @@ class HoraClase
 }
 
 
-//En construccion
-class Horas
+class Hora1
 {
-    //aqui se insertara disponible/ocupado dando referencia a la hora
-    public $ocho;
-    public $nueve;
-    public $diez;
-    public $once;
-    public $doce;
-    public $una;
-    public $dos;
-    public $tres;
-    public $cuatro;
-    public $cinco;
-    public $seis;
-    public $siete;
-    public $ochoPM;
-    public $nuevePM;
+    public $hora;//08-09  
+    public $campo;// Quimica
+
+    public function __construct($hora, array $campo)
+    {
+        $this->hora = $hora;
+        $this->campo = $campo;
+    }
 }
 
-class Dia
+class Dia1
 {
-    //El nombre del dia
-    public $dia;
-    //lista de el objeto hora que debemos verificar para insertar
-    public $listaHoras = array();
+    public $dia;//lunes
+    public $horas = array(); //lista de Hora1
+
+    public function __construct($dia, array $listaHoras = [])
+    {
+        $this->dia = $dia;
+        $this->listaHoras = $listaHoras;
+    }
 }
 
-class HorarioFinal
+class Horari1
 {
-    //necesitamos recorrer al final de la insercion para hacer una valoracion
-    public $HoraInicial;
-    //para ver cuando acaba el horario
-    public $Horafinal;
-    //valoracion
-    public $HorasLibresTotales;
-    //lista de Dias (Se que esta bien puerco pensar en una lista de lista de listas)
-    public $ListaDias = array();
+
+    public $nomcarrera;//compu
+    public $listadias = array();//Lunes Martes Mircoles
+
+    public function __construct($nomcarrera, array $listadias = [])
+    {
+        $this->nomcarrera = $nomcarrera;
+        $this->listadias = $listadias;
+    }
 }
+
+
+
 
 //FIN CLASES
 
@@ -582,17 +545,17 @@ class CarrerasController extends Controller
                     //ahi accedemos a cada materia de cada carrera
                     foreach($listaCarreras as $lf2)
                     {
-                            foreach($lf2->listaMaterias as $mg)
+                        foreach($lf2->listaMaterias as $mg)
                         {
-                            //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->Materia;
-                        if($mg->Materia == $listass->Materia)
-                        {
-                                $contadorM = $contadorM + 1;
-                            // echo '   entro'.'<br>';
-                        }else{
-                        // echo '   NO entro'.'<br>';
+                                //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->Materia;
+                            if($mg->Materia == $listass->Materia)
+                            {
+                                    $contadorM = $contadorM + 1;
+                                // echo '   entro'.'<br>';
+                            }else{
+                            // echo '   NO entro'.'<br>';
+                            }
                         }
-                    }
                     }
                     $listass->valorMateria = $contadorM;
                     //echo 'La materia: '.$listass->Materia.'          es de valor Materia: '.$listass->valorMateria;
@@ -698,6 +661,36 @@ class CarrerasController extends Controller
                 }   
             }
         }   
+    }
+
+
+    public function HorariosChidos($listaFin,$listaGru)
+    {
+        $listaMateriasInscritasHora = array();
+
+        //recorremos las carreras
+        foreach($listaFin as $lf)
+        {
+            $nombrecarreraObjeto = $lf->nombreCarrera;
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            $listaMateriasInscritas = array();
+            foreach($lf->listaMaterias as $materiasOrdenadas)
+            {
+                if(count($$listaMateriasInscritas)>0)
+                {
+
+                    //significa que la lista esta vacia
+                    $HoraInscripcion = $materiasOrdenadas->lunes;
+                    $MateriaInscrita = $materiasOrdenadas->nombreMateria;
+                    //creamos el objeto Hora
+                    $HoraInsertada = new Hora1($HoraInscripcion,$MateriaInscrita);
+                    //lo guardamos en la lista guachooooo esta lista ira en el otro objeto cuando este shena
+                    array_push($listaMateriasInscritas,$HoraInsertada);
+                }
+            }
+                       
+        }   
+
     }
 }
 
