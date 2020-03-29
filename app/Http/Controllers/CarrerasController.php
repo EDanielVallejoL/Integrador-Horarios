@@ -362,6 +362,8 @@ class CarrerasController extends Controller
         }
     }
 
+
+    // funcion nueva de ordenamiento
     function sbo($a, $b)
     {
         return $a->valorGrupo - $b->valorGrupo;
@@ -691,9 +693,6 @@ class CarrerasController extends Controller
     }
 
 
-<<<<<<< HEAD
-    public function AsignaHoras($listaFin, $listaGru)
-=======
     public function llenaHorario($listaFin)
     {
         foreach($listaFin as $lf)
@@ -719,7 +718,6 @@ class CarrerasController extends Controller
 
 
     public function AsignaHoras($listaFin,$listaGru)
->>>>>>> 401589a4e6a496370a242ee0f7305bfcb6702cd6
     {
 
         foreach ($listaFin as $lf) {
