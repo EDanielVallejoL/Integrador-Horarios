@@ -28,42 +28,7 @@ class Materias
     }  
 }
 
-class Hora1
-{
-    public $hora;//08-09  
-    public $campo;// Quimica
 
-    public function __construct($hora, array $campo)
-    {
-        $this->hora = $hora;
-        $this->campo = $campo;
-    }
-}
-
-class Dia1
-{
-    public $dia;//lunes
-    public $horas = array();
-
-    public function __construct($dia, array $listaHoras = [])
-    {
-        $this->dia = $dia;
-        $this->listaHoras = $listaHoras;
-    }
-}
-
-class Horari1
-{
-
-    public $nomcarrera;//compu
-    public $listadias = array();//Lunes Martes Mircoles
-
-    public function __construct($nomcarrera, array $listadias = [])
-    {
-        $this->nomcarrera = $nomcarrera;
-        $this->listadias = $listadias;
-    }
-}
 
 class Carrera
 {
@@ -80,21 +45,7 @@ class Carrera
         $this->nombreCarrera = $nombreCarrera;
         $this->listaMaterias = $listaMaterias;
         $this->PromedioCarrera = $PromedioCarrera;
-    }
-}
-
-class Materias1
-{
-    public $Materia;
-    public $valorGrupo;
-    public $valorMateria;
-
-
-    public function __construct($Materia, $valorGrupo, $valorMateria)
-    {
-        $this->Materia = $Materia;
-        $this->valorGrupo = $valorGrupo;
-        $this->valorMateria = $valorMateria;
+        
     }
 }
 
@@ -150,46 +101,45 @@ class HoraClase
 }
 
 
-/*PROPUESTA*/ 
-//En construccion
-class Horas
+class Hora1
 {
-    //aqui se insertara disponible/ocupado dando referencia a la hora
-    public $ocho;
-    public $nueve;
-    public $diez;
-    public $once;
-    public $doce;
-    public $una;
-    public $dos;
-    public $tres;
-    public $cuatro;
-    public $cinco;
-    public $seis;
-    public $siete;
-    public $ochoPM;
-    public $nuevePM;
+    public $hora;//08-09  
+    public $campo;// Quimica
+
+    public function __construct($hora, array $campo)
+    {
+        $this->hora = $hora;
+        $this->campo = $campo;
+    }
 }
 
-class Dia
+class Dia1
 {
-    //El nombre del dia
-    public $dia;
-    //lista de el objeto hora que debemos verificar para insertar
-    public $listaHoras = array();
+    public $dia;//lunes
+    public $horas = array(); //lista de Hora1
+
+    public function __construct($dia, array $listaHoras = [])
+    {
+        $this->dia = $dia;
+        $this->listaHoras = $listaHoras;
+    }
 }
 
-class HorarioFinal
+class Horari1
 {
-    //necesitamos recorrer al final de la insercion para hacer una valoracion
-    public $HoraInicial;
-    //para ver cuando acaba el horario
-    public $Horafinal;
-    //valoracion
-    public $HorasLibresTotales;
-    //lista de Dias (Se que esta bien puerco pensar en una lista de lista de listas)
-    public $ListaDias = array();
+
+    public $nomcarrera;//compu
+    public $listadias = array();//Lunes Martes Mircoles
+
+    public function __construct($nomcarrera, array $listadias = [])
+    {
+        $this->nomcarrera = $nomcarrera;
+        $this->listadias = $listadias;
+    }
 }
+
+
+
 
 //FIN CLASES
 
@@ -212,7 +162,7 @@ class CarrerasController extends Controller
     public function funcion1(string $nombre)
     {
         //
-        $var1 = $nombre; //Recibe el nombre del archivo
+        $var1 = $nombre;//Recibe el nombre del archivo
 
         return response()->json($var1);
     }
@@ -249,15 +199,6 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
-            // Generar validaciones de empalmes de horarios de materias absolutas o materia tipo 1
-
-
-
-
-
-
-
-            //empezamos a crear
             //LISTAS
             //echo "<h1> materias unicas </h1>";
 
@@ -270,27 +211,18 @@ class CarrerasController extends Controller
             $listaFinal = $this->Carreras($name);
 
             //con este se hace recorrido sobre los datos previamente 
-            $this->AsignaValor($listaFinal, $listaGrupos);
+            $this->AsignaValor($listaFinal,$listaGrupos);
 
             //Este solo sirve para imprimir
             $this->Imprime($listaFinal);
 
-            $listaPrioridad = $this->OrdenInscripcion($listaFinal);
-
-            
+            $listaPrioridad = $this -> OrdenInscripcion($listaFinal);
 
             echo '<h2>'."Orden de Inscripcion".'</h2>';
             $this->ImprimeOrden($listaPrioridad,$listaFinal);
 
-            $this->AsignaHoras($listaFinal, $listaGrupos);
+            $this->AsignaHoras($listaFinal,$listaGrupos);
 
-            
-
-            /*foreach($listaPrioridad as $lp)
-            {
-                echo $lp;
-                echo '<br>';
-            }*/
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -339,34 +271,30 @@ class CarrerasController extends Controller
         //
     }
 
-
-
     public function Imprime($listaFinal)
     {
-        foreach ($listaFinal as $lf) {
-            echo '<h2>' . $lf->nombreCarrera . '</h2>';
-
-            // ordenamiento de las materias
-
-            uasort($lf->listaMaterias, array($this, 'sbo'));
-
-
-            foreach ($lf->listaMaterias as $listass) {
-                echo $listass->Materia . '       ';
-                echo 'Valor por Grupo: ' . $listass->valorGrupo . '       ';
-                echo 'Valor por Materia: ' . $listass->valorMateria . '       ';
-                echo '<br>';
+        foreach($listaFinal as $lf)
+        {
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            foreach($lf->listaMaterias as $listass){
+                    echo $listass->Materia.'       '; 
+                    echo 'Valor por Grupo: '.$listass->valorGrupo.'       ';
+                    echo 'Valor por Materia: '.$listass->valorMateria.'       ';     
+                    echo '<br>';
             }
-            echo '<br>';
-            echo 'El promedio de la carrera es: ' . $lf->PromedioCarrera;
+            echo'<br>';
+            echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
+            
         }
-    }
 
+<<<<<<< HEAD
 
     // funcion nueva de ordenamiento
     function sbo($a, $b)
     {
         return $a->valorGrupo - $b->valorGrupo;
+=======
+>>>>>>> adac5f9f8de5295b4fdf2d6f6432ba22f289e3fb
     }
 
     //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO NOS DA TODA LA INFORMACION
@@ -553,7 +481,7 @@ class CarrerasController extends Controller
                                     if ($nombreDeCarrera != $valorRaw) {
 
                                         // CREACION DEL OBJETO
-                                        $carr = new Carrera($nombreDeCarrera, $listaMaterias, "");
+                                        $carr = new Carrera($nombreDeCarrera, $listaMaterias,"");
                                         // Inserta el objeto en el array de materiasPorCarrera
                                         array_push($listaCarreraFinal, $carr);
 
@@ -567,7 +495,7 @@ class CarrerasController extends Controller
 
 
                             if ($valorRaw != "materia") {
-                                $mat = new Materias($valorRaw, "", "");
+                                $mat = new Materias($valorRaw,"","");
                                 array_push($listaMaterias, $mat);
                             }
                         }
@@ -580,67 +508,76 @@ class CarrerasController extends Controller
 
 
     //AQUI SE JUNTAN LAS DOS LISTAS ANTERIORES DE LOS DOS COUMENTOS Y SO OBTIENEN DATOS IMPORTNATES
-    public function AsignaValor($listaCarreras, $listaMateriasGlobal)
+    public function AsignaValor($listaCarreras,$listaMateriasGlobal)
     {
-        $contador = 0;
-        foreach ($listaCarreras as $lf) {
-            //echo '<h2>'.$lf->nombreCarrera.'</h2>';
-            foreach ($lf->listaMaterias as $listass) {
-                //ahi accedemos a cada materia de cada carrera
-                foreach ($listaMateriasGlobal as $mg) {
-                    //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->nombreMateria;
-                    //echo "Se compara ".$mg->nombreMateria."contra:  ".$listass->Materia."  ";
-                    if ($mg->nombreMateria == $listass->Materia) {
-                        //echo "COINCIDEN";
-                        $contador = $contador + 1;
-                        //echo '<br>';
-                    } else {
+            $contador = 0;
+            foreach($listaCarreras as $lf)
+            {
+                //echo '<h2>'.$lf->nombreCarrera.'</h2>';
+                foreach($lf->listaMaterias as $listass){
+                    //ahi accedemos a cada materia de cada carrera
+                    foreach($listaMateriasGlobal as $mg)
+                    {
+                        //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->nombreMateria;
+                        //echo "Se compara ".$mg->nombreMateria."contra:  ".$listass->Materia."  ";
+                       if($mg->nombreMateria == $listass->Materia)
+                       {
+                            //echo "COINCIDEN";
+                            $contador = $contador + 1;
+                            //echo '<br>';
+                       }else{
                         //echo '   NO entro'.'<br>';
+                       }
+                       
                     }
+                    $listass->valorGrupo = $contador;
+                    //echo 'La materia: '.$listass->Materia.'          es de valor: '.$contador;
+                    //echo '<br>';
+                    $contador = 0;
                 }
-                $listass->valorGrupo = $contador;
-                //echo 'La materia: '.$listass->Materia.'          es de valor: '.$contador;
-                //echo '<br>';
-                $contador = 0;
             }
-        }
 
 
-        $contadorM = 0;
-        foreach ($listaCarreras as $lf) {
-            //echo '<h2>'.$lf->nombreCarrera.'</h2>';
-            foreach ($lf->listaMaterias as $listass) {
-                //ahi accedemos a cada materia de cada carrera
-                foreach ($listaCarreras as $lf2) {
-                    foreach ($lf2->listaMaterias as $mg) {
-                        //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->Materia;
-                        if ($mg->Materia == $listass->Materia) {
-                            $contadorM = $contadorM + 1;
-                            // echo '   entro'.'<br>';
-                        } else {
+            $contadorM = 0;
+            foreach($listaCarreras as $lf)
+            {
+                //echo '<h2>'.$lf->nombreCarrera.'</h2>';
+                foreach($lf->listaMaterias as $listass){
+                    //ahi accedemos a cada materia de cada carrera
+                    foreach($listaCarreras as $lf2)
+                    {
+                        foreach($lf2->listaMaterias as $mg)
+                        {
+                                //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->Materia;
+                            if($mg->Materia == $listass->Materia)
+                            {
+                                    $contadorM = $contadorM + 1;
+                                // echo '   entro'.'<br>';
+                            }else{
                             // echo '   NO entro'.'<br>';
+                            }
                         }
                     }
+                    $listass->valorMateria = $contadorM;
+                    //echo 'La materia: '.$listass->Materia.'          es de valor Materia: '.$listass->valorMateria;
+                    //echo '<br>';
+                    $contadorM = 0;
                 }
-                $listass->valorMateria = $contadorM;
-                //echo 'La materia: '.$listass->Materia.'          es de valor Materia: '.$listass->valorMateria;
-                //echo '<br>';
-                $contadorM = 0;
             }
-        }
 
-        $contadorMaterias = 0;
-        $acumulador = 0;
-        foreach ($listaCarreras as $lf) {
-            // echo '<h2>'.$lf->nombreCarrera.'</h2>';
-            foreach ($lf->listaMaterias as $listass) {
+            $contadorMaterias = 0;
+            $acumulador = 0;
+            foreach($listaCarreras as $lf)
+            {
+               // echo '<h2>'.$lf->nombreCarrera.'</h2>';
+                foreach($lf->listaMaterias as $listass){
 
-                $contador = $contador + 1;
-                $acumulador = $acumulador + $listass->valorGrupo;
+                    $contador = $contador + 1;
+                    $acumulador = $acumulador + $listass->valorGrupo;
+                }
+                $numero =  round( $acumulador/$contador, 1, PHP_ROUND_HALF_UP);
+                $lf->PromedioCarrera = $numero;
             }
-            $numero =  round($acumulador / $contador, 1, PHP_ROUND_HALF_UP);
-            $lf->PromedioCarrera = $numero;
-        }
     }
 
     //DEFINIMOS MATEMATICAMENTE QUE CARRERA ES MAS IMPORTANTE DE INSCRIBIR PRIMERO
@@ -649,52 +586,62 @@ class CarrerasController extends Controller
         //ordenamos los promedios
         $listaFinalOrdA = array();
 
+        
+            foreach($listaFinal as $lf)
+            {
+                //echo '<h2>'.$lf->nombreCarrera.'</h2>';
+                //echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
+                $aux = $lf->PromedioCarrera;
+                array_push($listaFinalOrdA,$aux);
+            }
 
-        foreach ($listaFinal as $lf) {
-            //echo '<h2>'.$lf->nombreCarrera.'</h2>';
-            //echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
-            $aux = $lf->PromedioCarrera;
-            array_push($listaFinalOrdA, $aux);
-        }
-
-        sort($listaFinalOrdA);
-        //$listaFinalOrd = arsort($listaFinalOrdA);
-        /*foreach($listaFinalOrdA as $fin)
+            sort($listaFinalOrdA);
+             //$listaFinalOrd = arsort($listaFinalOrdA);
+             /*foreach($listaFinalOrdA as $fin)
              {
                  echo $fin;
                  echo'<br>';
              }*/
-        return $listaFinalOrdA;
+             return $listaFinalOrdA;  
     }
 
 
     //SOLO ES PARA IMPRIMIR EL ORDEN
-    public function ImprimeOrden($listaOrdenada, $lfinal)
+    public function ImprimeOrden($listaOrdenada,$lfinal)
     {
         $listaOrdenCarreras = array();
         $bandera = 0;
         $orden = 1;
-        foreach ($listaOrdenada as $lfa) {
-            foreach ($lfinal as $lfi) {
-                if ($lfa == $lfi->PromedioCarrera); {
-                    echo 'Carrera No: ' . $orden . "     ";
-                    echo $lfi->nombreCarrera . "      ";
-                    echo "   " . $lfi->PromedioCarrera;
-                    $orden++;
-                    array_push($listaOrdenCarreras, $lfi->nombreCarrera);
-                    echo '<br>';
-                }
+        foreach($listaOrdenada as $lfa)
+        {
+            foreach($lfinal as $lfi)
+            {
+                    if($lfa == $lfi->PromedioCarrera);
+                    {
+                        echo 'Carrera No: '.$orden."     ";
+                        echo $lfi->nombreCarrera."      ";
+                        echo "   ".$lfi->PromedioCarrera;
+                        $orden ++;
+                        array_push($listaOrdenCarreras,$lfi->nombreCarrera);
+                        echo '<br>';
+                    }            
             }
             //$bandera = $bandera + 1;
             //echo '<h2>'.$bandera.'</h2>';
             break;
+           
         }
         return $listaOrdenCarreras;
     }
 
 
+<<<<<<< HEAD
     public function llenaHorario($listaFin)
+=======
+    public function AsignaHoras($listaFin,$listaGru)
+>>>>>>> adac5f9f8de5295b4fdf2d6f6432ba22f289e3fb
     {
+        
         foreach($listaFin as $lf)
         {
             echo '<h2>'.$lf->nombreCarrera.'</h2>';
@@ -706,40 +653,91 @@ class CarrerasController extends Controller
                 {
                     if($listass->Materia == $lg->nombreMateria)
                     {
-
-                        
+                        echo "Opcion Numero: ".$referencia."     ";
+                        echo "lunes: ".$lg->lunes."       ";
+                        echo "martes: ".$lg->martes."       ";
+                        echo "Miercoles: ".$lg->miercoles."       ";
+                        echo "Jueves: ".$lg->jueves."       ";
+                        echo "viernes: ".$lg->viernes."       ";
+                        echo "Sabado: ".$lg->sabado."       ";
+                        echo'<br>';
+                        $referencia ++;
                     }
-                }
+                }   
             }
-        }
-
-
+        }   
     }
 
 
+<<<<<<< HEAD
     public function AsignaHoras($listaFin,$listaGru)
+=======
+    public function HorariosChidos($listaFin,$listaGru)
+>>>>>>> adac5f9f8de5295b4fdf2d6f6432ba22f289e3fb
     {
+        //lista de materias que se usara para insrtar en el objeto
+        $listaMateriasInscritasHora = array();
 
-        foreach ($listaFin as $lf) {
-            echo '<h2>' . $lf->nombreCarrera . '</h2>';
-            foreach ($lf->listaMaterias as $listass) {
-                echo $listass->Materia;
-                echo '<br>';
-                $referencia = 1;
-                foreach ($listaGru as $lg) {
-                    if ($listass->Materia == $lg->nombreMateria) {
-                        echo "Opcion Numero: " . $referencia . "     ";
-                        echo "lunes: " . $lg->lunes . "       ";
-                        echo "martes: " . $lg->martes . "       ";
-                        echo "Miercoles: " . $lg->miercoles . "       ";
-                        echo "Jueves: " . $lg->jueves . "       ";
-                        echo "viernes: " . $lg->viernes . "       ";
-                        echo "Sabado: " . $lg->sabado . "       ";
-                        echo '<br>';
-                        $referencia++;
+        //recorremos las carreras
+        foreach($listaFin as $lf)
+        {
+            //obtenemos el nombre de la carrera
+            $nombrecarreraObjeto = $lf->nombreCarrera;
+
+            echo '<h2>'.$lf->nombreCarrera.'</h2>';
+            $listaMateriasInscritas = array();
+            $listaNombres = array();
+            $listaHoras = array();
+            foreach($lf->listaMaterias as $materiasOrdenadas)
+            {
+                if(count($listaMateriasInscritas)>0)
+                {
+
+                    //significa que la lista esta vacia
+                    $HoraInscripcion = $materiasOrdenadas->lunes;
+                    array_push($listaHoras,$HoraInscripcion);
+                    $MateriaInscrita = $materiasOrdenadas->nombreMateria;
+                    array_push($listaNombres,$MateriaInscrita);
+                    //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
+                    $HoraInsertada = new Hora1($HoraInscripcion,$MateriaInscrita);
+                    //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
+                    array_push($listaMateriasInscritas,$HoraInsertada);
+                    //ya no hace falta buscar en esta materia
+                    
+                }else
+                {
+                    if (in_array($materiasOrdenadas->nombreMateria, $listaNombres)) 
+                    {   // si la materia ya se inserto no hace falta seguir buscando
+                        //echo "Existe Irix";
                     }
+                    else
+                    {
+                        //debemos revisar que la hora este disponible
+                        if (in_array($materiasOrdenadas->lunes, $listaHoras)) 
+                        {   // Si la hora ya esta registrada en la lista significa que esta ocupada
+                            //entonces debemos seguir buscando en la lista
+                        }
+                        else
+                        {
+                            //debemos revisar que la hora este disponible
+                             //significa que la lista esta vacia
+                            $HoraInscripcion = $materiasOrdenadas->lunes;
+                            array_push($listaHoras,$HoraInscripcion);
+                            $MateriaInscrita = $materiasOrdenadas->nombreMateria;
+                            array_push($listaNombres,$MateriaInscrita);
+                            //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
+                            $HoraInsertada = new Hora1($HoraInscripcion,$MateriaInscrita);
+                            //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
+                            array_push($listaMateriasInscritas,$HoraInsertada);      
+                        }                     
+                    }                
                 }
             }
-        }
+                       
+        }   
+
     }
 }
+
+
+
