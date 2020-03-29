@@ -686,6 +686,7 @@ class CarrerasController extends Controller
                     $HoraInsertada = new Hora1($HoraInscripcion,$MateriaInscrita);
                     //lo guardamos en la lista guachooooo esta lista ira en el otro objeto cuando este shena
                     array_push($listaMateriasInscritas,$HoraInsertada);
+                    ////lmmklmñ . .
                 }
             }
                        
