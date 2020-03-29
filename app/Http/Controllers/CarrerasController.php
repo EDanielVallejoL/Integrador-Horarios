@@ -223,13 +223,6 @@ class CarrerasController extends Controller
 
             $this->AsignaHoras($listaFinal,$listaGrupos);
 
-            /*foreach($listaPrioridad as $lp)
-            {
-                echo $lp;
-                echo '<br>';
-            }*/
-            
-
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -672,21 +665,49 @@ class CarrerasController extends Controller
         foreach($listaFin as $lf)
         {
             $nombrecarreraObjeto = $lf->nombreCarrera;
+
             echo '<h2>'.$lf->nombreCarrera.'</h2>';
             $listaMateriasInscritas = array();
+            $listaNombres = array();
             foreach($lf->listaMaterias as $materiasOrdenadas)
             {
-                if(count($$listaMateriasInscritas)>0)
+                if(count($listaMateriasInscritas)>0)
                 {
 
                     //significa que la lista esta vacia
                     $HoraInscripcion = $materiasOrdenadas->lunes;
                     $MateriaInscrita = $materiasOrdenadas->nombreMateria;
+                    array_push($listaNombres,$MateriaInscrita);
                     //creamos el objeto Hora
                     $HoraInsertada = new Hora1($HoraInscripcion,$MateriaInscrita);
                     //lo guardamos en la lista guachooooo esta lista ira en el otro objeto cuando este shena
                     array_push($listaMateriasInscritas,$HoraInsertada);
-                    ////lmmklmñ . .
+                    //ya no hace falta buscar en esta materia
+                    
+                }else
+                {
+                    if (in_array($materiasOrdenadas->nombreMateria, $listaNombres)) 
+                    {   // si la materia ya se inserto no hace falta seguir buscando
+                        echo "Existe Irix";
+                    }else{
+                        //debemos revisar que la hora este disponible
+                        if (in_array($materiasOrdenadas->lunes, $listaMateriasInscritas)) 
+                        {   
+                            //si existe debe seguir solamente en el foreach
+                        }else{
+                            //obtenemos la hora de la materia
+                            $HoraInscripcion = $materiasOrdenadas->lunes;
+                            //obtenemos el nombre de la materia
+                            $MateriaInscrita = $materiasOrdenadas->nombreMateria;
+                            //insertamos el nombre de la materia en una lista para verificar que no se repitan
+                            array_push($listaNombres,$MateriaInscrita);
+                            //creamos el objeto Hora
+                            $HoraInsertada = new Hora1($HoraInscripcion,$MateriaInscrita);
+                            //lo guardamos en la lista guachooooo esta lista ira en el otro objeto cuando este shena
+                            array_push($listaMateriasInscritas,$HoraInsertada);
+                        }
+                    }
+                    
                 }
             }
                        
