@@ -286,15 +286,12 @@ class CarrerasController extends Controller
             echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
             
         }
-
-<<<<<<< HEAD
-
+    
+    }
     // funcion nueva de ordenamiento
     function sbo($a, $b)
     {
         return $a->valorGrupo - $b->valorGrupo;
-=======
->>>>>>> adac5f9f8de5295b4fdf2d6f6432ba22f289e3fb
     }
 
     //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO NOS DA TODA LA INFORMACION
@@ -634,12 +631,8 @@ class CarrerasController extends Controller
         return $listaOrdenCarreras;
     }
 
-
-<<<<<<< HEAD
-    public function llenaHorario($listaFin)
-=======
+    
     public function AsignaHoras($listaFin,$listaGru)
->>>>>>> adac5f9f8de5295b4fdf2d6f6432ba22f289e3fb
     {
         
         foreach($listaFin as $lf)
@@ -669,11 +662,7 @@ class CarrerasController extends Controller
     }
 
 
-<<<<<<< HEAD
-    public function AsignaHoras($listaFin,$listaGru)
-=======
     public function HorariosChidos($listaFin,$listaGru)
->>>>>>> adac5f9f8de5295b4fdf2d6f6432ba22f289e3fb
     {
         //lista de materias que se usara para insrtar en el objeto
         $listaMateriasInscritasHora = array();
