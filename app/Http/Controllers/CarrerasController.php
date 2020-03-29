@@ -730,6 +730,7 @@ class CarrerasController extends Controller
                                     array_push($listaMateriasInscritas,$HoraInsertada);
                                     echo "La materia: ".$MateriaInscrita." Se inserto a la hora: ".$HoraInscripcion; 
                                     echo'<br>';    
+                                    //asdasd
                                 break;
                                 }                     
                             }                
