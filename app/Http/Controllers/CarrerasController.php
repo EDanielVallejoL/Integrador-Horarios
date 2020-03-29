@@ -669,11 +669,11 @@ class CarrerasController extends Controller
                     //se compara que si cumpla el nombre referencia con la lista de materias
                     if ($materiasOrdenadas->Materia == $lg->nombreMateria) {
                         //revisa el tamaño de la lista de materias 
-                        if (count($listaMateriasInscritas) > 0) {
+                        if (count($listaMateriasInscritas) < 0) {
 
                             //significa que la lista esta vacia
                             $HoraInscripcion = $lg->lunes;
-                            array_push($listaHoras, $HoraInscripcion);
+                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2) );
                             $MateriaInscrita = $materiasOrdenadas->Materia;
                             array_push($listaNombres, $MateriaInscrita);
                             //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
@@ -681,7 +681,7 @@ class CarrerasController extends Controller
                             //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                             array_push($listaMateriasInscritas, $HoraInsertada);
                             //ya no hace falta buscar en esta materia
-                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . $HoraInscripcion;
+                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2) ;
                             echo '<br>';
                             break;
                         } else {
@@ -690,20 +690,20 @@ class CarrerasController extends Controller
                                 //echo "Existe Irix";
                             } else {
                                 //debemos revisar que la hora este disponible
-                                if (in_array($lg->lunes, $listaHoras)) {   // Si la hora ya esta registrada en la lista significa que esta ocupada
+                                if (in_array( substr($lg->lunes, 0, 2) ,$listaHoras )) {   // Si la hora ya esta registrada en la lista significa que esta ocupada
                                     //entonces debemos seguir buscando en la lista
                                 } else {
                                     //debemos revisar que la hora este disponible
                                     //significa que la lista esta vacia
                                     $HoraInscripcion = $lg->lunes;
-                                    array_push($listaHoras, $HoraInscripcion);
+                                    array_push($listaHoras, substr($HoraInscripcion, 0, 2));
                                     $MateriaInscrita = $materiasOrdenadas->Materia;
                                     array_push($listaNombres, $MateriaInscrita);
                                     //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                     $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita);
                                     //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                     array_push($listaMateriasInscritas, $HoraInsertada);
-                                    echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . $HoraInscripcion;
+                                    echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
                                     echo '<br>';
                                     //asdasd
                                     break;
