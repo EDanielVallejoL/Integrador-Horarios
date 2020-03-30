@@ -219,7 +219,7 @@ class CarrerasController extends Controller
             echo '<h2>' . "Orden de Inscripcion" . '</h2>';
             $this->ImprimeOrden($listaPrioridad, $listaFinal);
 
-            $this->AsignaHoras($listaFinal, $listaGrupos);
+           // $this->AsignaHoras($listaFinal, $listaGrupos);
 
             $this->HorariosChidos($listaFinal, $listaGrupos);
         } else {
@@ -663,17 +663,25 @@ class CarrerasController extends Controller
             $listaHoras = array();
 
             //Recorrido de materias (la ordenacion por numero de grupos)
+            // ordenamiento de las materias
+
+            //baro
+            uasort($lf->listaMaterias, array($this, 'sbo'));
+
             foreach ($lf->listaMaterias as $materiasOrdenadas) {
 
                 foreach ($listaGru as $lg) {
+                    //Lista de dias que se lleva la materia
+                    $listaDiasMateria = array();
                     //se compara que si cumpla el nombre referencia con la lista de materias
                     if ($materiasOrdenadas->Materia == $lg->nombreMateria) {
                         //revisa el tamaño de la lista de materias 
                         if (count($listaMateriasInscritas) < 0) {
 
                             //significa que la lista esta vacia
-                            $HoraInscripcion = $lg->lunes;
-                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2) );//Solo insertamos la hora de inicio
+                            $HoraInscripcion = $lg->horas; //08
+                            //cambios miguel
+                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2)); //08
                             $MateriaInscrita = $materiasOrdenadas->Materia;
                             array_push($listaNombres, $MateriaInscrita);
                             //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
@@ -681,8 +689,9 @@ class CarrerasController extends Controller
                             //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                             array_push($listaMateriasInscritas, $HoraInsertada);
                             //ya no hace falta buscar en esta materia
-                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2) ;
+                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
                             echo '<br>';
+                            unset($listaDiasMateria);
                             break;
                         } else {
                             $nnombre = $materiasOrdenadas->Materia;
@@ -690,13 +699,17 @@ class CarrerasController extends Controller
                                 //echo "Existe Irix";
                             } else {
                                 //debemos revisar que la hora este disponible
-                                if (in_array( substr($lg->lunes, 0, 2) ,$listaHoras )) {   // Si la hora ya esta registrada en la lista significa que esta ocupada
+                                //chear que no se repitan las horas
+                                //PENDIENTEEE
+                               
+                                
+                                if (in_array(substr($lg->horas, 0, 2), $listaHoras)){ // Si la hora ya esta registrada en la lista significa que esta ocupada
                                     //entonces debemos seguir buscando en la lista
                                 } else {
                                     //debemos revisar que la hora este disponible
                                     //significa que la lista esta vacia
-                                    $HoraInscripcion = $lg->lunes;
-                                    array_push($listaHoras, substr($HoraInscripcion, 0, 2));
+                                    $HoraInscripcion = $lg->horas;
+                                    array_push($listaHoras,   substr($HoraInscripcion, 0, 2));
                                     $MateriaInscrita = $materiasOrdenadas->Materia;
                                     array_push($listaNombres, $MateriaInscrita);
                                     //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
@@ -705,7 +718,6 @@ class CarrerasController extends Controller
                                     array_push($listaMateriasInscritas, $HoraInsertada);
                                     echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
                                     echo '<br>';
-                                    //asdasd
                                     break;
                                 }
                             }
