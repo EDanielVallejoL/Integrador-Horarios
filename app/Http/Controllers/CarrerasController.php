@@ -219,7 +219,7 @@ class CarrerasController extends Controller
             echo '<h2>' . "Orden de Inscripcion" . '</h2>';
             $this->ImprimeOrden($listaPrioridad, $listaFinal);
 
-            $this->AsignaHoras($listaFinal, $listaGrupos);
+           // $this->AsignaHoras($listaFinal, $listaGrupos);
 
             $this->HorariosChidos($listaFinal, $listaGrupos);
         } else {
@@ -666,13 +666,15 @@ class CarrerasController extends Controller
             foreach ($lf->listaMaterias as $materiasOrdenadas) {
 
                 foreach ($listaGru as $lg) {
+                    //Lista de dias que se lleva la materia
+                    $listaDiasMateria = array();
                     //se compara que si cumpla el nombre referencia con la lista de materias
                     if ($materiasOrdenadas->Materia == $lg->nombreMateria) {
                         //revisa el tamaño de la lista de materias 
                         if (count($listaMateriasInscritas) > 0) {
-
+                         
                             //significa que la lista esta vacia
-                            $HoraInscripcion = $lg->lunes;
+                            $HoraInscripcion = $lg->horas;
                             array_push($listaHoras, $HoraInscripcion);
                             $MateriaInscrita = $materiasOrdenadas->Materia;
                             array_push($listaNombres, $MateriaInscrita);
@@ -683,6 +685,7 @@ class CarrerasController extends Controller
                             //ya no hace falta buscar en esta materia
                             echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . $HoraInscripcion;
                             echo '<br>';
+                            unset($listaDiasMateria);
                             break;
                         } else {
                             $nnombre = $materiasOrdenadas->Materia;
@@ -695,7 +698,7 @@ class CarrerasController extends Controller
                                 } else {
                                     //debemos revisar que la hora este disponible
                                     //significa que la lista esta vacia
-                                    $HoraInscripcion = $lg->lunes;
+                                    $HoraInscripcion = $lg->horas;
                                     array_push($listaHoras, $HoraInscripcion);
                                     $MateriaInscrita = $materiasOrdenadas->Materia;
                                     array_push($listaNombres, $MateriaInscrita);
