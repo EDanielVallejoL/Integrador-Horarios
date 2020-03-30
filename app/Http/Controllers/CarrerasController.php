@@ -673,7 +673,7 @@ class CarrerasController extends Controller
 
                             //significa que la lista esta vacia
                             $HoraInscripcion = $lg->lunes;
-                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2) );
+                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2) );//Solo insertamos la hora de inicio
                             $MateriaInscrita = $materiasOrdenadas->Materia;
                             array_push($listaNombres, $MateriaInscrita);
                             //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
