@@ -663,6 +663,9 @@ class CarrerasController extends Controller
             $listaHoras = array();
 
             //Recorrido de materias (la ordenacion por numero de grupos)
+            // ordenamiento de las materias
+
+            uasort($lf->listaMaterias, array($this, 'sbo'));
             foreach ($lf->listaMaterias as $materiasOrdenadas) {
 
                 foreach ($listaGru as $lg) {
@@ -673,7 +676,7 @@ class CarrerasController extends Controller
 
                             //significa que la lista esta vacia
                             $HoraInscripcion = $lg->lunes;
-                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2) );
+                            array_push($listaHoras,   substr($HoraInscripcion, 0, 2));
                             $MateriaInscrita = $materiasOrdenadas->Materia;
                             array_push($listaNombres, $MateriaInscrita);
                             //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
@@ -681,7 +684,7 @@ class CarrerasController extends Controller
                             //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                             array_push($listaMateriasInscritas, $HoraInsertada);
                             //ya no hace falta buscar en esta materia
-                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2) ;
+                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
                             echo '<br>';
                             break;
                         } else {
@@ -690,7 +693,7 @@ class CarrerasController extends Controller
                                 //echo "Existe Irix";
                             } else {
                                 //debemos revisar que la hora este disponible
-                                if (in_array( substr($lg->lunes, 0, 2) ,$listaHoras )) {   // Si la hora ya esta registrada en la lista significa que esta ocupada
+                                if (in_array(substr($lg->lunes, 0, 2), $listaHoras)) {   // Si la hora ya esta registrada en la lista significa que esta ocupada
                                     //entonces debemos seguir buscando en la lista
                                 } else {
                                     //debemos revisar que la hora este disponible
