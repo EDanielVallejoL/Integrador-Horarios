@@ -186,6 +186,8 @@ class CarrerasController extends Controller
     public function store(Request $request)
     {
 
+        $listaHorariosFinal = array();
+
 
         if ($request->hasfile('excel') || $request->hasfile('grupos')) {
 
@@ -223,7 +225,9 @@ class CarrerasController extends Controller
 
             // $this->AsignaHoras($listaFinal, $listaGrupos);
 
-            $this->HorariosChidos($listaFinal, $listaGrupos);
+            //ListaHorarios final ya tiene TODA la informacion de los horarios
+            //carrera, materia y hora de inscripcion
+           $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos);
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -908,7 +912,6 @@ class CarrerasController extends Controller
         }
 
         //lo usare para revisar la lista
-
-       
+        return $listaMateriasInscritasHora;
     }
 }
