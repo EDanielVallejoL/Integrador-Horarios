@@ -978,7 +978,7 @@ class CarrerasController extends Controller
 
 
             }
-            
+            // QUE;
                        
         }  
     }
