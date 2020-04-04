@@ -949,6 +949,7 @@ class CarrerasController extends Controller
 
                 echo $otro->carr." ";
                 echo '<br>';
+                ////asdasdadasdasdasdasdasd
 
                 if($aux == $r)
                 {
