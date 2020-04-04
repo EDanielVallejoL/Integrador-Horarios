@@ -220,8 +220,8 @@ class CarrerasController extends Controller
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
-            echo '<h2>' . "Orden de Inscripcion" . '</h2>';
-            $this->ImprimeOrden($listaPrioridad, $listaFinal);
+            //echo '<h2>' . "Orden de Inscripcion" . '</h2>';
+            //$this->ImprimeOrden($listaPrioridad, $listaFinal);
 
 
 
