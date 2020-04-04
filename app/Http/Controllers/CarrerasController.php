@@ -223,11 +223,18 @@ class CarrerasController extends Controller
             echo '<h2>' . "Orden de Inscripcion" . '</h2>';
             $this->ImprimeOrden($listaPrioridad, $listaFinal);
 
+
+
             // $this->AsignaHoras($listaFinal, $listaGrupos);
 
             //ListaHorarios final ya tiene TODA la informacion de los horarios
             //carrera, materia y hora de inscripcion
            $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos);
+
+           $this->ValorHorarios($listaHorariosFinal);
+
+
+
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -913,5 +920,60 @@ class CarrerasController extends Controller
 
         //lo usare para revisar la lista
         return $listaMateriasInscritasHora;
+    }
+
+
+    public function ValorHorarios($listaHorarios)
+    {
+        foreach($listaHorarios as $lli)
+        {
+            echo "Horario Numero:".$lli->numeroHorario;
+            echo '<br>';
+            echo '<br>';
+            sort($lli->listaDia);
+            $aux = 1;
+            foreach($lli->listaDia as $otro)
+            {
+                $r = count($lli->listaDia);
+                if($aux == 1)
+                {
+                    $PimeraHora = $otro->hora;
+                    $Paris = substr($PimeraHora, 0, 2);
+                    echo "Hora Entrada :".$Paris;
+                    echo '<br>';
+                }
+
+                echo $otro->hora." ";
+
+                echo $otro->campo." ";
+
+                echo $otro->carr." ";
+                echo '<br>';
+
+                if($aux == $r)
+                {
+                    $ultimaHora = $otro->hora;
+                    $berlin = substr($ultimaHora, 3, 2);
+                    echo "Hora Salido :".$berlin;
+                    echo '<br>';
+                    echo "Total de clases: ".$r;
+                    echo '<br>';
+                    $numerouno = intval($berlin);
+                    $numerodos = intval($Paris);
+                    $resultado = $numerouno-$numerodos;
+                    echo "Horas en la universidad: ".$resultado;
+                    echo '<br>';
+                    $Palermo = intval($r);
+                    $horasLibres = $resultado - $Palermo;
+                    echo "Las horas libres en este horario son de: ".$horasLibres;
+                    echo '<br>';
+                }
+                $aux = $aux + 1;
+
+
+            }
+            
+                       
+        }  
     }
 }
