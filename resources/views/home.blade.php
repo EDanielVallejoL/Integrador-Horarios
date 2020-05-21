@@ -14,6 +14,12 @@
 
       <label for="">Archivo horarios</label>
       <input type="file" name="grupos">
+
+      <label for="">Cupo carrera</label>
+      <input type="file" name="cupoCarrera">
+
+      <label for="">Asignación</label>
+      <input type="file" name="asignacion">
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>
