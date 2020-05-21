@@ -141,6 +141,23 @@ class HorarioFinal
 }
 
 
+class Alumno
+{
+    public $ClaveAlumno;
+    public $NombreAlumno;
+    public $CalificacionAlumno;
+    public $CarreraAlumno; 
+
+    public function __construct($ClaveAlumno,$NombreAlumno,$CalificacionAlumno,$CarreraAlumno)
+    {
+        $this->$ClaveAlumno = $ClaveAlumno;
+        $this->$NombreAlumno = $NombreAlumno;
+        $this->$CalificacionAlumno = $CalificacionAlumno;
+        $this->$CarreraAlumno = $CarreraAlumno;
+    }
+}
+
+
 
 
 //FIN CLASES
@@ -193,6 +210,9 @@ class CarrerasController extends Controller
 
         if ($request->hasfile('excel') || $request->hasfile('grupos')) {
 
+
+            //ARCHIVOS EXCEL
+
             //Primer archivo MPN
             $file = $request->file('excel');
             $name = $file->getClientOriginalName();
@@ -223,6 +243,8 @@ class CarrerasController extends Controller
 
             //se obtiene informacion del primer documento pero tambien otros calculados
             $listaFinal = $this->Carreras($name);
+
+            $listaAsignacionAlumnos = $this->DocumentoAlumnos($name3);
 
             //con este se hace recorrido sobre los datos previamente 
             $this->AsignaValor($listaFinal, $listaGrupos);
@@ -358,8 +380,6 @@ class CarrerasController extends Controller
 
                 # El valor, así como está en el documento
                 $valorRaw = $celdaPrueba->getValue();
-
-
                 # Fila, que comienza en 1, luego 2 y así...
                 $fila = $celdaPrueba->getRow();
                 # Columna, que es la A, B, C y así...
@@ -955,5 +975,70 @@ class CarrerasController extends Controller
             // QUE;
 
         }
+    }
+
+
+
+        //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO NOS DA TODA LA INFORMACION
+    public function DocumentoAlumnos($nombreArchivo)
+    {
+        $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
+        $documento = IOFactory::load($rutaArchivo);
+
+        # obtenemos la primera celda para la validacion del archivo CPM
+        $coordenadas = "A1";
+        $hojaActual = $documento->getSheet(0);
+        $celda = $hojaActual->getCell($coordenadas);
+        $valorRaw = $celda->getValue();
+
+
+        // Sin comillas para objetos
+        $listaGrupos = array();
+
+        //Recorrido de celdas
+        foreach ($hojaActual->getRowIterator() as $fila) {
+            foreach ($fila->getCellIterator() as $celdaPrueba) {
+
+                # El valor, así como está en el documento
+                $valorRaw = $celdaPrueba->getValue();
+                # Fila, que comienza en 1, luego 2 y así...
+                $fila = $celdaPrueba->getRow();
+                # Columna, que es la A, B, C y así...
+                $columna = $celdaPrueba->getColumn();
+
+                $ClaveAlumno = "";
+                $NombreAlumno = "";
+                $CalificacionAlumno = "";
+                $CarreraAlumno = "";
+
+                if($valorRaw != "")
+                {
+                    if ($columna == "A") {
+                        if ($valorRaw != "Clave") {
+                            $ClaveAlumno = $valorRaw;
+                        }
+                    }
+                    if ($columna == "B") {
+                        if ($valorRaw != "Nombre_Alumno") {
+                            $NombreAlumno = $valorRaw;
+                        }
+                    }
+                    if ($columna == "C") {
+                        if ($valorRaw != "Calificacion") {
+                            $CalificacionAlumno = $valorRaw;
+                        }
+                    }
+                    if ($columna == "D") {
+                        if ($valorRaw != "Carrera") {
+                            $CarreraAlumno = $valorRaw;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        //regresamos una lista qcon la informacion que queremos
+        return $listaGrupos;
     }
 }
