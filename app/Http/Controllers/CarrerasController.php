@@ -1187,8 +1187,6 @@ class CarrerasController extends Controller
         
         foreach($listaAsignacionHorarios as $lah)
         {
-<<<<<<< HEAD
-            
                     echo "Clave: ".$lah->ClaveAlumno." ";
                     echo "Alumno: ".$lah->NombreAlumno." ";
                     echo "Calificacion: ".$lah->CalificacionAlumno." ";
@@ -1197,7 +1195,6 @@ class CarrerasController extends Controller
                     echo '<br>';
 =======
             //print_r($lah);
->>>>>>> bba378c6b4c626f8c174959f0cb5d14e7fb6b00e
         }
     }
 }
