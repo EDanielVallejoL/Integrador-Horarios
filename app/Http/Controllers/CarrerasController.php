@@ -1167,15 +1167,16 @@ class CarrerasController extends Controller
     //MIGUEL21
     public function imprimeAsignacion($listaAsignacionHorarios)
     {
+        
         foreach($listaAsignacionHorarios as $lah)
         {
-            echo "Clave: ".$lah->ClaveAlumno." ";
-            echo "Alumno: ".$lah->NombreAlumno." ";
-            echo "Calificacion: ".$lah->CalificacionAlumno." ";
-            echo "Carrera: ".$lah->CarreraAlumno." ";
-            echo "Alumno: ".$lah->NumeroHorarioAsignado." ";
-            echo '<br>';
-
+            
+                    echo "Clave: ".$lah->ClaveAlumno." ";
+                    echo "Alumno: ".$lah->NombreAlumno." ";
+                    echo "Calificacion: ".$lah->CalificacionAlumno." ";
+                    echo "Carrera: ".$lah->CarreraAlumno." ";
+                    echo "Alumno: ".$lah->NumeroHorarioAsignado." ";
+                    echo '<br>';
         }
     }
 }
