@@ -148,13 +148,25 @@ class Alumno
 
     public function __construct($ClaveAlumno,$NombreAlumno,$CalificacionAlumno,$CarreraAlumno)
     {
-        $this->$ClaveAlumno = $ClaveAlumno;
-        $this->$NombreAlumno = $NombreAlumno;
-        $this->$CalificacionAlumno = $CalificacionAlumno;
-        $this->$CarreraAlumno = $CarreraAlumno;
+        $this->ClaveAlumno = $ClaveAlumno;
+        $this->NombreAlumno = $NombreAlumno;
+        $this->CalificacionAlumno = $CalificacionAlumno;
+        $this->CarreraAlumno = $CarreraAlumno;
     }
 }
 
+class ClasificacionAlumnos
+{
+    
+    public $Carrera; //compu
+    public $listaAlumnos = array(); //Lunes Martes Mircoles
+
+    public function __construct($Carrera, array $listaAlumnos = [])
+    {
+        $this->Carrera = $numeroHorario;
+        $this->listaAlumnos = $listaAlumnos;
+    }
+}
 
 
 
@@ -221,15 +233,15 @@ class CarrerasController extends Controller
             $name2 = $file2->getClientOriginalName();
             $file2->move(\public_path() . '/archivos', $name2);
 
-            // Segundo archivo "cupoCarrera"
+            // tercer archivo "cupoCarrera"
             $file3 = $request->file('cupoCarrera');
             $name3 = $file3->getClientOriginalName();
             $file3->move(\public_path() . '/archivos', $name3);
 
-            // Segundo archivo "asignacion"
-            $file4 = $request->file('asignacion');
+            // cuarto archivo "asignacion"
+           /* $file4 = $request->file('asignacion');
             $name4 = $file4->getClientOriginalName();
-            $file4->move(\public_path() . '/archivos', $name4);
+            $file4->move(\public_path() . '/archivos', $name4);*/
 
             //LISTAS
             //echo "<h1> materias unicas </h1>";
@@ -242,6 +254,7 @@ class CarrerasController extends Controller
             //se obtiene informacion del primer documento pero tambien otros calculados
             $listaFinal = $this->Carreras($name);
 
+            //TERCER DOCUMENTO EXCEL
             $listaAsignacionAlumnos = $this->DocumentoAlumnos($name3);
 
             //con este se hace recorrido sobre los datos previamente 
@@ -266,7 +279,13 @@ class CarrerasController extends Controller
             //// IMPRIMER ESTO MAS TARDE ----->
             //$this->ValorHorarios($listaHorariosFinal);
 
+            $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos);
+
+
+            //regresamos la vista
             return view('pages/Horarios/opcionesHorarios')->with('listaChida', $listaHorariosFinal);
+
+
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
         }
@@ -706,7 +725,7 @@ class CarrerasController extends Controller
                     // ordenamiento de las materias
 
                     //baro
-                    uasort($lf->listaMaterias, array($this, 'sbo'));
+                    uasort($lf->listaMaterias, array($this,'sbo'));
 
 
 
@@ -949,7 +968,6 @@ class CarrerasController extends Controller
 
                 echo $otro->carr . " ";
                 echo '<br>';
-                ////asdasdadasdasdasdasdasd
 
                 if ($aux == $r) {
                     $ultimaHora = $otro->hora;
@@ -1006,29 +1024,40 @@ class CarrerasController extends Controller
 
                 $ClaveAlumno = "";
                 $NombreAlumno = "";
-                $CalificacionAlumno = "";
+                $CalificacionAlumno = 0;
                 $CarreraAlumno = "";
+
+                $listaAlumnos = array("");
+                
 
                 if($valorRaw != "")
                 {
                     if ($columna == "A") {
                         if ($valorRaw != "Clave") {
                             $ClaveAlumno = $valorRaw;
+                            echo $ClaveAlumno;
+                            strval($ClaveAlumno);
                         }
                     }
                     if ($columna == "B") {
                         if ($valorRaw != "Nombre_Alumno") {
                             $NombreAlumno = $valorRaw;
+                            echo $NombreAlumno;
                         }
                     }
                     if ($columna == "C") {
-                        if ($valorRaw != "Calificacion") {
+                        if ($valorRaw != "calif") {
                             $CalificacionAlumno = $valorRaw;
+                            echo $CalificacionAlumno;
                         }
                     }
                     if ($columna == "D") {
                         if ($valorRaw != "Carrera") {
                             $CarreraAlumno = $valorRaw;
+                            echo $CarreraAlumno;
+                            echo '<br>';
+                            $ObjetoAlumno = new Alumno($ClaveAlumno,$NombreAlumno,$CalificacionAlumno,$CarreraAlumno);
+                            array_push($listaAlumnos,$ObjetoAlumno);
                         }
                     }
                 }
@@ -1036,7 +1065,44 @@ class CarrerasController extends Controller
         }
 
 
+
         //regresamos una lista qcon la informacion que queremos
-        return $listaGrupos;
+        return $listaAlumnos;
+    }
+
+    public function AsigaHorarios($listaHorarios,$listaAlumnosFinal,$listaFinal)
+    {
+        //listaHorarios nos dara (Numero de horario, carrera, ...)
+        //listaAlumnos nos dara (clave,nombre,calificacion, carrera)
+        //listaFinal ->Solo la usare para recorrer por carrera 
+
+        //Este nos ayudara a saber cuantos alumnos ya tienen horario y sera nuestro margen de cambio
+        $numeroHorariosRepartidos = 0;
+
+
+        foreach($listaFinal as $lf)
+        {
+            foreach($listaAlumnosFinal as $laf)
+            {
+                if($lf->nombreCarrera == $laf->CarreraAlumno)
+                {
+                    //revisamos cuantos horarios se han repartido
+                    if($numeroHorariosRepartidos < 21)
+                    {
+                        //osea que si 20 alumnos ya se inscribieron en el mismo horario es hora de pasar a la siguiente opcion de horario bloque 
+                        //aqui se le asignaria a una nueva clase o algo asi
+                        $numeroHorariosRepartidos = $numeroHorariosRepartidos + 1;
+                    }
+                }
+            }
+        }
+
+
+        //print_r($listaHorarios);
+        foreach($listaHorarios as $lh)
+        {
+            echo $lh->numeroHorario;
+            echo $lh->listaDia[0]->carr;
+        }
     }
 }
