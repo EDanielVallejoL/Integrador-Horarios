@@ -1072,15 +1072,39 @@ class CarrerasController extends Controller
         return $listaAlumnos;
     }
 
-    public function AsigaHorarios($listaHorarios,$listaAlumnosFinal)
+    public function AsigaHorarios($listaHorarios,$listaAlumnosFinal,$listaFinal)
     {
+        //listaHorarios nos dara (Numero de horario, carrera, ...)
+        //listaAlumnos nos dara (clave,nombre,calificacion, carrera)
+        //listaFinal ->Solo la usare para recorrer por carrera 
+
+        //Este nos ayudara a saber cuantos alumnos ya tienen horario y sera nuestro margen de cambio
+        $numeroHorariosRepartidos = 0;
+
+
+        foreach($listaFinal as $lf)
+        {
+            foreach($listaAlumnosFinal as $laf)
+            {
+                if($lf->nombreCarrera == $laf->CarreraAlumno)
+                {
+                    //revisamos cuantos horarios se han repartido
+                    if($numeroHorariosRepartidos < 21)
+                    {
+                        //osea que si 20 alumnos ya se inscribieron en el mismo horario es hora de pasar a la siguiente opcion de horario bloque 
+                        //aqui se le asignaria a una nueva clase o algo asi
+                        $numeroHorariosRepartidos = $numeroHorariosRepartidos + 1;
+                    }
+                }
+            }
+        }
+
+
         //print_r($listaHorarios);
         foreach($listaHorarios as $lh)
         {
-           foreach($lh as $rec)
-           {
-               
-           }
+            echo $lh->numeroHorario;
+            echo $lh->listaDia[0]->carr;
         }
     }
 }
