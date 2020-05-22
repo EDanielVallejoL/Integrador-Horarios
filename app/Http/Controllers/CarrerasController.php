@@ -169,6 +169,25 @@ class ClasificacionAlumnos
 }
 
 
+class AlumnoInscrito
+{
+    public $ClaveAlumno;
+    public $NombreAlumno;
+    public $CalificacionAlumno;
+    public $CarreraAlumno;
+    public $NumeroHorarioAsignado; 
+
+    public function __construct($ClaveAlumno,$NombreAlumno,$CalificacionAlumno,$CarreraAlumno,$NumeroHorarioAsignado)
+    {
+        $this->ClaveAlumno = $ClaveAlumno;
+        $this->NombreAlumno = $NombreAlumno;
+        $this->CalificacionAlumno = $CalificacionAlumno;
+        $this->CarreraAlumno = $CarreraAlumno;
+        $this->NumeroHorarioAsignado;
+    }
+}
+
+
 
 //FIN CLASES
 
@@ -279,7 +298,11 @@ class CarrerasController extends Controller
             //// IMPRIMER ESTO MAS TARDE ----->
             //$this->ValorHorarios($listaHorariosFinal);
 
-            $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos);
+            $listaAlumnosInscritos =  $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos,$listaFinal);
+            //$this->recorreLista($listaAsignacionAlumnos);
+
+            $this->imprimeAsignacion($listaAlumnosInscritos);
+
 
 
             //regresamos la vista
@@ -713,7 +736,7 @@ class CarrerasController extends Controller
             //obtenemos el nombre de la carrera
             $nombrecarreraObjeto = $lf->nombreCarrera;
 
-            for ($i = 0; $i <= 2; $i++) {
+            for ($i = 0; $i <= 4; $i++) {
                 if ($i < 1) {
                     //echo 'entro una vez al ciclo';
                     //echo '<h2>' . $lf->nombreCarrera . '</h2>';
@@ -1007,9 +1030,14 @@ class CarrerasController extends Controller
         $celda = $hojaActual->getCell($coordenadas);
         $valorRaw = $celda->getValue();
 
+        $ClaveAlumno = "";
+        $NombreAlumno = "";
+        $CalificacionAlumno = 0;
+        $CarreraAlumno = "";
+
 
         // Sin comillas para objetos
-        $listaGrupos = array();
+        $listaAlumnos = array();
 
         //Recorrido de celdas
         foreach ($hojaActual->getRowIterator() as $fila) {
@@ -1022,12 +1050,7 @@ class CarrerasController extends Controller
                 # Columna, que es la A, B, C y así...
                 $columna = $celdaPrueba->getColumn();
 
-                $ClaveAlumno = "";
-                $NombreAlumno = "";
-                $CalificacionAlumno = 0;
-                $CarreraAlumno = "";
 
-                $listaAlumnos = array("");
                 
 
                 if($valorRaw != "")
@@ -1035,27 +1058,27 @@ class CarrerasController extends Controller
                     if ($columna == "A") {
                         if ($valorRaw != "Clave") {
                             $ClaveAlumno = $valorRaw;
-                            echo $ClaveAlumno;
-                            strval($ClaveAlumno);
+                            //echo $ClaveAlumno;
+                            //strval($ClaveAlumno);
                         }
                     }
                     if ($columna == "B") {
                         if ($valorRaw != "Nombre_Alumno") {
                             $NombreAlumno = $valorRaw;
-                            echo $NombreAlumno;
+                            //echo $NombreAlumno;
                         }
                     }
                     if ($columna == "C") {
                         if ($valorRaw != "calif") {
                             $CalificacionAlumno = $valorRaw;
-                            echo $CalificacionAlumno;
+                            //echo $CalificacionAlumno;
                         }
                     }
                     if ($columna == "D") {
                         if ($valorRaw != "Carrera") {
                             $CarreraAlumno = $valorRaw;
-                            echo $CarreraAlumno;
-                            echo '<br>';
+                           // echo $CarreraAlumno;
+                            //echo '<br>';
                             $ObjetoAlumno = new Alumno($ClaveAlumno,$NombreAlumno,$CalificacionAlumno,$CarreraAlumno);
                             array_push($listaAlumnos,$ObjetoAlumno);
                         }
@@ -1070,6 +1093,15 @@ class CarrerasController extends Controller
         return $listaAlumnos;
     }
 
+
+    public function recorreLista($listaAlumnos)
+    {
+        foreach($listaAlumnos as $la)
+        {
+           echo $la->ClaveAlumno;
+        }
+    }
+
     public function AsigaHorarios($listaHorarios,$listaAlumnosFinal,$listaFinal)
     {
         //listaHorarios nos dara (Numero de horario, carrera, ...)
@@ -1077,7 +1109,14 @@ class CarrerasController extends Controller
         //listaFinal ->Solo la usare para recorrer por carrera 
 
         //Este nos ayudara a saber cuantos alumnos ya tienen horario y sera nuestro margen de cambio
-        $numeroHorariosRepartidos = 0;
+        $numeroHorariosRepartidos = 1;
+
+        $numeroHorarioActual = 1;
+
+        $numeroTotaldeHorarios = 0;
+
+        //lista de alumnos inscritos
+        $listaAlumnosIn = array("");
 
 
         foreach($listaFinal as $lf)
@@ -1087,22 +1126,56 @@ class CarrerasController extends Controller
                 if($lf->nombreCarrera == $laf->CarreraAlumno)
                 {
                     //revisamos cuantos horarios se han repartido
-                    if($numeroHorariosRepartidos < 21)
+                    if($numeroHorariosRepartidos < 26)
                     {
                         //osea que si 20 alumnos ya se inscribieron en el mismo horario es hora de pasar a la siguiente opcion de horario bloque 
                         //aqui se le asignaria a una nueva clase o algo asi
+
+                        //Este foreach solo es para saber cuantos horarios tiene cada carrera 
+                        foreach($listaHorarios as $lh)
+                        { 
+                            if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
+                            {
+                                $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                            }
+                        }
+
+                        //se asigna $numeroHorarioActual a algo
+                        //Se le suma a numeroHorariosRepartidos
+                        $Cve = $laf->ClaveAlumno;
+                        $Nom = $laf->NombreAlumno;
+                        $Cal = $laf->CalificacionAlumno;
+                        $Car = $laf->CarreraAlumno;
+                        $AsignacionCompletada = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                        //MIGUEL21
+                        array_push($listaAlumnosIn,$AsignacionCompletada);
                         $numeroHorariosRepartidos = $numeroHorariosRepartidos + 1;
+
+
+                    }else{
+                        //aqui cambias de horario al siguiente
+                        $numeroHorarioActual = $numeroHorarioActual + 1;
+                        //reinicias la cuenta 
+                        $numeroHorariosRepartidos = 0;
                     }
                 }
             }
         }
+        return $listaAlumnosIn;
+    }
 
-
-        //print_r($listaHorarios);
-        foreach($listaHorarios as $lh)
+    //MIGUEL21
+    public function imprimeAsignacion($listaAsignacionHorarios)
+    {
+        foreach($listaAsignacionHorarios as $lah)
         {
-            echo $lh->numeroHorario;
-            echo $lh->listaDia[0]->carr;
+            echo "Clave: ".$lah->ClaveAlumno." ";
+            echo "Alumno: ".$lah->NombreAlumno." ";
+            echo "Calificacion: ".$lah->CalificacionAlumno." ";
+            echo "Carrera: ".$lah->CarreraAlumno." ";
+            echo "Alumno: ".$lah->NumeroHorarioAsignado." ";
+            echo '<br>';
+
         }
     }
 }
