@@ -183,7 +183,7 @@ class AlumnoInscrito
         $this->NombreAlumno = $NombreAlumno;
         $this->CalificacionAlumno = $CalificacionAlumno;
         $this->CarreraAlumno = $CarreraAlumno;
-        $this->NumeroHorarioAsignado;
+        $this->NumeroHorarioAsignado = $NumeroHorarioAsignado;
     }
 }
 
@@ -1109,25 +1109,42 @@ class CarrerasController extends Controller
         //listaFinal ->Solo la usare para recorrer por carrera 
 
         //Este nos ayudara a saber cuantos alumnos ya tienen horario y sera nuestro margen de cambio
-        $numeroHorariosRepartidos = 1;
+        $numeroHorariosRepartidos = 0;
 
         $numeroHorarioActual = 1;
 
         $numeroTotaldeHorarios = 0;
 
+        $ciclo = 1;
+
         //lista de alumnos inscritos
         $listaAlumnosIn = array("");
+
+        foreach($listaAlumnosFinal as $l)
+        {
+            if($ciclo == 1)
+            {
+                $AuxCarrera = $l->CarreraAlumno;
+                $ciclo = $ciclo + 1;
+            break;
+            }
+        }
 
 
         foreach($listaFinal as $lf)
         {
+            $numeroHorarioActual = 1;
+            $numeroHorariosRepartidos = 0;
             foreach($listaAlumnosFinal as $laf)
             {
                 if($lf->nombreCarrera == $laf->CarreraAlumno)
                 {
+                   // echo '<h3>Carrera: </h3>'.$lf->nombreCarrera;
                     //revisamos cuantos horarios se han repartido
-                    if($numeroHorariosRepartidos < 26)
+                    if($numeroHorariosRepartidos < 3)
                     {
+            
+                    
                         //osea que si 20 alumnos ya se inscribieron en el mismo horario es hora de pasar a la siguiente opcion de horario bloque 
                         //aqui se le asignaria a una nueva clase o algo asi
 
@@ -1147,11 +1164,11 @@ class CarrerasController extends Controller
                         $Cal = $laf->CalificacionAlumno;
                         $Car = $laf->CarreraAlumno;
                         $AsignacionCompletada = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                        echo 'Se asigno el Horario No. '.$numeroHorarioActual.'a el alumno/a'.$Nom.'De la carrera: '.$Car;
+                        echo '<br>';
                         //MIGUEL21
                         array_push($listaAlumnosIn,$AsignacionCompletada);
                         $numeroHorariosRepartidos = $numeroHorariosRepartidos + 1;
-
-
                     }else{
                         //aqui cambias de horario al siguiente
                         $numeroHorarioActual = $numeroHorarioActual + 1;
@@ -1170,6 +1187,7 @@ class CarrerasController extends Controller
         
         foreach($listaAsignacionHorarios as $lah)
         {
+<<<<<<< HEAD
             
                     echo "Clave: ".$lah->ClaveAlumno." ";
                     echo "Alumno: ".$lah->NombreAlumno." ";
@@ -1177,6 +1195,9 @@ class CarrerasController extends Controller
                     echo "Carrera: ".$lah->CarreraAlumno." ";
                     echo "Alumno: ".$lah->NumeroHorarioAsignado." ";
                     echo '<br>';
+=======
+            //print_r($lah);
+>>>>>>> bba378c6b4c626f8c174959f0cb5d14e7fb6b00e
         }
     }
 }
