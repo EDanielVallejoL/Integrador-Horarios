@@ -104,12 +104,14 @@ class Hora1
     public $hora; //08-09  
     public $campo; // Quimica
     public $carr;
+    public $dias;
 
-    public function __construct($hora, $campo, $carr)
+    public function __construct($hora, $campo, $carr,$dias)
     {
         $this->hora = $hora;
         $this->campo = $campo;
         $this->carr = $carr;
+        $this->dias = $dias;
     }
 }
 
@@ -154,20 +156,6 @@ class Alumno
         $this->CarreraAlumno = $CarreraAlumno;
     }
 }
-
-class ClasificacionAlumnos
-{
-    
-    public $Carrera; //compu
-    public $listaAlumnos = array(); //Lunes Martes Mircoles
-
-    public function __construct($Carrera, array $listaAlumnos = [])
-    {
-        $this->Carrera = $numeroHorario;
-        $this->listaAlumnos = $listaAlumnos;
-    }
-}
-
 
 class AlumnoInscrito
 {
@@ -284,8 +272,8 @@ class CarrerasController extends Controller
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
-            echo '<h2>' . "Orden de Inscripcion" . '</h2>';
-            $this->ImprimeOrden($listaPrioridad, $listaFinal);
+            //echo '<h2>' . "Orden de Inscripcion" . '</h2>';
+            //$this->ImprimeOrden($listaPrioridad, $listaFinal);
 
 
 
@@ -301,7 +289,7 @@ class CarrerasController extends Controller
             $listaAlumnosInscritos =  $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos,$listaFinal);
             //$this->recorreLista($listaAsignacionAlumnos);
 
-            $this->imprimeAsignacion($listaAlumnosInscritos);
+            //$this->imprimeAsignacion($listaAlumnosInscritos);
 
 
 
@@ -735,8 +723,11 @@ class CarrerasController extends Controller
         foreach ($listaFin as $lf) {
             //obtenemos el nombre de la carrera
             $nombrecarreraObjeto = $lf->nombreCarrera;
-
-            for ($i = 0; $i <= 4; $i++) {
+            //echo  '<h4>'.$lf->nombreCarrera.'</h4>';
+            //echo '<br>';
+            for ($i = 0; $i <= 3; $i++) {
+                $ccc = $i+1;
+               // echo '<h3>Opcion Numero'.$ccc.'</h3>';
                 if ($i < 1) {
                     //echo 'entro una vez al ciclo';
                     //echo '<h2>' . $lf->nombreCarrera . '</h2>';
@@ -749,7 +740,6 @@ class CarrerasController extends Controller
 
                     //baro
                     uasort($lf->listaMaterias, array($this,'sbo'));
-
 
 
                     foreach ($lf->listaMaterias as $materiasOrdenadas) {
@@ -773,12 +763,14 @@ class CarrerasController extends Controller
                                         array_push($listaNombres, $MateriaInscrita);
                                         //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                         $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias);
+                                        
                                         //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                         array_push($listaMateriasInscritas, $HoraInsertada);
+                                        sort($listaMateriasInscritas);
                                         //ya no hace falta buscar en esta materia
-                                        echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
-                                        echo '<br>';
-                                        unset($listaDiasMateria);
+                                    //echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
+                                      //  echo '<br>';
+                                        //unset($listaDiasMateria);
                                         break;
                                     } else {
                                         $nnombre = $materiasOrdenadas->Materia;
@@ -800,6 +792,7 @@ class CarrerasController extends Controller
                                                 $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias);
                                                 //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                 array_push($listaMateriasInscritas, $HoraInsertada);
+                                                sort($listaMateriasInscritas);
                                                 // echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2.) . " los dias: " . $lg->dias;
                                                 //echo '<br>';
                                                 break;
@@ -881,9 +874,10 @@ class CarrerasController extends Controller
                                             $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias);
                                             //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                             array_push($listaMateriasInscritas, $HoraInsertada);
+                                            sort($listaMateriasInscritas);
                                             //ya no hace falta buscar en esta materia
-                                            echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
-                                            echo '<br>';
+                                            //echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
+                                            //echo '<br>';
                                             unset($listaDiasMateria);
                                             break;
                                         }
@@ -945,8 +939,9 @@ class CarrerasController extends Controller
                                                     $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias);
                                                     //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                     array_push($listaMateriasInscritas, $HoraInsertada);
-                                                    echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2.) . " los dias: " . $lg->dias;
-                                                    echo '<br>';
+                                                    sort($listaMateriasInscritas);
+                                                   // echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2.) . " los dias: " . $lg->dias;
+                                                    //echo '<br>';
                                                     $banderaIndicador = 0;
                                                     break;
                                                 }
@@ -958,6 +953,41 @@ class CarrerasController extends Controller
                         }
                     }
                 }
+
+                $auxlistas = array();
+
+                $auxdias = array();
+
+                $listaAMandar = array("");
+
+                $diasAux = "";
+
+                foreach($listaMateriasInscritas as $lismat)
+                {
+                    $numeroAux = $lismat->hora;
+                    $diasAux = $lismat->dias;
+                    //$diasAux = $lismat->dias;
+                    //print_r($lismat);
+                    array_push($auxdias,$diasAux);
+                    array_push($auxlistas,   substr($numeroAux, 0, 2)); 
+                }
+
+                foreach($auxlistas as $al)
+                {
+                    foreach($listaMateriasInscritas as $lmi)
+                    {
+                        $horaAux =  substr($lmi->hora, 0, 2);
+                        if($al == $horaAux)
+                        {
+                           // echo 'La materia: '.$lmi->campo.' Inscrita a: '.$lmi->hora.' de la carrera: '.$lmi->carr.' Los dias: '.$lmi->dias;
+                           // echo '<br>';
+                            $HoraInsertada = new Hora1($lmi->hora, $lmi->campo, $lmi->carr,$lmi->dias);
+                            array_push($listaAMandar,$HoraInsertada);
+                            $referencia = 1;                        
+                        }
+                    }
+                }
+
                 $HF = new HorarioFinal($i, $listaMateriasInscritas);
                 array_push($listaMateriasInscritasHora, $HF);
             }
@@ -1164,8 +1194,8 @@ class CarrerasController extends Controller
                         $Cal = $laf->CalificacionAlumno;
                         $Car = $laf->CarreraAlumno;
                         $AsignacionCompletada = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
-                        echo 'Se asigno el Horario No. '.$numeroHorarioActual.'a el alumno/a'.$Nom.'De la carrera: '.$Car;
-                        echo '<br>';
+                        //echo 'Se asigno el Horario No. '.$numeroHorarioActual.'a el alumno/a'.$Nom.'De la carrera: '.$Car;
+                        //echo '<br>';
                         //MIGUEL21
                         array_push($listaAlumnosIn,$AsignacionCompletada);
                         $numeroHorariosRepartidos = $numeroHorariosRepartidos + 1;
@@ -1185,12 +1215,12 @@ class CarrerasController extends Controller
     public function imprimeAsignacion($listaAsignacionHorarios)
     {   
         for ($i = 1; $i < sizeof($listaAsignacionHorarios); $i++) {       
-            echo "Clave: ".$listaAsignacionHorarios[$i]->ClaveAlumno." ";
-            echo "Alumno: ".$listaAsignacionHorarios[$i]->NombreAlumno." ";
-            echo "Calificacion: ".$listaAsignacionHorarios[$i]->CalificacionAlumno." ";
-            echo "Carrera: ".$listaAsignacionHorarios[$i]->CarreraAlumno." ";
-            echo "Alumno: ".$listaAsignacionHorarios[$i]->NumeroHorarioAsignado." ";
-            echo '<br>';
+            //echo "Clave: ".$listaAsignacionHorarios[$i]->ClaveAlumno." ";
+            //echo "Alumno: ".$listaAsignacionHorarios[$i]->NombreAlumno." ";
+            //echo "Calificacion: ".$listaAsignacionHorarios[$i]->CalificacionAlumno." ";
+            //echo "Carrera: ".$listaAsignacionHorarios[$i]->CarreraAlumno." ";
+            //echo "Horario Asignado: ".$listaAsignacionHorarios[$i]->NumeroHorarioAsignado." ";
+            //echo '<br>';
         }
 
        
