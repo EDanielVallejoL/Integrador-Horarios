@@ -302,6 +302,7 @@ class CarrerasController extends Controller
             //$this->recorreLista($listaAsignacionAlumnos);
 
             $this->imprimeAsignacion($listaAlumnosInscritos);
+            $this->organizaEstudiantes($listaAlumnosInscritos);
 
 
 
@@ -1185,6 +1186,32 @@ class CarrerasController extends Controller
     public function imprimeAsignacion($listaAsignacionHorarios)
     {   
         for ($i = 1; $i < sizeof($listaAsignacionHorarios); $i++) {       
+            echo "Clave: ".$listaAsignacionHorarios[$i]->ClaveAlumno." ";
+            echo "Alumno: ".$listaAsignacionHorarios[$i]->NombreAlumno." ";
+            echo "Calificacion: ".$listaAsignacionHorarios[$i]->CalificacionAlumno." ";
+            echo "Carrera: ".$listaAsignacionHorarios[$i]->CarreraAlumno." ";
+            echo "Alumno: ".$listaAsignacionHorarios[$i]->NumeroHorarioAsignado." ";
+            echo '<br>';
+        }
+
+       
+    }
+
+    public function organizaEstudiantes($listaAsignacionHorarios)
+    {   
+        echo "otrooooo";
+        echo "otrooooo";
+        echo "otrooooo";
+
+        var_export($listaAsignacionHorarios);
+        echo "otrooooo";
+        echo "otrooooo";
+        echo "otrooooo";
+        $valu = 10;
+        uasort($listaAsignacionHorarios,$valu);
+        for ($i = 1; $i < sizeof($listaAsignacionHorarios); $i++) {  
+            
+            arsort($listaAsignacionHorario[$i] );
             echo "Clave: ".$listaAsignacionHorarios[$i]->ClaveAlumno." ";
             echo "Alumno: ".$listaAsignacionHorarios[$i]->NombreAlumno." ";
             echo "Calificacion: ".$listaAsignacionHorarios[$i]->CalificacionAlumno." ";
