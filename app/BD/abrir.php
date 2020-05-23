@@ -3,7 +3,7 @@
 	$host="127.0.0.1";
 	$usuario="root";
 	$pass="";
-	$database="horarios";
+	$database="comosea";
 
 	
 	$conexion = mysqli_connect($host, $usuario, $pass, $database);
