@@ -285,12 +285,12 @@ class CarrerasController extends Controller
 
             //// IMPRIMER ESTO MAS TARDE ----->
             //$this->ValorHorarios($listaHorariosFinal);
-
+            $listaAsignacionAlumnos = $this->ordenachingon($listaAsignacionAlumnos);
+            //$this->imprimeAsignacion($listaAsignacionAlumnos);
             $listaAlumnosInscritos =  $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos,$listaFinal);
             //$this->recorreLista($listaAsignacionAlumnos);
 
-            $this->imprimeAsignacion($listaAlumnosInscritos);
-            $this->organizaEstudiantes($listaAlumnosInscritos);
+            //$this->imprimeAsignacion($listaAlumnosInscritos);
 
 
 
@@ -1151,7 +1151,7 @@ class CarrerasController extends Controller
         $ciclo = 1;
 
         //lista de alumnos inscritos
-        $listaAlumnosIn = array("");
+        $listaAlumnosIn = array();
 
         foreach($listaAlumnosFinal as $l)
         {
@@ -1174,7 +1174,7 @@ class CarrerasController extends Controller
                 {
                    // echo '<h3>Carrera: </h3>'.$lf->nombreCarrera;
                     //revisamos cuantos horarios se han repartido
-                    if($numeroHorariosRepartidos < 3)
+                    if($numeroHorariosRepartidos < 2)
                     {
             
                     
@@ -1203,6 +1203,29 @@ class CarrerasController extends Controller
                         array_push($listaAlumnosIn,$AsignacionCompletada);
                         $numeroHorariosRepartidos = $numeroHorariosRepartidos + 1;
                     }else{
+                        //osea que si 20 alumnos ya se inscribieron en el mismo horario es hora de pasar a la siguiente opcion de horario bloque 
+                        //aqui se le asignaria a una nueva clase o algo asi
+
+                        //Este foreach solo es para saber cuantos horarios tiene cada carrera 
+                        foreach($listaHorarios as $lh)
+                        { 
+                            if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
+                            {
+                                $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                            }
+                        }
+
+                        //se asigna $numeroHorarioActual a algo
+                        //Se le suma a numeroHorariosRepartidos
+                        $Cve = $laf->ClaveAlumno;
+                        $Nom = $laf->NombreAlumno;
+                        $Cal = $laf->CalificacionAlumno;
+                        $Car = $laf->CarreraAlumno;
+                        $AsignacionCompletada = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                        //echo 'Se asigno el Horario No. '.$numeroHorarioActual.'a el alumno/a'.$Nom.'De la carrera: '.$Car;
+                        //echo '<br>';
+                        //MIGUEL21
+                        array_push($listaAlumnosIn,$AsignacionCompletada);
                         //aqui cambias de horario al siguiente
                         $numeroHorarioActual = $numeroHorarioActual + 1;
                         //reinicias la cuenta 
@@ -1217,48 +1240,34 @@ class CarrerasController extends Controller
     //MIGUEL21
     public function imprimeAsignacion($listaAsignacionHorarios)
     {   
-        for ($i = 1; $i < sizeof($listaAsignacionHorarios); $i++) {       
-            //echo "Clave: ".$listaAsignacionHorarios[$i]->ClaveAlumno." ";
-            //echo "Alumno: ".$listaAsignacionHorarios[$i]->NombreAlumno." ";
-            //echo "Calificacion: ".$listaAsignacionHorarios[$i]->CalificacionAlumno." ";
-            //echo "Carrera: ".$listaAsignacionHorarios[$i]->CarreraAlumno." ";
-            //echo "Horario Asignado: ".$listaAsignacionHorarios[$i]->NumeroHorarioAsignado." ";
-            //echo '<br>';
-        }       
+
+        foreach ($listaAsignacionHorarios as $key => $val) {
+            
+            echo "Clave: ".$val->ClaveAlumno." ";
+            echo "Alumno: ".$val->NombreAlumno." ";
+            echo "Calificacion: ".$val->CalificacionAlumno." ";
+            echo "Carrera: ".$val->CarreraAlumno." ";
+            echo "Alumno: ".$val->NumeroHorarioAsignado." ";
+            echo '<br>';
+            
+        }      
     }
 
-    public function organizaEstudiantes($listaAsignacionHorarios)
+    public function ordenachingon($listaAsignacionHorarios)// ordena arreglos bidimensionales
     {  
+        $aucx = $listaAsignacionHorarios;;
 
-        $aucx = $listaAsignacionHorarios;
-        foreach ($aucx as $key => $val) {
-            //print_r($key->Cve);
-            print_r($val);
-        }
-        
-
-        /* 
-        echo "otrooooo";
-        echo "otrooooo";
-        echo "otrooooo";
-
-        var_export($listaAsignacionHorarios);
-        echo "otrooooo";
-        echo "otrooooo";
-        echo "otrooooo";
-        $valu = 10;
-        uasort($listaAsignacionHorarios,$valu);
-        for ($i = 1; $i < sizeof($listaAsignacionHorarios); $i++) {  
-            
-            arsort($listaAsignacionHorario[$i] );
-            echo "Clave: ".$listaAsignacionHorarios[$i]->ClaveAlumno." ";
-            echo "Alumno: ".$listaAsignacionHorarios[$i]->NombreAlumno." ";
-            echo "Calificacion: ".$listaAsignacionHorarios[$i]->CalificacionAlumno." ";
-            echo "Carrera: ".$listaAsignacionHorarios[$i]->CarreraAlumno." ";
-            echo "Alumno: ".$listaAsignacionHorarios[$i]->NumeroHorarioAsignado." ";
-            echo '<br>';
+        // Obtener una lista de columnas
+        foreach ($aucx as $clave => $fila) {
+            $carrera[$clave] = $fila->CarreraAlumno;
+            $calificacion[$clave] = $fila->CalificacionAlumno;
         }
 
-       */
+        // Ordenar los datos con calificacion descendiente, y por carreras iguales
+        // Agregar $datos como el último parámetro, para ordenar por la clave común
+        array_multisort( $carrera, SORT_STRING,$calificacion, SORT_DESC, $aucx);
+
+        return $aucx;//Regresa una lista ordenada
+
     }
 }
