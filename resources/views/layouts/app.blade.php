@@ -47,9 +47,9 @@
 
 <body>
 
-    <div class="container">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm" id="NavBarIndex">
-            <a class="navbar-brand" href="{{ route('home') }}">
+    <div class="container ">
+        <nav class="navbar navbar-expand-md shadow-sm " id="NavBarIndex">
+            <a class="navbar-brand text-white" href="{{ route('home') }}">
                 BlockTime
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -72,24 +72,24 @@
                     @endif
                     @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('plantilla') }}">{{ __('Plantilla') }}</a>
+                        <a class="nav-link text-white" href="{{ route('plantilla') }}">{{ __('Plantilla') }}</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('horarios') }}">{{ __('Horarios') }}</a>
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="{{ route('horarios') }}">{{ __('Horarios') }}</a>
                     </li>
 
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('alumnos') }}">{{ __('Alumnos') }}</a>
+                        <a class="nav-link text-white" href="{{ route('alumnos') }}">{{ __('Alumnos') }}</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                        <div class="dropdown-menu dropdown-menu-right " aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item " href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Salir') }}
                             </a>
