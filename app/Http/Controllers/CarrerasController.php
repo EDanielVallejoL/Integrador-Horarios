@@ -276,7 +276,8 @@ class CarrerasController extends Controller
             //$this->ImprimeOrden($listaPrioridad, $listaFinal);
 
 
-
+            $axc =$this->ObtenAlumnosxCarrera($listaAsignacionAlumnos);
+            $this->CalculaNumeroHbloques($axc,$listaGrupos);
             //$this->AsignaHoras($listaFinal, $listaGrupos);
 
             //ListaHorarios final ya tiene TODA la informacion de los horarios
@@ -1408,4 +1409,42 @@ class CarrerasController extends Controller
         return $aucx;//Regresa una lista ordenada
 
     }
+
+    public function ObtenAlumnosxCarrera($listaAsignacionAlumnos)
+    {
+        $cantidadAlumnos = array();
+        // Obtener una lista de carreras
+        foreach ($listaAsignacionAlumnos as $clave => $fila) {
+            $carrera[$clave] = $fila->CarreraAlumno;
+        }
+        $carrera = array_unique($carrera);//filtramos para que no se repitan
+
+        foreach($carrera as $c)
+        {
+            $cont = 0;
+            foreach($listaAsignacionAlumnos as $clave => $fila) {
+
+                if($c ==$fila->CarreraAlumno)
+                {
+
+                    $cont = $cont+1;
+                }
+            }
+            $cantidadAlumnos[$c]=$cont;
+        }
+        
+        return $cantidadAlumnos;
+    }
+
+    public function CalculaNumeroHbloques($axc,$listaGrupos)//axc = alumnos aceptados por carrera
+    {
+        
+        foreach($listaGrupos  as $clave => $fila)
+        {
+            //print_r($fila->cupo);
+            //echo '<br>';
+        }
+
+    }
+    
 }
