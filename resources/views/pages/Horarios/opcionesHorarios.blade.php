@@ -31,8 +31,6 @@
                     <tr>
                         <td>' , $lista->listaDia[$i]->hora ,  '</td>
 
-
-
                         <td>';
                         if(substr($lista->listaDia[$i]->dias , 0, 1) == 'L')
                         {
