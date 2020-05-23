@@ -277,7 +277,7 @@ class CarrerasController extends Controller
 
 
             $axc =$this->ObtenAlumnosxCarrera($listaAsignacionAlumnos);
-            $this->CalculaNumeroHbloques($axc,$listaGrupos);
+            $this->CalculaNumeroHbloques($axc,$listaGrupos,$listaFinal);
             //$this->AsignaHoras($listaFinal, $listaGrupos);
 
             //ListaHorarios final ya tiene TODA la informacion de los horarios
@@ -296,7 +296,7 @@ class CarrerasController extends Controller
 
 
             //regresamos la vista
-            return view('pages/Horarios/opcionesHorarios')->with('listaChida', $listaHorariosFinal);
+            //return view('pages/Horarios/opcionesHorarios')->with('listaChida', $listaHorariosFinal);
 
 
         } else {
@@ -1436,15 +1436,70 @@ class CarrerasController extends Controller
         return $cantidadAlumnos;
     }
 
-    public function CalculaNumeroHbloques($axc,$listaGrupos)//axc = alumnos aceptados por carrera
+    public function CalculaNumeroHbloques($axc,$listaGrupos,$listaFinal)//axc = alumnos aceptados por carrera
     {
-        
-        foreach($listaGrupos  as $clave => $fila)
-        {
-            //print_r($fila->cupo);
-            //echo '<br>';
+        // Obtener una lista de columnas
+        foreach ($listaGrupos as $clave => $fila) {
+            $nombreM[$clave] = $fila->nombreMateria;
+            $cupo[$clave] = $fila->cupo;
         }
 
+        // Ordenar los datos con calificacion descendiente, y por carreras iguales
+        // Agregar $datos como el último parámetro, para ordenar por la clave común
+        array_multisort( $nombreM, SORT_STRING,$cupo, SORT_ASC, $listaGrupos);
+        $nombreM = array_unique($nombreM);//filtramos para que no se repitan
+        $minimosxMateria = array();
+        foreach($nombreM as $nom)//Obtenemos el cupo minimo por materia
+        {
+            foreach($listaGrupos  as $clave => $fila)
+            {
+                if($nom == $fila->nombreMateria)
+                {
+                    $minimosxMateria[$nom] = $fila->cupo;//array con materia y menor cupo
+                    break;
+                }
+            }
+        }
+
+        $MinimoxMateria = array();
+        $auxi = array();
+        $MinimoxMateriayCarrera = array();
+
+        foreach ($listaFinal as $lf) {
+            foreach ($lf->listaMaterias as $listass) {
+                //ahi accedemos a cada materia de cada carrera
+                $MinimoxMateria['Materia'] = $listass->Materia;
+                $MinimoxMateria['cupo'] = $this->ObtenMinimoCupo($minimosxMateria, $listass->Materia);                
+                array_push($auxi,$MinimoxMateria);
+            }
+            $MinimoxMateriayCarrera[$lf->nombreCarrera] = $auxi;
+        }
+
+         /*//Imprime los cupos
+        foreach($MinimoxMateriayCarrera as $k => $v)
+        {
+            print_r($k);
+            echo '********** <br>';
+            foreach($v as $kk => $vv )
+            {
+                echo "*Materia*  ";
+                print_r($vv['Materia']);
+                echo "           *Cupo Minimo*  ";
+                print_r($vv['cupo']);
+                echo '<br>';     
+            }
+            echo '<br>';
+        }
+        */
+    }
+
+    public function ObtenMinimoCupo($minimoscupos, $nombMateria)
+    {
+        $cupo = 9999;//Si no encuentra la materia pondra un cupo muy alto
+        if (array_key_exists($nombMateria, $minimoscupos)) {// verifica si existe el nombre de la materia en el array 
+            $cupo =$minimoscupos[$nombMateria];//Obtiene el numero del cupo
+        }
+        return $cupo;
     }
     
 }
