@@ -290,7 +290,7 @@ class CarrerasController extends Controller
             $listaAlumnosInscritos =  $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos,$listaFinal);
             //$this->recorreLista($listaAsignacionAlumnos);
 
-            $this->imprimeAsignacion($listaAlumnosInscritos);
+            //$this->imprimeAsignacion($listaAlumnosInscritos);
 
 
 
