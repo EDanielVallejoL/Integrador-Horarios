@@ -800,6 +800,8 @@ class CarrerasController extends Controller
                                         }
                                     }
                                 }
+                            }else{
+                                //SI ES LABORATORIO-------------------------------------------------------------------
                             }
                         }
                     }
@@ -1221,8 +1223,6 @@ class CarrerasController extends Controller
             //echo "Carrera: ".$listaAsignacionHorarios[$i]->CarreraAlumno." ";
             //echo "Horario Asignado: ".$listaAsignacionHorarios[$i]->NumeroHorarioAsignado." ";
             //echo '<br>';
-        }
-
-       
+        }       
     }
 }
