@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+
+
+        $('#example').dataTable();
+
+
+
     $("#cbCarreras").change(function (e) {
         e.preventDefault();
         $.get( "Tabla", {x : $("#cbCarreras").val(), y : $("#opcion").val()}, function (data) {
