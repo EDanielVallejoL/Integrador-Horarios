@@ -1,3 +1,32 @@
+$(document).ready(function () {
+
+    $("#cbCarreras").change(function (e) {
+        e.preventDefault();
+        $.get( "Tabla", {x : $("#cbCarreras").val(), y : $("#opcion").val()}, function (data) {
+            $("#cargaexterna").html(data);
+    	    });    
+    });
+
+    $("#opcion").change(function (e) {
+        e.preventDefault();
+        $valor = $("#cbCarreras").val();
+        if($valor != null)
+        {
+            $.get( "Tabla", {x : $("#cbCarreras").val(), y : $("#opcion").val()}, function (data) {
+                $("#cargaexterna").html(data);
+            });    
+        }
+        else
+        {
+            alertify.error("Porfavor selecciona una carrera");
+        }
+    });
+
+});
+
+
+
+
 function isMPN(input)
 {
     var value = input.value;
