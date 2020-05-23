@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center pt-5 mt-5 mr-1">
-        <div class="col-md-4 formulario">
+    <div class="row justify-content-center pt-5 mt-7 mr-1">
+        <div class="col-md-8 formulario">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group text-center">
@@ -26,27 +26,11 @@
                         <strong>{{ $message }}</strong>
                     </span>
                     @enderror
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                    <label class="form-check-label" for="remember">
-                        <h6 class="text-light">Guardar Sesión</h6>
-                    </label>
-                </div>
-                <div class="form-check">
+                <div class="form-check pt-2 mt-3 mr-4">
                     <button type="submit" class="btn btn-block mb-3  cardColor3 text-light btn btn-dark cardColor2 ingresar " href="{{ route('password.request') }}">
                         {{ __('Iniciar sesión') }}
                     </button>
-
-                    @if (Route::has('password.request'))
-                    <div>
-                        <a class="btn btn-dark cardColor2 btn-block" href="{{ route('password.request') }}">
-                            {{ __('¿Olvidaste tu contraseña?') }}
-                        </a>
-                    </div>
-
-                    @endif
                 </div>
             </form>
         </div>

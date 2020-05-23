@@ -2,138 +2,51 @@
 
 @section('content')
 
+<div class="card alert alert-success text-black" style="width: 27rem;">
+    <h1>Horarios</h1>
 
-<div class="container">
-    <div class="p-3 mb-2 bg-white text-dark">
-        <h1>Horarios</h1>
+    <select name="cbCarreras" id="cbCarreras">
+        <option value='0' disabled selected hidden>Selecciona una carrera</option>
         <?php
-        foreach ($listaChida as $lista) {
-            echo '<h4>' . $lista->numeroHorario . ' ' . $lista->listaDia[0]->carr . '</h4>';
-            echo '<br>';
+
+        include(app_path() . '/BD/abrir.php');
+        $consulta = "SELECT DISTINCT NombreCarrera FROM Horarios";
         
-            echo '<table class="table table-light" >
-                <thead class="thead-light">
-                    <tr>
-                        <th>Hora</th>
-                        <th>Lunes</th>
-                        <th>Martes</th>
-                        <th>Miercoles</th>
-                        <th>Jueves</th>
-                        <th>Viernes</th>
-                        <th>Sabado</th>
-                    </tr>
-                </thead>';
+        $res = mysqli_query($conexion,$consulta);
 
-            for($i=0; $i < count($lista->listaDia); $i++)
-            {
-
-                echo '
-                    <tr>
-                        <td>' , $lista->listaDia[$i]->hora ,  '</td>
-
-                        <td>';
-                        if(substr($lista->listaDia[$i]->dias , 0, 1) == 'L')
-                        {
-                            echo $lista->listaDia[$i]->campo;
-                        }
-                        else
-                        {
-                            echo "----";
-                        }
-
-                echo '</td>
-                        <td>';
-                        if(substr($lista->listaDia[$i]->dias , 1, 2) == 'Ma')
-                        {
-                            echo $lista->listaDia[$i]->campo;
-                        }
-                        else
-                        {
-                            if(substr($lista->listaDia[$i]->dias , 0, 2) == 'Ma')
-                            {
-                                echo $lista->listaDia[$i]->campo;
-                            }
-                            else{
-                                echo '----';
-                            }
-                        }
-                echo '</td>
-                        <td>';
-                        if(substr($lista->listaDia[$i]->dias , 3, 2) == 'Mi')
-                        {
-                            echo $lista->listaDia[$i]->campo;
-                        }
-                        else
-                        {
-                            if(substr($lista->listaDia[$i]->dias , 0, 2) == 'Ma')
-                            {
-                                echo $lista->listaDia[$i]->campo;
-                            }
-                            else{
-                                echo '---';
-                            }
-                        }
-                
-                echo '</td>
-                        <td>';
-                        if(substr($lista->listaDia[$i]->dias , 5, 1) == 'J')
-                        {
-                            echo $lista->listaDia[$i]->campo;
-                        }
-                        else
-                        {
-                            if(substr($lista->listaDia[$i]->dias , 0, 2) == 'Ma')
-                            {
-                                echo $lista->listaDia[$i]->campo;
-                            }
-                            else{
-                                echo '---';
-                            }
-                        }
-
-                echo '</td>
-                        <td>';
-                        if(substr($lista->listaDia[$i]->dias , 6, 1) == 'V')
-                        {
-                            echo $lista->listaDia[$i]->campo;
-                        }
-                        else
-                        {
-                            if(substr($lista->listaDia[$i]->dias , 0, 2) == 'Ma')
-                            {
-                                echo $lista->listaDia[$i]->campo;
-                            }
-                            else{
-                                echo '---';
-                            }
-                        }
-
-                echo '</td>
-                        <td>';
-                        if(substr($lista->listaDia[$i]->dias , 7, 1) == 'S')
-                        {
-                            echo $lista->listaDia[$i]->campo;
-                        }
-                        else
-                        {
-                            echo '---';
-                        }
-
-
-                echo    '</td>
-                    </tr>
-                ';
-
-
-                //echo '<h5>' . $lista->listaDia[$i]->campo . ' a la hora: ' . $lista->listaDia[$i]->hora . ' los dias: ' . $lista->listaDia[$i]->dias.'</h5>';
-                //echo '<br>';
-
-            }
-            // FIN TABLA
-            echo '</table>';
+        while($mostrar = mysqli_fetch_array($res)){
+            echo '<option value="' . $mostrar['NombreCarrera'] . '">' . $mostrar['NombreCarrera'] . '</option>';
         }
+
         ?>
-    </div>
+
+    </select>
+
+    <br>
+    <label for="basic-url">Puedes seleccionar otra opción</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Esta es la opcion:</span>
+        </div>
+        <select name="opcion" id="opcion">
+            <?php
+
+            include(app_path() . '/BD/abrir.php');
+            $consulta = "SELECT DISTINCT Opcion FROM Horarios";
+                
+            $res = mysqli_query($conexion,$consulta);
+
+            while($mostrar = mysqli_fetch_array($res)){
+                echo '<option value="' . $mostrar['Opcion'] . '">' . $mostrar['Opcion'] . '</option>';
+            }
+
+            ?>
+
+        </select>   
+    </div> 
+
 </div>
+    
+
 
 @endsection

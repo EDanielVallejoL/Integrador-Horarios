@@ -25,6 +25,18 @@ Route::get('/coordinadores', 'CoordinadoresController@index')->name('coordinador
 Route::get('/materias', 'MateriasController@index')->name('materias');
 Route::get('/plantilla', 'PlantillaController@index')->name('plantilla');
 
+Route::get('/horarios', 'HorariosController@index')->name('horarios');
+
+
+Route::get('/Tabla', function(){
+    if(Request::ajax()){
+        return view('pages/Horarios/tablasHorarios');
+    }
+});
+
+
+
+
 Route::get('/carreras', 'CarrerasController@index')->name('carreras');
 Route::get('/carrerasShow', 'CarrerasController@store')->name('carrerasShow');
 Route::get('/funcion1/{nombre}', 'CarrerasController@funcion1')->name('funcion1');
@@ -34,6 +46,5 @@ Route::get('/funcion1/{nombre}', 'CarrerasController@funcion1')->name('funcion1'
 /* Resources */
 Route::resource('coordinador', 'CoordinadoresController');
 Route::resource('carrera', 'CarrerasController');
-
 // DELETE
 Route::delete('/coordinadores/{id}', 'CoordinadoresController@destroy');

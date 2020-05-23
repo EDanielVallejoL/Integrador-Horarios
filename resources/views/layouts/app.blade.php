@@ -7,6 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 
     <title>BlockTime</title>
 
@@ -15,9 +16,13 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    
     <script src="{{ asset('js/funciones.js') }}" defer></script>
     <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src=" https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+   
 
 
     <!-- Fonts -->
@@ -37,6 +42,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/estilosManuales.css">
+    
 </head>
 
 <body>
@@ -68,6 +74,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('plantilla') }}">{{ __('Plantilla') }}</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('horarios') }}">{{ __('Horarios') }}</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
@@ -94,13 +104,14 @@
             <div class="col">
             </div>
             <div class="col-5">
-                <main class="py-5">
+                <main class="py-3">
                     @yield('content')
                 </main>
             </div>
             <div class="col">
             </div>
         </div>
+        <div id="cargaexterna"></div>
     </div>
 
 </body>
