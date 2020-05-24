@@ -15,37 +15,36 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::resource('Documentos', 'DocumentoController');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/registraCoordinador', 'CoordinadoresController@registro')->name('registraCoordinador');
-Route::get('/coordinadores', 'CoordinadoresController@index')->name('coordinadores');
-Route::get('/materias', 'MateriasController@index')->name('materias');
-Route::get('/alumnos', 'AlumnosController@index')->name('alumnos');
-Route::get('/plantilla', 'PlantillaController@index')->name('plantilla');
 
-Route::get('/horarios', 'HorariosController@index')->name('horarios');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/alumnos', 'AlumnosController@index')->name('alumnos');
+    Route::get('/horarios', 'HorariosController@index')->name('horarios');
 
 
-Route::get('/Tabla', function(){
-    if(Request::ajax()){
-        return view('pages/Horarios/tablasHorarios');
-    }
+    Route::get('/Tabla', function () {
+        if (Request::ajax()) {
+            return view('pages/Horarios/tablasHorarios');
+        }
+    });
+
+    Route::get('/ResAlumnos', function () {
+        if (Request::ajax()) {
+            return view('pages/Alumnos/infoAlumno');
+        }
+    });
+
+
+
+
+    Route::get('/carreras', 'CarrerasController@index')->name('carreras');
+    Route::get('/carrerasShow', 'CarrerasController@store')->name('carrerasShow');
+    Route::get('/funcion1/{nombre}', 'CarrerasController@funcion1')->name('funcion1');
+
+
+    /* Resources */
+
+    Route::resource('carrera', 'CarrerasController');
 });
-
-
-
-
-Route::get('/carreras', 'CarrerasController@index')->name('carreras');
-Route::get('/carrerasShow', 'CarrerasController@store')->name('carrerasShow');
-Route::get('/funcion1/{nombre}', 'CarrerasController@funcion1')->name('funcion1');
-//Route::get('/plantilla', 'PlantillaController@index')->name('materias');
-
-
-/* Resources */
-Route::resource('coordinador', 'CoordinadoresController');
-Route::resource('carrera', 'CarrerasController');
-// DELETE
-Route::delete('/coordinadores/{id}', 'CoordinadoresController@destroy');
