@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
 
     <title>BlockTime</title>
 
@@ -16,7 +16,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
+
     <script src="{{ asset('js/funciones.js') }}" defer></script>
     <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
@@ -25,11 +25,12 @@
 
     <!-- data table plugin -->
     <script src=" https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" defer></script> 
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" defer></script>
 
-    
 
-    
+
+
+
 
 
     <!-- Fonts -->
@@ -47,7 +48,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
 
-    
+
 
 
     <!-- Styles -->
@@ -55,11 +56,11 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/estilosManuales.css">
-    
+
+
 </head>
 
 <body>
-
     <div class="container ">
         <nav class="navbar navbar-expand-md shadow-sm " id="NavBarIndex">
             <a class="navbar-brand text-white" href="{{ route('home') }}">
@@ -84,15 +85,12 @@
                     </li>
                     @endif
                     @else
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('plantilla') }}">{{ __('Plantilla') }}</a>
-                    </li>
-
+  
                     <li class="nav-item ">
                         <a class="nav-link text-white" href="{{ route('horarios') }}">{{ __('Horarios') }}</a>
                     </li>
 
-                    
+
                     <li class="nav-item">
                         <a class="nav-link text-white" id="alumnos" href="{{ route('alumnos') }}">{{ __('Alumnos') }}</a>
                     </li>
@@ -117,7 +115,6 @@
             </div>
         </nav>
 
-
         <div class="row">
             <div class="col">
             </div>
@@ -129,9 +126,23 @@
             <div class="col">
             </div>
         </div>
-        <div id="cargaexterna"></div>
-    </div>
 
+        <div id="cargaexterna"></div>
+
+        <div id="cargaexterna2">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col-10">
+                    <main class="py-3">
+                        @yield('content2')
+                    </main>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
