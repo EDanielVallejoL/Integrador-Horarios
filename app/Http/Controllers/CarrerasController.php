@@ -687,14 +687,21 @@ class CarrerasController extends Controller
             //echo 'El promedio de la carrera:'.$lf->nombreCarrera.' es:'.$lf->PromedioCarrera;
             $aux = $lf->PromedioCarrera;
             $auxCarrera = $lf->nombreCarrera;
-            echo "La carrera: ".$auxCarrera." Tiende promedio de : ".$aux;
-            echo '<br>';
+            //echo "La carrera: ".$auxCarrera." Tiende promedio de : ".$aux;
+            //echo '<br>';
             $CarreraProm = new AuxHorario($aux,$lf->nombreCarrera);
             array_push($listaOrdenamiento,$CarreraProm);
         }
 
         //Antes de mandar la lista debemos ordenarla 
+        sort($listaOrdenamiento);
 
+        foreach($listaOrdenamiento as $lo)
+        {
+            echo "Promedio: ". $lo->Promedio;
+            echo " Carrera: ". $lo->Carrera;
+            echo '<br>';
+        }
         return $listaOrdenamiento;
     }
 
@@ -760,8 +767,8 @@ class CarrerasController extends Controller
 
         //recorremos las carreras
         foreach ($listaFin as $lf) {
-            echo "Carrera: ".$lf->nombreCarrera;
-            echo '<br>';
+            //echo "Carrera: ".$lf->nombreCarrera;
+            //echo '<br>';
             //obtenemos el nombre de la carrera
             $nombrecarreraObjeto = $lf->nombreCarrera;
             //echo  '<h4>'.$lf->nombreCarrera.'</h4>';
