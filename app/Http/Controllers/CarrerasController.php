@@ -268,12 +268,14 @@ class CarrerasController extends Controller
             $this->AsignaValor($listaFinal, $listaGrupos);
 
             //Este solo sirve para imprimir
-            //$this->Imprime($listaFinal);
+            $this->Imprime($listaFinal);
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
+            //listaprioridad viene el orden BARO
+
             //echo '<h2>' . "Orden de Inscripcion" . '</h2>';
-            //$this->ImprimeOrden($listaPrioridad, $listaFinal);
+            $this->ImprimeOrden($listaPrioridad, $listaFinal);
 
 
 
@@ -357,21 +359,23 @@ class CarrerasController extends Controller
 
     public function Imprime($listaFinal)
     {
+        //MIGUEL NECESITO QUE ME ORDENES ESTA LISTA
+
         foreach ($listaFinal as $lf) {
-            echo '<h2>' . $lf->nombreCarrera . '</h2>';
+            //echo '<h2>' . $lf->nombreCarrera . '</h2>';
 
             // ordenamiento de las materias
 
             uasort($lf->listaMaterias, array($this, 'sbo'));
 
             foreach ($lf->listaMaterias as $listass) {
-                echo $listass->Materia . '       ';
-                echo 'Valor por Grupo: ' . $listass->valorGrupo . '       ';
-                echo 'Valor por Materia: ' . $listass->valorMateria . '       ';
-                echo '<br>';
+                //echo $listass->Materia . '       ';
+                //echo 'Valor por Grupo: ' . $listass->valorGrupo . '       ';
+                //echo 'Valor por Materia: ' . $listass->valorMateria . '       ';
+                //echo '<br>';
             }
-            echo '<br>';
-            echo 'El promedio de la carrera es: ' . $lf->PromedioCarrera;
+            //echo '<br>';
+            //echo 'El promedio de la carrera es: ' . $lf->PromedioCarrera;
         }
     }
 
@@ -654,6 +658,7 @@ class CarrerasController extends Controller
     }
 
     //DEFINIMOS MATEMATICAMENTE QUE CARRERA ES MAS IMPORTANTE DE INSCRIBIR PRIMERO
+    //AQUI DEBEMOS ORDENAR MIGUEL MIGUELCAMBIOS
     public function OrdenInscripcion($listaFinal)
     {
         //ordenamos los promedios
@@ -668,6 +673,9 @@ class CarrerasController extends Controller
         }
 
         sort($listaFinalOrdA);
+
+        //Antes de mandar la lista debemos ordenarla 
+
         return $listaFinalOrdA;
     }
 
@@ -681,9 +689,9 @@ class CarrerasController extends Controller
         foreach ($listaOrdenada as $lfa) {
             foreach ($lfinal as $lfi) {
                 if ($lfa == $lfi->PromedioCarrera); {
-                    // echo 'Carrera No: ' . $orden . "     ";
-                    //echo $lfi->nombreCarrera . "      ";
-                    //echo "   " . $lfi->PromedioCarrera;
+                    echo 'Carrera No: ' . $orden . "     ";
+                    echo $lfi->nombreCarrera . "      ";
+                    echo "   " . $lfi->PromedioCarrera;
                     $orden++;
                     array_push($listaOrdenCarreras, $lfi->nombreCarrera);
                     echo '<br>';
@@ -768,6 +776,7 @@ class CarrerasController extends Controller
                                     if (count($listaMateriasInscritas) < 0) {
 
                                         //significa que la lista esta vacia
+                                        
                                         $HoraInscripcion = $lg->horas; //08
 
                                         //Aqui es donde truje chencha
