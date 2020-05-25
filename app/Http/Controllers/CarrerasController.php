@@ -177,6 +177,19 @@ class AlumnoInscrito
     }
 }
 
+class AuxHorario
+{
+    public $Promedio;
+    public $Carrera;
+    
+
+    public function __construct($Promedio,$Carrera)
+    {
+        $this->Promedio = $Promedio;
+        $this->Carrera = $Carrera;
+    }
+}
+
 
 
 //FIN CLASES
@@ -277,7 +290,7 @@ class CarrerasController extends Controller
             //listaprioridad viene el orden BARO
 
             //echo '<h2>' . "Orden de Inscripcion" . '</h2>';
-            $this->ImprimeOrden($listaPrioridad, $listaFinal);
+            //$this->ImprimeOrden($listaPrioridad, $listaFinal);
 
 
             $axc =$this->ObtenAlumnosxCarrera($listaAsignacionAlumnos);
@@ -524,6 +537,10 @@ class CarrerasController extends Controller
     //SOLO DEL PRIMER DOCUMENTOOOOOOOOOOOOOOOOOO MPN
     public function Carreras($nombreArchivo)
     {
+
+        //promedio
+
+
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
         $documento = IOFactory::load($rutaArchivo);
 
@@ -664,22 +681,22 @@ class CarrerasController extends Controller
     //AQUI DEBEMOS ORDENAR MIGUEL MIGUELCAMBIOS
     public function OrdenInscripcion($listaFinal)
     {
+        $listaOrdenamiento = array(); 
         //ordenamos los promedios
-        $listaFinalOrdA = array();
-
-
         foreach ($listaFinal as $lf) {
             //echo '<h2>'.$lf->nombreCarrera.'</h2>';
-            //echo 'El promedio de la carrera es: '.$lf->PromedioCarrera;
+            //echo 'El promedio de la carrera:'.$lf->nombreCarrera.' es:'.$lf->PromedioCarrera;
             $aux = $lf->PromedioCarrera;
-            array_push($listaFinalOrdA, $aux);
+            $auxCarrera = $lf->nombreCarrera;
+            echo "La carrera: ".$auxCarrera." Tiende promedio de : ".$aux;
+            echo '<br>';
+            $CarreraProm = new AuxHorario($aux,$lf->nombreCarrera);
+            array_push($listaOrdenamiento,$CarreraProm);
         }
-
-        sort($listaFinalOrdA);
 
         //Antes de mandar la lista debemos ordenarla 
 
-        return $listaFinalOrdA;
+        return $listaOrdenamiento;
     }
 
 
@@ -692,12 +709,12 @@ class CarrerasController extends Controller
         foreach ($listaOrdenada as $lfa) {
             foreach ($lfinal as $lfi) {
                 if ($lfa == $lfi->PromedioCarrera); {
-                    echo 'Carrera No: ' . $orden . "     ";
-                    echo $lfi->nombreCarrera . "      ";
-                    echo "   " . $lfi->PromedioCarrera;
+                    //echo 'Carrera No: ' . $orden . "     ";
+                    //echo $lfi->nombreCarrera . "      ";
+                    //echo "   " . $lfi->PromedioCarrera;
                     $orden++;
-                    array_push($listaOrdenCarreras, $lfi->nombreCarrera);
-                    echo '<br>';
+                    //array_push($listaOrdenCarreras, $lfi->nombreCarrera);
+                    //echo '<br>';
                 }
             }
             break;
@@ -812,8 +829,8 @@ class CarrerasController extends Controller
                                                 $prof = $lg->profesor;
                                                 //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                 $HoraInsertada = new Hora1($HoraInicial, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                echo '<br>';
+                                               // echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                //echo '<br>';
                                                 //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                 array_push($listaMateriasInscritas, $HoraInsertada);
                                                 sort($listaMateriasInscritas);
@@ -828,8 +845,8 @@ class CarrerasController extends Controller
                                             //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                             $prof = $lg->profesor;
                                             $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                            echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                            echo '<br>';
+                                            //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                            //echo '<br>';
                                             //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                             array_push($listaMateriasInscritas, $HoraInsertada);
                                             sort($listaMateriasInscritas);
@@ -878,8 +895,8 @@ class CarrerasController extends Controller
                                                         //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                         $prof = $lg->profesor;
                                                         $HoraInsertada = new Hora1($HoraInicial, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                        echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                        echo '<br>';
+                                                        //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                        //echo '<br>';
                                                         //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                         array_push($listaMateriasInscritas, $HoraInsertada);
                                                         sort($listaMateriasInscritas);
@@ -894,8 +911,8 @@ class CarrerasController extends Controller
                                                     $prof = $lg->profesor;
                                                     //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                     $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                    echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                    echo '<br>';
+                                                    //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                    //echo '<br>';
                                                     //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                     array_push($listaMateriasInscritas, $HoraInsertada);
                                                     sort($listaMateriasInscritas);
@@ -1001,8 +1018,8 @@ class CarrerasController extends Controller
                                                     //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                     $prof = $lg->profesor;
                                                     $HoraInsertada = new Hora1($HoraInicial, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                    echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                    echo '<br>';
+                                                    //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                    //echo '<br>';
                                                     //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                     array_push($listaMateriasInscritas, $HoraInsertada);
                                                     sort($listaMateriasInscritas);
@@ -1017,8 +1034,8 @@ class CarrerasController extends Controller
                                                 //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                 $prof = $lg->profesor;
                                                 $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                echo '<br>';
+                                                //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                //echo '<br>';
                                                 //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                 array_push($listaMateriasInscritas, $HoraInsertada);
                                                 sort($listaMateriasInscritas);
@@ -1106,8 +1123,8 @@ class CarrerasController extends Controller
                                                             $prof = $lg->profesor;
                                                             //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                             $HoraInsertada = new Hora1($HoraInicial, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                            echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                            echo '<br>';
+                                                            //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                            //echo '<br>';
                                                             //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                             array_push($listaMateriasInscritas, $HoraInsertada);
                                                             sort($listaMateriasInscritas);
@@ -1122,8 +1139,8 @@ class CarrerasController extends Controller
                                                         $prof = $lg->profesor;
                                                         //creamos el objeto Hora y ponemos sus dos propiedades que rcordemos es la hora y nombre de la materia
                                                         $HoraInsertada = new Hora1($HoraInscripcion, $MateriaInscrita, $lf->nombreCarrera, $lg->dias,$prof);
-                                                        echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                                                        echo '<br>';
+                                                        //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                                                        //echo '<br>';
                                                         //En esta lista guardamos 2 cosas "Hora de la materia" y "Nombre de la materia" pero como un objeto
                                                         array_push($listaMateriasInscritas, $HoraInsertada);
                                                         sort($listaMateriasInscritas);
@@ -1172,8 +1189,8 @@ class CarrerasController extends Controller
                            // echo '<br>';
                             $prof = $lg->profesor;
                             $HoraInsertada = new Hora1($lmi->hora, $lmi->campo, $lmi->carr,$lmi->dias,$prof);
-                            echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
-                            echo '<br>';
+                            //echo "Materia: ".$MateriaInscrita." Profesor: ".$prof." Hora: ".$HoraInicial;
+                            //echo '<br>';
                             array_push($listaAMandar,$HoraInsertada);
                             $referencia = 1;                        
                         }
