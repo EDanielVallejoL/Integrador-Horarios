@@ -177,7 +177,20 @@ class AlumnoInscrito
     }
 }
 
+class AuxHorario
+{
+    public $Promedio;
+    public $Carrera;
     
+
+    public function __construct($Promedio,$Carrera)
+    {
+        $this->Promedio = $Promedio;
+        $this->Carrera = $Carrera;
+    }
+}
+
+
 
 //FIN CLASES
 
@@ -524,6 +537,10 @@ class CarrerasController extends Controller
     //SOLO DEL PRIMER DOCUMENTOOOOOOOOOOOOOOOOOO MPN
     public function Carreras($nombreArchivo)
     {
+
+        //promedio
+
+
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
         $documento = IOFactory::load($rutaArchivo);
 
@@ -664,6 +681,7 @@ class CarrerasController extends Controller
     //AQUI DEBEMOS ORDENAR MIGUEL MIGUELCAMBIOS
     public function OrdenInscripcion($listaFinal)
     {
+        $listaOrdenamiento = array(); 
         //ordenamos los promedios
         foreach ($listaFinal as $lf) {
             //echo '<h2>'.$lf->nombreCarrera.'</h2>';
@@ -677,8 +695,21 @@ class CarrerasController extends Controller
         }
 
         //Antes de mandar la lista debemos ordenarla 
+        $aucx = $listaOrdenamiento;;
 
-        return $listaOrdenamiento;
+        // Obtener una lista de columnas
+        foreach ($aucx as $clave => $fila) {
+            $carrera[$clave] = $fila->Carrera;
+            $calificacion[$clave] = $fila->Promedio;
+        }
+
+        // Ordenar los datos con calificacion descendiente, y por carreras iguales
+        // Agregar $datos como el último parámetro, para ordenar por la clave común
+        array_multisort( $calificacion, SORT_ASC,$carrera, SORT_STRING, $aucx);
+
+        return $aucx;//Regresa una lista ordenada
+
+        //return $listaOrdenamiento;
     }
 
 
