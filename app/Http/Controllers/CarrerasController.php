@@ -921,7 +921,7 @@ class CarrerasController extends Controller
                                                     
                                                         } else {
 
-                                                            //VERIFICARCUPOS
+                                                            //REVISARCUPO
 
                                                            // Esta parte es para cuando inserta despues de la primera materia insertada
 
@@ -1163,6 +1163,8 @@ class CarrerasController extends Controller
                                                             } else {
                                                                 //debemos revisar que la hora este disponible
                                                                 //significa que la lista esta vacia
+
+                                                                //REVISARCUPO
                                                                 $HoraInscripcion = $lg->horas;
     
                                                                         //Aqui es donde truje chencha
