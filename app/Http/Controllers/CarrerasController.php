@@ -1154,7 +1154,7 @@ class CarrerasController extends Controller
                                                             //echo "Existe Irix";
                                                         } else {
 
-                                                            //debemos revisar 
+                                                           //REVISARCUPO
 
                                                             //debemos revisar que la hora este disponible
                                                             //chear que no se repitan las horas
@@ -1163,9 +1163,7 @@ class CarrerasController extends Controller
                                                             } else {
                                                                 //debemos revisar que la hora este disponible
                                                                 //significa que la lista esta vacia
-
-                                                                //REVISARCUPO
-                                                                $HoraInscripcion = $lg->horas;
+                                                                 $HoraInscripcion = $lg->horas;
     
                                                                         //Aqui es donde truje chencha
                                                                 $Horafinal = substr($HoraInscripcion, 3, 2);
