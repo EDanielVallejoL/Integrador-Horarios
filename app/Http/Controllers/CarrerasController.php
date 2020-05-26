@@ -426,7 +426,7 @@ class CarrerasController extends Controller
         $valorRaw6 = $celda->getValue();
 
 
-        
+        //revisa que las celdas coincidan para poder pasar
         if($valorRaw1 = "materia" and $valorRaw2 = "creditos" and $valorRaw3 = "profesor" and $valorRaw4 = "tipo" 
         and $valorRaw5 = "horas" and $valorRaw6 = "dias")
         {
