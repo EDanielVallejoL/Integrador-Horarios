@@ -327,7 +327,7 @@ class CarrerasController extends Controller
                 
             ';
             
-            return view('pages/Horarios/opcionesHorarios');
+            //return view('pages/Horarios/opcionesHorarios');
 
 
         } else {
@@ -812,6 +812,7 @@ class CarrerasController extends Controller
     {
         //lista de materias que se usara para insrtar en el objeto
         $listaMateriasInscritasHora = array();
+        
 
         $banderaIndicador = 0;
 
@@ -867,6 +868,10 @@ class CarrerasController extends Controller
                                                 if (count($listaMateriasInscritas) < 0) {
                                                     
                                                     //REVISARCUPO
+                                                    if($lg->cupo != 0)
+                                                    {
+
+                                                    }
 
                                                     //La primer materia a insertar 
                                                     //significa que la lista esta vacia
@@ -907,6 +912,8 @@ class CarrerasController extends Controller
                                                             $HoraInicial = $HoraInicial + 1;   
                                                             
                                                             //QUITARCUPO
+                             
+
                                                         }
                                                         $HorasTotales = 0;
                                                     }else{
@@ -924,6 +931,7 @@ class CarrerasController extends Controller
                                                         array_push($listaMateriasInscritas, $HoraInsertada);
                                                         sort($listaMateriasInscritas);
                                                          //QUITARCUPO
+                                            
                                                         //ya no hace falta buscar en esta materia
                                                         break;
                                                     }
@@ -933,9 +941,16 @@ class CarrerasController extends Controller
 
                                                          // si la materia ya se inserto no hace falta seguir buscando
                                                     
-                                                        } else {
+                                                    } else {
 
                                                             //REVISARCUPO
+                                                            //REVISARCUPO
+                                                            if($lg->cupo != 0)
+                                                            {
+                                                                //print_r($lg->cupo);
+                                                                echo '<br>';
+                                                        
+                                                            }
 
                                                            // Esta parte es para cuando inserta despues de la primera materia insertada
 
@@ -978,7 +993,9 @@ class CarrerasController extends Controller
                                                                     sort($listaMateriasInscritas);
                                                                     $HoraInicial = $HoraInicial + 1;
                                                                      
-                                                                    //QUITARCUPO                                                
+                                                                    //QUITARCUPO    
+                                                  
+                                                                                                               
                                                                 }
                                                                 $HorasTotales = 0;
                                                             }else{
@@ -998,7 +1015,12 @@ class CarrerasController extends Controller
                                                                 //echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
                                                                 //  echo '<br>';
                                                                 //unset($listaDiasMateria);
+
+
+
                                                                  //QUITARCUPO
+                                       
+
                                                                 break;
                                                             }
                                                         }
@@ -1102,7 +1124,8 @@ class CarrerasController extends Controller
                                                                             array_push($listaMateriasInscritas, $HoraInsertada);
                                                                             sort($listaMateriasInscritas);
                                                                             $HoraInicial = $HoraInicial + 1;  
-                                                                             //QUITARCUPO                                              
+                                                                             //QUITARCUPO   
+                                                                                                                       
                                                                         }
                                                                         $HorasTotales = 0;
                                                                     }else{
@@ -1123,6 +1146,7 @@ class CarrerasController extends Controller
                                                                         //  echo '<br>';
                                                                         //unset($listaDiasMateria);
                                                                          //QUITARCUPO
+                                                   
                                                                         break;
                                                                     }
                                                 
@@ -1209,7 +1233,8 @@ class CarrerasController extends Controller
                                                                         array_push($listaMateriasInscritas, $HoraInsertada);
                                                                         sort($listaMateriasInscritas);
                                                                         $HoraInicial = $HoraInicial + 1;
-                                                                         //QUITARCUPO                                                
+                                                                         //QUITARCUPO  
+                                                                                                           
                                                                     }
                                                                     $HorasTotales = 0;
                                                                 }else{
@@ -1230,6 +1255,8 @@ class CarrerasController extends Controller
                                                                     //  echo '<br>';
                                                                     //unset($listaDiasMateria);
                                                                      //QUITARCUPO
+                                                                     
+                                     
                                                                     break;
                                                                 }
                                                             }
