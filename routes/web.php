@@ -22,6 +22,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/alumnos', 'AlumnosController@index')->name('alumnos');
     Route::get('/horarios', 'HorariosController@index')->name('horarios');
+    Route::get('/listaPrioridad', 'ListaPrioridadController@index')->name('listaPrioridad');
+    Route::get('/exporta', 'ListaPrioridadController@show')->name('exporta');
 
 
     Route::get('/Tabla', function () {
@@ -35,9 +37,6 @@ Route::group(['middleware' => ['auth']], function () {
             return view('pages/Alumnos/infoAlumno');
         }
     });
-
-
-
 
     Route::get('/carreras', 'CarrerasController@index')->name('carreras');
     Route::get('/carrerasShow', 'CarrerasController@store')->name('carrerasShow');

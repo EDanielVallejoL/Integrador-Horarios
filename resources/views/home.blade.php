@@ -6,8 +6,7 @@
   @csrf
   <div class="card alert alert-success text-black" style="width: 27rem;">
     <div class="card-header">
-      Paso 1 en el sistema de generación de horarios
-      Sube los siguientes archivos necesarios
+      <h3>Cargar archivos necesarios</h3> 
     </div>
     <div class="form-group">
       <label for="">Archivo MPN</label>
@@ -20,9 +19,27 @@
       <input type="file" name="cupoCarrera" onchange='return isAlumnosAceptados(this)' accept='.xlsx' required >
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary">CARGAR</button>
   </div>
 </form>
 
 @endsection
 
+@section('content2')
+
+<?php
+
+    include(app_path() . '/BD/abrir.php');
+    $consulta = "SELECT * FROM horarios ";
+        
+    $res = mysqli_query($conexion,$consulta);
+    
+    if($res->num_rows > 0)
+    {
+        echo'<script>
+            alertify.error("Alerta ya existen estos datos en el sistema envía nuevos archivos para recargar o mira directamente los resultados generados");
+          </script>
+        ';
+    }
+?>
+@endsection

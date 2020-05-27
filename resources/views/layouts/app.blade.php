@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>BlockTime</title>
+    <title>Sistema generador automatico de horarios</title>
 
     <!-- Aqui se cambia el icono de la pestaña-->
     <link rel="shortcut icon" href="https://www.flaticon.es/premium-icon/icons/svg/1309/1309918.svg">
@@ -24,13 +24,15 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 
     <!-- data table plugin -->
-    <script src=" https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
+    <script src=" https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" defer></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" defer></script>
-
-
-
-
-
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js" defer></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" defer></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js" defer></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js" defer></script>
 
 
     <!-- Fonts -->
@@ -46,9 +48,8 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
-
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" />
 
 
     <!-- Styles -->
@@ -64,7 +65,7 @@
     <div class="container ">
         <nav class="navbar navbar-expand-md shadow-sm " id="NavBarIndex">
             <a class="navbar-brand text-white" href="{{ route('home') }}">
-                BlockTime
+                Sistema generador de horarios
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
@@ -86,11 +87,19 @@
                     @endif
                     @else
   
+
                     <li class="nav-item ">
-                        <a class="nav-link text-white" href="{{ route('horarios') }}">{{ __('Horarios') }}</a>
+                        <a class="nav-link text-white" href="{{ route('home') }}">{{ __('Subir archivos') }}</a>
                     </li>
 
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="{{ route('listaPrioridad') }}">{{ __('Lista de prioridad') }}</a>
+                    </li>
 
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="{{ route('horarios') }}">{{ __('Horarios bloque') }}</a>
+                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link text-white" id="alumnos" href="{{ route('alumnos') }}">{{ __('Alumnos') }}</a>
                     </li>
@@ -133,15 +142,27 @@
             <div class="row">
                 <div class="col">
                 </div>
-                <div class="col-10">
-                    <main class="py-3">
+                <div class="col-8">
                         @yield('content2')
-                    </main>
                 </div>
-                <div class="col">
+                <div class="col-2">
+                        @yield('content3')
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1">
+                </div>
+                <div class="col-10">
+                        @yield('content4')
+                </div>
+                <div class="col-1">
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="col-2">
+        @yield('content5')
     </div>
 </body>
 

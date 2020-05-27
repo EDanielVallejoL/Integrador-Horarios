@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    $(".loader").fadeOut("slow");
 
     $('#example').dataTable({
         pageLength: 5,
@@ -19,10 +20,35 @@ $(document).ready(function () {
                 sNext:     "Siguiente",
                 sPrevious: "Anterior"
             },
+
         },
     });
 
+    $('#example2').dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ],
+        pageLength: 4,
+        lengthMenu: [[4, 10, 50, -1], [4, 10, 50, 'Todos']],
+        language: {
+            sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            sSearch:         "Buscar:",
+            sLoadingRecords: "Cargando...",
+            sLengthMenu: "Mostrar _MENU_ registros",
+            sInfoFiltered: "",
+            sZeroRecords: "No se encontraron resultados",
+            sInfoEmpty: "",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            oPaginate: {
+                sFirst:    "Primero",
+                sLast:     "Último",
+                sNext:     "Siguiente",
+                sPrevious: "Anterior"
+            },
 
+        },
+    });
 
     $("#cbCarreras").change(function (e) {
         e.preventDefault();
@@ -51,6 +77,14 @@ $(document).ready(function () {
         var $idAmandar = $realId[1];
         e.preventDefault();
         $.get("ResAlumnos", { x: $idAmandar}, function (data) {
+            $("#cargaexterna").html(data);
+        });
+    });
+
+    $(document).on('click', 'button[id^="btnExporta"]', function (e) {
+        alertify.success("listo para exportar escoge una opción");
+        e.preventDefault();
+        $.get("exporta", function (data) {
             $("#cargaexterna").html(data);
         });
     });

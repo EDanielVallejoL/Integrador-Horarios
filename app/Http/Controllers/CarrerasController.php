@@ -320,14 +320,13 @@ class CarrerasController extends Controller
             //regresamos la vista
             include(app_path() . '/Horarios/Horarios.php');
             include(app_path() . '/Horarios/Alumnos.php');
+            include(app_path() . '/Horarios/ListaPrioridad.php');
             echo '
-                <div class="p-1 mb-2 bg-success text-dark">
-                    <h3>Se subio con exito</h1>
-                </div>
+                
                 
             ';
             
-            //return view('pages/Horarios/opcionesHorarios');
+            return view('pages/Horarios/opcionesHorarios');
 
 
         } else {
@@ -448,8 +447,8 @@ class CarrerasController extends Controller
         if($valorRaw1 = "materia" and $valorRaw2 = "creditos" and $valorRaw3 = "profesor" and $valorRaw4 = "tipo" 
         and $valorRaw5 = "horas" and $valorRaw6 = "dias")
         {
-                echo '<h4>Entro</h4>';
-                echo 'br>';
+                //echo '<h4>Entro</h4>';
+                //echo 'br>';
                 
 
             // Sin comillas para objetos
@@ -742,10 +741,11 @@ class CarrerasController extends Controller
         //Antes de mandar la lista debemos ordenarla 
         $aucx = $listaOrdenamiento;;
 
-        // Obtener una lista de columnas
-        foreach ($aucx as $clave => $fila) {
-            $carrera[$clave] = $fila->Carrera;
-            $calificacion[$clave] = $fila->Promedio;
+        foreach($listaOrdenamiento as $lo)
+        {
+            //echo "Promedio: ". $lo->Promedio;
+            //echo " Carrera: ". $lo->Carrera;
+            //echo '<br>';
         }
 
         // Ordenar los datos con calificacion descendiente, y por carreras iguales
@@ -830,8 +830,8 @@ class CarrerasController extends Controller
                     {
                         //Impresion del Orden
                         //cada vez que pasa por aqui significa que cambia de carrera
-                        echo "Se Crearon horarios para: ".$lp->Carrera;
-                        echo '<br>';
+                        //echo "Se Crearon horarios para: ".$lp->Carrera;
+                        //echo '<br>';
                         $nombrecarreraObjeto = $lf->nombreCarrera;
                         //echo  '<h4>'.$lf->nombreCarrera.'</h4>';
                         //echo '<br>';

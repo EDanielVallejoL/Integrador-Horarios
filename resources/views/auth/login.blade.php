@@ -14,7 +14,7 @@
 
                     @error('email')
                     <span class="invalid-feedback" role="alert">
-                        <strong>No tenemos registro de estos datos}</strong>
+                        <strong>No tenemos registro de estos datos</strong>
                     </span>
                     @enderror
                 </div>
