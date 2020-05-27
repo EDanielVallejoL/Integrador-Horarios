@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="card alert alert-success text-black" style="width: 27rem;">
-    <h1>Horarios</h1>
+    <h1>Horarios bloque</h1>
     <label for="basic-url">Selecciona una de las carreras</label>
     <select name="cbCarreras" id="cbCarreras">
         <option value='0' disabled selected hidden>Ninguna seleccionada</option>
