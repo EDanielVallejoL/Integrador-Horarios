@@ -320,6 +320,7 @@ class CarrerasController extends Controller
             //regresamos la vista
             include(app_path() . '/Horarios/Horarios.php');
             include(app_path() . '/Horarios/Alumnos.php');
+            include(app_path() . '/Horarios/ListaPrioridad.php');
             echo '
                 <div class="p-1 mb-2 bg-success text-dark">
                     <h3>Se subio con exito</h1>
@@ -327,7 +328,7 @@ class CarrerasController extends Controller
                 
             ';
             
-            return view('pages/Horarios/opcionesHorarios');
+            return view('pages/Carreras/listaPrioridad');
 
 
         } else {

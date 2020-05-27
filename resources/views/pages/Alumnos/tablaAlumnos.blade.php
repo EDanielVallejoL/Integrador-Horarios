@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content2')
+@section('content4')
 
 <div class="card alert alert-success text-black " style="width: 60rem;">
     <table id="example" class="table table-striped table-bordered " style="width:100%">
@@ -34,6 +34,8 @@
 
         </tbody>
     </table>
+
+    <a class='btn btn-success' href="{{ route('exporta') }}">{{ __('Exportar datos') }}</a>
 
 </div>
 

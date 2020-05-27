@@ -18,6 +18,7 @@ class CreateHorariosTable extends Migration
             $table->string('NombreCarrera');
             $table->string('Opcion');
             $table->string('NombreMateria');
+            $table->string('Profesor');
             $table->string('Hora');
             $table->string('Lunes');
             $table->string('Martes');

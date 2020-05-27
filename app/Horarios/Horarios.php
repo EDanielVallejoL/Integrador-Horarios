@@ -3,6 +3,20 @@
 
 include(app_path() . '/BD/abrir.php');
 
+$consulta = "SELECT * FROM horarios ";
+        
+$res = mysqli_query($conexion,$consulta);
+
+if($res->num_rows > 0)
+{
+
+   mysqli_query($conexion, "TRUNCATE TABLE horarios");
+   mysqli_query($conexion, "TRUNCATE TABLE lista_prioridad");
+   mysqli_query($conexion, "TRUNCATE TABLE alumnos");
+
+}
+
+
 
 foreach ($listaHorariosFinal as $lista) {
     $c1 = $lista->listaDia[0]->carr;
@@ -13,6 +27,7 @@ foreach ($listaHorariosFinal as $lista) {
 
         $c3 = $lista->listaDia[$i]->campo;
         $c4 = $lista->listaDia[$i]->hora;
+        $c5 = $lista->listaDia[$i]->profesor;
         $Lunes = "no";
         $Martes = "no";
         $Miercoles = "no";
@@ -48,7 +63,7 @@ foreach ($listaHorariosFinal as $lista) {
         }
 
         // Inserción 
-        $insertar = "INSERT INTO horarios  VALUES (NULL, '$c1', '$c2', '$c3', '$c4', '$Lunes', '$Martes', '$Miercoles', '$Jueves', '$Viernes', '$Sabado')";
+        $insertar = "INSERT INTO horarios  VALUES (NULL, '$c1', '$c2', '$c3', '$c5', '$c4', '$Lunes', '$Martes', '$Miercoles', '$Jueves', '$Viernes', '$Sabado')";
 
         $query = mysqli_query($conexion, $insertar);
     }
