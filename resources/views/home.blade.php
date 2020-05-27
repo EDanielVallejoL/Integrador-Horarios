@@ -6,8 +6,7 @@
   @csrf
   <div class="card alert alert-success text-black" style="width: 27rem;">
     <div class="card-header">
-      Paso 1 en el sistema de generación de horarios
-      Sube los siguientes archivos necesarios
+      Cargar archivos necesarios
     </div>
     <div class="form-group">
       <label for="">Archivo MPN</label>
@@ -20,7 +19,7 @@
       <input type="file" name="cupoCarrera" onchange='return isAlumnosAceptados(this)' accept='.xlsx' required >
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary">CARGAR</button>
   </div>
 </form>
 

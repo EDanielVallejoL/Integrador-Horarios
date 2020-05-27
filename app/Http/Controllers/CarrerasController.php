@@ -742,18 +742,11 @@ class CarrerasController extends Controller
         //Antes de mandar la lista debemos ordenarla 
         $aucx = $listaOrdenamiento;;
 
-<<<<<<< HEAD
         foreach($listaOrdenamiento as $lo)
         {
             //echo "Promedio: ". $lo->Promedio;
             //echo " Carrera: ". $lo->Carrera;
             //echo '<br>';
-=======
-        // Obtener una lista de columnas
-        foreach ($aucx as $clave => $fila) {
-            $carrera[$clave] = $fila->Carrera;
-            $calificacion[$clave] = $fila->Promedio;
->>>>>>> 9c29ecce09abe8433dd5614d4ac76acdfac9ac36
         }
 
         // Ordenar los datos con calificacion descendiente, y por carreras iguales

@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>BlockTime</title>
+    <title>Sistema generador automatico de horarios</title>
 
     <!-- Aqui se cambia el icono de la pestaña-->
     <link rel="shortcut icon" href="https://www.flaticon.es/premium-icon/icons/svg/1309/1309918.svg">
