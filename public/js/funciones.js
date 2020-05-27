@@ -27,7 +27,7 @@ $(document).ready(function () {
     $('#example2').dataTable({
         dom: 'Bfrtip',
         buttons: [
-            'excel', 'pdf'
+            'excel'
         ],
         pageLength: 4,
         lengthMenu: [[4, 10, 50, -1], [4, 10, 50, 'Todos']],

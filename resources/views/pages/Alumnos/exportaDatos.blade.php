@@ -51,6 +51,6 @@
     </table>
 
 </div>
-<script> alertify.warning('Selecciona el formato para descargar en automático'); </script>
+<script> alertify.warning('Puedes descargar este archivo en formato excel'); </script>
 
 @endsection
