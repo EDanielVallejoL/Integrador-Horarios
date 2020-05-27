@@ -322,9 +322,7 @@ class CarrerasController extends Controller
             include(app_path() . '/Horarios/Alumnos.php');
             include(app_path() . '/Horarios/ListaPrioridad.php');
             echo '
-                <div class="p-1 mb-2 bg-success text-dark">
-                    <h3>Se subio con exito</h1>
-                </div>
+                
                 
             ';
             
