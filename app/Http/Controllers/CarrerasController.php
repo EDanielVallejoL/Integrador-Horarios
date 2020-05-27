@@ -189,7 +189,9 @@ class AuxHorario
     }
 }
 
-    
+
+
+
 
 //FIN CLASES
 
@@ -577,8 +579,14 @@ class CarrerasController extends Controller
     //SOLO DEL PRIMER DOCUMENTOOOOOOOOOOOOOOOOOO MPN
     public function Carreras($nombreArchivo)
     {
+
+        //promedio
+
+
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
         $documento = IOFactory::load($rutaArchivo);
+
+        $this->validaMPN($documento);// Regresa un reporte con errores
 
         # obtenemos la primera celda para la validacion del archivo CPM
         $coordenadas = "A1";
@@ -732,15 +740,29 @@ class CarrerasController extends Controller
         }
 
         //Antes de mandar la lista debemos ordenarla 
-        sort($listaOrdenamiento);
+        $aucx = $listaOrdenamiento;;
 
+<<<<<<< HEAD
         foreach($listaOrdenamiento as $lo)
         {
             //echo "Promedio: ". $lo->Promedio;
             //echo " Carrera: ". $lo->Carrera;
             //echo '<br>';
+=======
+        // Obtener una lista de columnas
+        foreach ($aucx as $clave => $fila) {
+            $carrera[$clave] = $fila->Carrera;
+            $calificacion[$clave] = $fila->Promedio;
+>>>>>>> 9c29ecce09abe8433dd5614d4ac76acdfac9ac36
         }
-        return $listaOrdenamiento;
+
+        // Ordenar los datos con calificacion descendiente, y por carreras iguales
+        // Agregar $datos como el último parámetro, para ordenar por la clave común
+        //array_multisort( $calificacion, SORT_ASC ,$carrera, SORT_STRING, $aucx);
+
+        return $aucx;//Regresa una lista ordenada
+
+        //return $listaOrdenamiento;
     }
 
 
@@ -1634,6 +1656,82 @@ class CarrerasController extends Controller
         return $cupo;
     }
 
-  
-    
+    public function validaMPN($document)
+    {
+        //Habro la hoja 1 del archivo
+        $document->setActiveSheetIndex(0);
+        //Convierto los datos de la Hoja en un arreglo
+        $dataExcel = $document->getActiveSheet()->toArray();
+        
+        //Me posiciono en la celda donde empiezen los datos
+        $ObjHoja = $document->getSheet(0);
+        $persons = array();
+        $errors = array();
+        if($ObjHoja != NULL)
+        {
+            $rows = count($dataExcel);
+            //Arreglos para guardar los errores
+            for($cell = 1; $cell <= $rows ; $cell++){
+                
+                $celdaA = $document->getActiveSheet()->getCell('A'.$cell)->getValue();
+                $celdaB = $document->getActiveSheet()->getCell('B'.$cell)->getValue();
+                $celdaC = $document->getActiveSheet()->getCell('C'.$cell)->getValue();
+                $celdaD = $document->getActiveSheet()->getCell('D'.$cell)->getValue();
+
+                if($cell == 1)
+                {
+                    if($celdaA != "cve_carrera" || $celdaB != "carrera"|| $celdaC != "cve_materia" || $celdaD != "materia" )
+                    {
+                        $errors[] = array('cabecera' => "Error en las cabeceras del archivo");
+                    }
+
+                }
+                elseif($celdaA == "" && $celdaB  == "" && $celdaC == "" && $celdaD == "")
+                {
+                    //Termino el archivo
+                }
+                else{
+                    
+                //Recupero las filas del excel
+                $persons[$cell]['cve_carrera'] = $celdaA;
+                $persons[$cell]['carrera'] = $celdaB;
+                $persons[$cell]['cve_materia'] = $celdaC;
+                $persons[$cell]['materia']= $celdaD;
+
+                if($persons[$cell]['cve_carrera'] === NULL){
+                   $errors[] = array('cve_carrera' => "Error en la Fila ".$cell." No hay ninguna clave");
+                }
+                elseif (!is_numeric($persons[$cell]['cve_carrera'])) {
+                    $errors[] = array('cve_carrera' => "Error en la Fila ".$cell." La clave ".$persons[$cell]['cve_carrera']." es invalida");
+                }
+
+                if ($persons[$cell]['carrera'] === NULL) {
+                    $errors[] = array('carrera' => "Error en la Fila ".$cell." No hay ninguna carrera");
+                }
+                elseif (!is_string($persons[$cell]['carrera'])) {
+                    $errors[] = array('carrera' => "Error en la Fila ".$cell." La carrera ".$persons[$cell]['carrera']." es invalida");
+                }
+
+                if ($persons[$cell]['cve_materia'] === NULL) {
+                    $errors[] = array('cve_materia' => "Error en la Fila ".$cell." No hay ninguna clave");
+                }elseif (!is_numeric($persons[$cell]['cve_materia'])) {
+                    $errors[] = array('cve_materia' => "Error en la Fila ".$cell." La clave ".$persons[$cell]['cve_materia']." es invalida");
+                }
+
+                if ($persons[$cell]['materia'] === NULL) {
+                    $errors[] = array('materia' => "Error en la Fila ".$cell." No hay ninguna materia");
+                }elseif (!is_string($persons[$cell]['materia'])) {
+                    $errors[] = array('materia' => "Error en la Fila ".$cell." La materia ".$persons[$cell]['materia']." es invalida");
+                }
+                }
+            }
+        }else{
+            $errors[] = array('No valido' => "Error el archivo esta vacio");
+        }
+
+        //return $errors;//Regresa un array con los errores encontrados en el archivo
+        //PODRIAMOS VER Y SI ESTE ARRAY ESTA VACIO CONTINUAR
+        // SINO SOLICITAR QUE SE VUELVAN A CARGAR LOS ARCHIVOS
+        
+    }
 }
