@@ -446,8 +446,8 @@ class CarrerasController extends Controller
         if($valorRaw1 = "materia" and $valorRaw2 = "creditos" and $valorRaw3 = "profesor" and $valorRaw4 = "tipo" 
         and $valorRaw5 = "horas" and $valorRaw6 = "dias")
         {
-                echo '<h4>Entro</h4>';
-                echo 'br>';
+                //echo '<h4>Entro</h4>';
+                //echo 'br>';
                 
 
             // Sin comillas para objetos
@@ -736,9 +736,9 @@ class CarrerasController extends Controller
 
         foreach($listaOrdenamiento as $lo)
         {
-            echo "Promedio: ". $lo->Promedio;
-            echo " Carrera: ". $lo->Carrera;
-            echo '<br>';
+            //echo "Promedio: ". $lo->Promedio;
+            //echo " Carrera: ". $lo->Carrera;
+            //echo '<br>';
         }
         return $listaOrdenamiento;
     }
@@ -815,8 +815,8 @@ class CarrerasController extends Controller
                     {
                         //Impresion del Orden
                         //cada vez que pasa por aqui significa que cambia de carrera
-                        echo "Se Crearon horarios para: ".$lp->Carrera;
-                        echo '<br>';
+                        //echo "Se Crearon horarios para: ".$lp->Carrera;
+                        //echo '<br>';
                         $nombrecarreraObjeto = $lf->nombreCarrera;
                         //echo  '<h4>'.$lf->nombreCarrera.'</h4>';
                         //echo '<br>';

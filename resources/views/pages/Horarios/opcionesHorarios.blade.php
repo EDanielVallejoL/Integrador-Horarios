@@ -26,7 +26,7 @@
     <label for="basic-url">Puedes seleccionar otra opción</label>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Esta es la opcion:</span>
+            <span class="input-group-text" id="basic-addon3">Horario Bloque N.:</span>
         </div>
         <select name="opcion" id="opcion">
             <?php
