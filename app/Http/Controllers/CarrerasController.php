@@ -1968,7 +1968,7 @@ class CarrerasController extends Controller
 
             }
             $tot = $arrAux[0]['ocio'] +$arrAux[1]['ocio'] +$arrAux[2]['ocio'] +$arrAux[3]['ocio'] +$arrAux[4]['ocio'] +$arrAux[5]['ocio'];
-            $pordia = new HoraLibres($obj->numeroHorario, $carrera, $arrAux, $tot);
+            $pordia = new HoraLibres($obj->numeroHorario, $carrera, $arrAux, $tot); // arrAux = horas libres por dia, tot = total de horas libres por horario
             $arrAux = $this->arrDias();
             
             array_push($Hocio,$pordia);
