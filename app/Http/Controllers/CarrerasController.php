@@ -74,7 +74,7 @@ class HoraClase
     {
         $this->nombreMateria = $nombreMateria;
         $this->creditos = $creditos;
-        $this->profesor = $profesor;
+        $this->profesor = $profesor;$this->profesor = $profesor;
         $this->tipo = $tipo;
         $this->horas = $horas;
         $this->dias = $dias;
@@ -202,6 +202,16 @@ class ErroresGrupos
     }
 }
 
+class ObjetoAdvErro
+{
+    public $ListaErroresAdvertencias = array();
+
+    public function __construct($ListaErroresAdvertencias = [])
+    {
+        $this->ListaErroresAdvertencias = $ListaErroresAdvertencias;
+    }
+}
+
 
 
 
@@ -299,7 +309,10 @@ class CarrerasController extends Controller
             //Este solo sirve para imprimir
             $this->Imprime($listaFinal);
 
-            $this->Errores($listaFinal,$listaGrupos);
+            //Lista donde vienen errores y advertencias 
+            $ReporteErroresAdvertencias = $this->Errores($listaFinal,$listaGrupos);
+
+            $this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
@@ -394,7 +407,9 @@ class CarrerasController extends Controller
 /*----------------------------------------------VALIDACIONES PRIMER RECORRIDO--------------------------------------------------------------*/
     public function Errores($listaFinal,$listaGrupos)
     {
-       
+        $listaAdvertencias = array("");
+        $listaERRORES = array("");
+        $ReporteFinal = array();
         //foreach para recorrer carrera por carrera
         foreach ($listaFinal as $lf) {
             //guardamos el nombre de la carrera
@@ -406,65 +421,131 @@ class CarrerasController extends Controller
             uasort($lf->listaMaterias, array($this, 'sbo'));
             //foreach para recorrer las materias de la carrera con la informacion
             foreach ($lf->listaMaterias as $listass) {
-                if($listass->valorGrupo <= 3)
+                //un if que nos alertara si algun grupo NO cuenta con grupos 
+                //Esto nos dice que existe para la materia en el documento de "materia por carreras" pero no existe en el documento "Horarios completos"
+                if($listass->valorGrupo != 0)
                 {
-                    //si es menor o igual a 3 debemos verificar que no se empalme
-                    //verificamos las horas
-                    //Foreach para recorrer archivo de materias y saber el horario
-                    foreach ($listaGrupos as $clave => $fila) {
-                        //guardamos la variable que vamos a comparar esta variable es la que se esta recorriendo del archivo
-                        //Comparamos si la materia con pocos grupos es igual al recorrido dentro del archivo 
-                        $nombreM =$fila->nombreMateria;
-                        //se compara el nombre
-                        if($nombreM == $listass->Materia)
-                        {
-                            //Guardamos los primeros dos digitos de la hora en la que se INICIA la clase 
-                            $HoraInicial = substr($fila->horas, 0, 2);
-                            //Guardamos los primeros dos digitos de la hora en que se TERMINA
-                            $HoraFinal = substr($fila->horas, 3, 2);
-                            //Restamos para saber de cuantas horas es la clase 
-                            $Resta = $HoraFinal - $HoraInicial;
-                            //Si es mayor a 1 significa que la clase dura mas de una hora
-                            if($Resta>1)
+                    //Solo nos interezan las materias criticas
+                    if($listass->valorGrupo <= 3)
+                    {
+                        //si es menor o igual a 3 debemos verificar que no se empalme
+                        //verificamos las horas
+                        //Foreach para recorrer archivo de materias y saber el horario
+                        foreach ($listaGrupos as $clave => $fila) {
+                            //guardamos la variable que vamos a comparar esta variable es la que se esta recorriendo del archivo
+                            //Comparamos si la materia con pocos grupos es igual al recorrido dentro del archivo 
+                            $nombreM =$fila->nombreMateria;
+                            if($fila->tipo == "L")
                             {
-                                //hacemos un ciclo para insertar el numero total de horas
-                                for($i = 0; $i<$Resta; $i++)
-                                {
-                                    //si ya existe la hora en la lista debemos informar de un empalme 
-                                    if (in_array($HoraInicial, $listaHorasOcupada)) {
-                                        //si existe pues se alerta
-                                        echo "La materia ".$nombreM." es a la hora: ".$HoraInicial;
-                                        echo 'La hora ya esta ocupada';
-                                        echo '<br>';
-                                    }else{
-                                        //Si no existe se agrega a la lista 
-                                        array_push($listaHorasOcupada,$HoraInicial);
-                                        echo "La materia ".$nombreM;
-                                        echo "Se inserto la hora: ".$HoraInicial;
-                                        echo '<br>';
-                                        //Se aumenta la hora en 1
-                                        $HoraInicial = $HoraInicial + 1;
-                                    }
-                                }
+                                
                             }else{
-                                //Si no es mayor a 1 significa que la clase solo es de una hora
-                                if (in_array($HoraInicial, $listaHorasOcupada)) {
-                                    //si existe pues se alerta
-                                    echo "La materia ".$nombreM." es a la hora: ".$HoraInicial;
-                                    echo 'La hora ya esta ocupada';
-                                    echo '<br>';
-                                }else{
-                                    array_push($listaHorasOcupada,$HoraInicial);
-                                    echo "La materia ".$nombreM;
-                                    echo "Se inserto la hora: ".$HoraInicial;
-                                    echo '<br>';
+                                //se compara el nombre
+                                if($nombreM == $listass->Materia)
+                                {
+                                    //Guardamos los primeros dos digitos de la hora en la que se INICIA la clase 
+                                    $HoraInicial = substr($fila->horas, 0, 2);
+                                    //Guardamos los primeros dos digitos de la hora en que se TERMINA
+                                    $HoraFinal = substr($fila->horas, 3, 2);
+                                    //Restamos para saber de cuantas horas es la clase 
+                                    $Resta = $HoraFinal - $HoraInicial;
+                                    //Si es mayor a 1 significa que la clase dura mas de una hora
+                                    if($Resta>1)
+                                    {
+                                        //hacemos un ciclo para insertar el numero total de horas
+                                        for($i = 0; $i<$Resta; $i++)
+                                        {
+                                            //si ya existe la hora en la lista debemos informar de un empalme 
+                                            if (in_array($HoraInicial, $listaHorasOcupada)) {
+                                                //si la clase solo tiene una hora es algo critico
+                                                if($listass->valorGrupo==1)
+                                                {
+                                                    //si existe pues se alerta
+                                                    $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
+                                                   // echo '<br>';
+                                                    //metemos el texto completo a la lista de errores
+                                                    array_push($listaERRORES,$error);
+                                                }else{
+                                                    //si existe pues se alerta
+                                                    $advertencia = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor.'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
+                                                    //echo '<br>';
+                                                    array_push($listaAdvertencias,$advertencia);
+                                                }
+                                            }else{
+                                                //Si no existe se agrega a la lista 
+                                                array_push($listaHorasOcupada,$HoraInicial);
+                                                //echo "La materia ".$nombreM;
+                                                //echo "Con el profesor ".$fila->profesor." ";
+                                                //echo "Se inserto la hora: ".$HoraInicial;
+                                                //echo '<br>';
+                                                //Se aumenta la hora en 1
+                                                $HoraInicial = $HoraInicial + 1;
+                                            }
+                                        }
+                                    }else{
+                                        //Si no es mayor a 1 significa que la clase solo es de una hora
+                                        if (in_array($HoraInicial, $listaHorasOcupada)) {
+                                            if($listass->valorGrupo==1)
+                                            {
+                                                 //si existe pues se alerta
+                                                 $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
+                                                 // echo '<br>';
+                                                 //metemos el texto completo a la lista de errores
+                                                 array_push($listaERRORES,$error);
+                                            }else{
+                                                //si existe pues se alerta
+                                                $advertencia = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
+                                                // echo '<br>';
+                                                //metemos el texto completo a la lista de errores
+                                                array_push($listaAdvertencias,$advertencia);
+                                            }        
+                                        }else{
+                                            array_push($listaHorasOcupada,$HoraInicial);
+                                            // "ENTRADA En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." en a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor;
+                                            //echo '<br>';
+                                        }
+                                    }
                                 }
                             }
                         }
+                    }else{
+                        //se sigue no hace falta hacer nada
                     }
                 }else{
-                    //se sigue no hace falta hacer nada
+                    //Se generaria una alerta critica
+                    $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para la siguiente materia: ".$listass->Materia;
+                    //echo '<br>';
+                    //metemos el texto completo a la lista de errores
+                    array_push($listaERRORES,$error);
                 }
+            }
+        }
+        $ReporteErrores = new ObjetoAdvErro($listaERRORES);
+        $ReporteAdvertencias = new ObjetoAdvErro($listaAdvertencias);
+        array_push($ReporteFinal,$ReporteAdvertencias);
+        array_push($ReporteFinal,$ReporteErrores);
+        return $ReporteFinal;
+    }
+
+    public function MostrarErroresyAdvertencias($ReporteErroresAdvertencias)
+    {
+        $aux = 1;
+
+        foreach($ReporteErroresAdvertencias as $REA)
+        {
+            foreach($REA as $lista)
+            {
+                if($aux == 1)
+                {
+                    echo "<h4>ADVERTENCIAS</h4>";
+                    $aux = $aux + 1;
+                }else{
+                    echo "<h4>ERRORES</h4>";
+                }
+               foreach($lista as $tex)
+               {
+                   echo '<br>';
+                   echo $tex;
+               }
             }
         }
     }
