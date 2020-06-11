@@ -1984,8 +1984,13 @@ class CarrerasController extends Controller
             echo "        Horas Ocio Totales:  ";
             print_r($h->ocioTotal);
             echo "<br>";
+            foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
+            {
+                echo "    Por dia:   ";
+                print_r($val['ocio']);
+                echo "<br>";
+            }
         }
-        //print_r($Hocio);
         return $Hocio;
     }
 
