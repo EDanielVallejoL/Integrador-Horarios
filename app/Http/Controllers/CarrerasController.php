@@ -1584,6 +1584,7 @@ class CarrerasController extends Controller
         }
     }
 
+    //PROXIMO
     public function AsigaHorarios($listaHorarios,$listaAlumnosFinal,$listaFinal)
     {
         //listaHorarios nos dara (Numero de horario, carrera, ...)
