@@ -212,6 +212,21 @@ class ObjetoAdvErro
     }
 }
 
+class HoraLibres
+{
+    public $numHorario;
+    public $carrera;
+    public $listOscio = array();
+    public $ocioTotal;
+
+    public function __construct($numHorario,$carrera, $listOscio = [], $ocioTotal )
+    {
+        $this->numHorario = $numHorario;
+        $this->carrera = $carrera;
+        $this->listOscio = $listOscio;
+        $this->ocioTotal = $ocioTotal;
+    }
+}
 
 
 
@@ -312,7 +327,7 @@ class CarrerasController extends Controller
             //Lista donde vienen errores y advertencias 
             $ReporteErroresAdvertencias = $this->Errores($listaFinal,$listaGrupos);
 
-            $this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
+            //$this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
@@ -329,7 +344,8 @@ class CarrerasController extends Controller
             //ListaHorarios final ya tiene TODA la informacion de los horarios
             //carrera, materia y hora de inscripcion
             $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
-
+            $listaOcio = $this->HorasOcio($listaHorariosFinal);
+            
             //// IMPRIMER ESTO MAS TARDE ----->
             //$this->ValorHorarios($listaHorariosFinal);
             $listaAsignacionAlumnos = $this->ordenachingon($listaAsignacionAlumnos);
@@ -337,6 +353,7 @@ class CarrerasController extends Controller
             $listaAlumnosInscritos =  $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos,$listaFinal);
             //$this->recorreLista($listaAsignacionAlumnos);
 
+            
             //$this->imprimeAsignacion($listaAlumnosInscritos);
 
 
@@ -345,12 +362,12 @@ class CarrerasController extends Controller
             include(app_path() . '/Horarios/Horarios.php');
             include(app_path() . '/Horarios/Alumnos.php');
             include(app_path() . '/Horarios/ListaPrioridad.php');
-            echo '
+            echo ' 
                 
                 
             ';
             
-            return view('pages/Carreras/listaPrioridad');
+            return view('pages/Horarios/opcionesHorarios');
 
 
         } else {
@@ -413,8 +430,8 @@ class CarrerasController extends Controller
         //foreach para recorrer carrera por carrera
         foreach ($listaFinal as $lf) {
             //guardamos el nombre de la carrera
-            echo $carrera = $lf->nombreCarrera;
-            echo '<br>';
+            //echo $carrera = $lf->nombreCarrera;
+            //echo '<br>';
             //lista donde se va a guardar las horas de la carrera
             $listaHorasOcupada = array();
             //acomodamos la lista
@@ -952,8 +969,8 @@ class CarrerasController extends Controller
         foreach ($listaFin as $lf) {
             echo '<h2>' . $lf->nombreCarrera . '</h2>';
             foreach ($lf->listaMaterias as $listass) {
-                echo $listass->Materia;
-                echo '<br>';
+                //echo $listass->Materia;
+                //echo '<br>';
                 $referencia = 1;
                 foreach ($listaGru as $lg) {
                     if ($listass->Materia == $lg->nombreMateria) {
@@ -977,6 +994,7 @@ class CarrerasController extends Controller
     {
         //lista de materias que se usara para insrtar en el objeto
         $listaMateriasInscritasHora = array();
+        
 
         $banderaIndicador = 0;
 
@@ -1032,6 +1050,10 @@ class CarrerasController extends Controller
                                                 if (count($listaMateriasInscritas) < 0) {
                                                     
                                                     //REVISARCUPO
+                                                    if($lg->cupo != 0)
+                                                    {
+
+                                                    }
 
                                                     //La primer materia a insertar 
                                                     //significa que la lista esta vacia
@@ -1072,6 +1094,8 @@ class CarrerasController extends Controller
                                                             $HoraInicial = $HoraInicial + 1;   
                                                             
                                                             //QUITARCUPO
+                             
+
                                                         }
                                                         $HorasTotales = 0;
                                                     }else{
@@ -1089,6 +1113,7 @@ class CarrerasController extends Controller
                                                         array_push($listaMateriasInscritas, $HoraInsertada);
                                                         sort($listaMateriasInscritas);
                                                          //QUITARCUPO
+                                            
                                                         //ya no hace falta buscar en esta materia
                                                         break;
                                                     }
@@ -1098,9 +1123,16 @@ class CarrerasController extends Controller
 
                                                          // si la materia ya se inserto no hace falta seguir buscando
                                                     
-                                                        } else {
+                                                    } else {
 
                                                             //REVISARCUPO
+                                                            //REVISARCUPO
+                                                            if($lg->cupo != 0)
+                                                            {
+                                                                //print_r($lg->cupo);
+                                                                echo '<br>';
+                                                        
+                                                            }
 
                                                            // Esta parte es para cuando inserta despues de la primera materia insertada
 
@@ -1143,7 +1175,9 @@ class CarrerasController extends Controller
                                                                     sort($listaMateriasInscritas);
                                                                     $HoraInicial = $HoraInicial + 1;
                                                                      
-                                                                    //QUITARCUPO                                                
+                                                                    //QUITARCUPO    
+                                                  
+                                                                                                               
                                                                 }
                                                                 $HorasTotales = 0;
                                                             }else{
@@ -1163,7 +1197,12 @@ class CarrerasController extends Controller
                                                                 //echo "La materia: " . $MateriaInscrita . " Se inserto a la hora: " . substr($HoraInscripcion, 0, 2);
                                                                 //  echo '<br>';
                                                                 //unset($listaDiasMateria);
+
+
+
                                                                  //QUITARCUPO
+                                       
+
                                                                 break;
                                                             }
                                                         }
@@ -1267,7 +1306,8 @@ class CarrerasController extends Controller
                                                                             array_push($listaMateriasInscritas, $HoraInsertada);
                                                                             sort($listaMateriasInscritas);
                                                                             $HoraInicial = $HoraInicial + 1;  
-                                                                             //QUITARCUPO                                              
+                                                                             //QUITARCUPO   
+                                                                                                                       
                                                                         }
                                                                         $HorasTotales = 0;
                                                                     }else{
@@ -1288,6 +1328,7 @@ class CarrerasController extends Controller
                                                                         //  echo '<br>';
                                                                         //unset($listaDiasMateria);
                                                                          //QUITARCUPO
+                                                   
                                                                         break;
                                                                     }
                                                 
@@ -1374,7 +1415,8 @@ class CarrerasController extends Controller
                                                                         array_push($listaMateriasInscritas, $HoraInsertada);
                                                                         sort($listaMateriasInscritas);
                                                                         $HoraInicial = $HoraInicial + 1;
-                                                                         //QUITARCUPO                                                
+                                                                         //QUITARCUPO  
+                                                                                                           
                                                                     }
                                                                     $HorasTotales = 0;
                                                                 }else{
@@ -1395,6 +1437,8 @@ class CarrerasController extends Controller
                                                                     //  echo '<br>';
                                                                     //unset($listaDiasMateria);
                                                                      //QUITARCUPO
+                                                                     
+                                     
                                                                     break;
                                                                 }
                                                             }
@@ -1890,5 +1934,98 @@ class CarrerasController extends Controller
         //PODRIAMOS VER Y SI ESTE ARRAY ESTA VACIO CONTINUAR
         // SINO SOLICITAR QUE SE VUELVAN A CARGAR LOS ARCHIVOS
         
+    }
+
+
+
+    public function HorasOcio($listaHorariosFinal)
+    {
+        $Hocio = array();
+        $arrAux = $this->arrDias();
+        foreach($listaHorariosFinal as $obj)
+        {
+            foreach($obj->listaDia as $dia)
+            {
+                $carrera = $dia->carr;
+
+                if (strpos($dia->dias, 'L') !== false) {
+                    $arrAux = $this->ObtenHoraOcio( 0 , $arrAux,$dia );
+                }
+                if (strpos($dia->dias, 'Ma') !== false) {
+                    $arrAux = $this->ObtenHoraOcio( 1 , $arrAux,$dia );
+                }
+                if (strpos($dia->dias, 'Mi') !== false) {
+                    $arrAux = $this->ObtenHoraOcio( 2 , $arrAux,$dia );
+                }
+                if (strpos($dia->dias, 'J') !== false) {
+                    $arrAux = $this->ObtenHoraOcio( 3 , $arrAux,$dia );
+                }
+                if (strpos($dia->dias, 'V') !== false) {
+                    $arrAux = $this->ObtenHoraOcio( 4 , $arrAux,$dia );
+                }
+                if (strpos($dia->dias, 'S') !== false) {
+                    $arrAux = $this->ObtenHoraOcio( 5 , $arrAux,$dia );
+                }
+
+            }
+            $tot = $arrAux[0]['ocio'] +$arrAux[1]['ocio'] +$arrAux[2]['ocio'] +$arrAux[3]['ocio'] +$arrAux[4]['ocio'] +$arrAux[5]['ocio'];
+            $pordia = new HoraLibres($obj->numeroHorario, $carrera, $arrAux, $tot); // arrAux = horas libres por dia, tot = total de horas libres por horario
+            $arrAux = $this->arrDias();
+            
+            array_push($Hocio,$pordia);
+        }
+        print_r("***************************************Final********************************");
+        echo "<br>";
+        foreach($Hocio as $h)
+        {
+            echo "Horario:  ";
+            print_r($h->numHorario);
+            echo "       Carrera: ";
+            print_r($h->carrera);
+            echo "        Horas Ocio Totales:  ";
+            print_r($h->ocioTotal);
+            echo "<br>";
+            foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
+            {
+                echo "    Por dia:   ";
+                print_r($val['ocio']);
+                echo "<br>";
+            }
+        }
+        return $Hocio;
+    }
+
+    public function arrDias()
+    {
+        $dias = array();
+        for ($i = 1; $i <= 6; $i++)//Crea 5 arreglos para los dias 0 = lunes 1 = martes etc
+        {
+            $array = array(
+                "inicio"    => "false",
+                "Hanterio"  => 0,
+                "ocio"  => 0,
+            );
+            array_push($dias,$array);
+        }
+        return $dias;
+    }
+
+    public function ObtenHoraOcio( $i, $arrAux,$dia )
+    {
+        if($arrAux[$i]['inicio'] === "true")//verifica si ya comenzaron las clases
+        {
+                        if( $arrAux[$i]['Hanterio'] !== substr($dia->hora, 0,2)  )//Detectamos hora ocio
+                        {
+                            $arrAux[$i]['ocio'] =  $arrAux[$i]['ocio'] + (substr($dia->hora, 0,2)-$arrAux[$i]['Hanterio'] ) ;//Aumentamos el contador de ocio
+                        }
+                        $arrAux[$i]['Hanterio'] = substr($dia->hora, -2); 
+        }
+        else
+        {
+                        $arrAux[$i]['inicio'] = "true";
+                        $arrAux[$i]['Hanterio'] = substr($dia->hora, -2); 
+        }
+
+        return $arrAux;
     }
 }
