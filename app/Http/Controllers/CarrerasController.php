@@ -327,7 +327,7 @@ class CarrerasController extends Controller
             //Lista donde vienen errores y advertencias 
             $ReporteErroresAdvertencias = $this->Errores($listaFinal,$listaGrupos);
 
-            //$this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
+            $this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
@@ -430,14 +430,19 @@ class CarrerasController extends Controller
         //foreach para recorrer carrera por carrera
         foreach ($listaFinal as $lf) {
             //guardamos el nombre de la carrera
-            //echo $carrera = $lf->nombreCarrera;
-            //echo '<br>';
+            $carrera = $lf->nombreCarrera;
+            echo '<h5>'.$carrera.'</h5>';
+            echo '<br>';
             //lista donde se va a guardar las horas de la carrera
             $listaHorasOcupada = array();
+            //lista de Hora y Dia ocupada
+            $listaDiaHoraOcupado = array("");
             //acomodamos la lista
             uasort($lf->listaMaterias, array($this, 'sbo'));
             //foreach para recorrer las materias de la carrera con la informacion
             foreach ($lf->listaMaterias as $listass) {
+                $contadorDiasMateria = 0;
+                $contadorFinalMateria = 0;
                 //un if que nos alertara si algun grupo NO cuenta con grupos 
                 //Esto nos dice que existe para la materia en el documento de "materia por carreras" pero no existe en el documento "Horarios completos"
                 if($listass->valorGrupo != 0)
@@ -454,8 +459,9 @@ class CarrerasController extends Controller
                             $nombreM =$fila->nombreMateria;
                             if($fila->tipo == "L")
                             {
-                                
+                                //Si es laboratorio hijoeputa
                             }else{
+                                //Si no es laboratorio
                                 //se compara el nombre
                                 if($nombreM == $listass->Materia)
                                 {
@@ -468,17 +474,533 @@ class CarrerasController extends Controller
                                     //Si es mayor a 1 significa que la clase dura mas de una hora
                                     if($Resta>1)
                                     {
+                                        $HoraReffLunes = 0;
+                                        $HoraReffMartes = 0;
+                                        $HoraReffMiercoles = 0;
+                                        $HoraReffJueves = 0;
+                                        $HoraReffViernes = 0;
+                                        $HoraReffSabado = 0;
                                         //hacemos un ciclo para insertar el numero total de horas
+
+                                        //Referencia para saber de cuantos dias es la materia
+                                        if($fila->lunes == "")
+                                        {
+                                           //si esta vacio no cuenta 
+                                        }else{
+                                            $contadorDiasMateria = $contadorDiasMateria + 1;
+                                        }
+                                        if($fila->martes == "")
+                                        {
+                                           //si esta vacio no cuenta 
+                                        }else{
+                                            $contadorDiasMateria = $contadorDiasMateria + 1;
+                                        }
+                                        if($fila->miercoles == "")
+                                        {
+                                           //si esta vacio no cuenta 
+                                        }else{
+                                            $contadorDiasMateria = $contadorDiasMateria + 1;
+                                        }
+                                        if($fila->jueves == "")
+                                        {
+                                           //si esta vacio no cuenta 
+                                        }else{
+                                            $contadorDiasMateria = $contadorDiasMateria + 1;
+                                        }
+                                        if($fila->viernes == "")
+                                        {
+                                           //si esta vacio no cuenta 
+                                        }else{
+                                            $contadorDiasMateria = $contadorDiasMateria + 1;
+                                        }
+                                        if($fila->sabado == "")
+                                        {
+                                           //si esta vacio no cuenta 
+                                        }else{
+                                            $contadorDiasMateria = $contadorDiasMateria + 1;
+                                        }
+
+                                        //revision dentro de la lista
+                                        
+
+                                        $unavezLunes = 0;
+                                        $unavezMartes = 0;
+                                        $unavezMiercoles = 0;
+                                        $unavezJueves = 0;
+                                        $unavezViernes = 0;
+                                        $unavezSabado = 0;
                                         for($i = 0; $i<$Resta; $i++)
                                         {
-                                            //si ya existe la hora en la lista debemos informar de un empalme 
-                                            if (in_array($HoraInicial, $listaHorasOcupada)) {
-                                                //si la clase solo tiene una hora es algo critico
+                                            if($fila->lunes != "")
+                                            {
+                                                $HoraReffLunes = substr($fila->lunes, 0, 2);
+                                                $horaDiaLunes = 'lunes'.$HoraReffLunes;
+                                                if(in_array($horaDiaLunes,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    //poner un if para solo una entrada al contador
+                                                    if($unavezLunes == 0)
+                                                    {
+                                                        $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                        $unavezLunes = 1;
+                                                    } 
+                                                    $HoraReffLunes == $HoraReffLunes + 1;
+                                                }
+                                            }
+                                            if($fila->martes != "")
+                                            {
+                                                $HoraReffMartes = substr($fila->martes, 0, 2);
+                                                $horaDiaMartes = 'martes'.$HoraReffMartes;
+                                                if(in_array($horaDiaMartes,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    if($unavezMartes == 0)
+                                                    {
+                                                        $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                        $unavezMartes = 1;
+                                                    } 
+                                                    $HoraReffMartes == $HoraReffMartes + 1;
+                                                }
+                                            }
+                                            if($fila->miercoles != "")
+                                            {
+                                                $HoraReffMiercoles = substr($fila->miercoles, 0, 2);
+                                                $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
+                                                if(in_array($horaDiaMiercoles,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    if($unavezMiercoles == 0)
+                                                    {
+                                                        $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                        $unavezMiercoles = 1;
+                                                    } 
+                                                    $HoraReffMiercoles == $HoraReffMiercoles + 1;
+                                                }
+                                            }
+                                            if($fila->jueves != "")
+                                            {
+                                                $HoraReffJueves = substr($fila->jueves, 0, 2);
+                                                $horaDiaJueves = 'jueves'.$HoraReffJueves;
+                                                if(in_array($horaDiaJueves,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    if($unavezJueves == 0)
+                                                    {
+                                                        $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                        $unavezJueves = 1;
+                                                    } 
+                                                    $HoraReffJueves == $HoraReffJueves + 1;
+                                                }
+                                            }
+                                            if($fila->viernes != "")
+                                            {
+                                                $HoraReffViernes = substr($fila->viernes, 0, 2);
+                                                $horaDiaViernes = 'viernes'.$HoraReffViernes;
+                                                if(in_array($horaDiaViernes,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    if($unavezViernes == 0)
+                                                    {
+                                                        $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                        $unavezViernes = 1;
+                                                    } 
+                                                    $HoraReffViernes == $HoraReffViernes + 1;
+                                                }
+                                            }
+                                            if($fila->sabado != "")
+                                            {
+                                                $HoraReffSabado = substr($fila->sabado, 0, 2);
+                                                $horaDiaSabado = 'sabado'.$HoraReffSabado;
+                                                if(in_array($horaDiaSabado,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    if($unavezSabado == 0)
+                                                    {
+                                                        $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                        $unavezSabado = 1;
+                                                    } 
+                                                    $HoraReffSabado == $HoraReffSabado + 1;
+                                                }
+                                            }
+                                            //TERMINACION DE COMPARACION
+                                        }
+                                        if($contadorFinalMateria == $contadorDiasMateria)
+                                        {
+                                            $brincoLunes = 0;
+                                            $brincoMartes = 0;
+                                            $brincoMiercoles = 0;
+                                            $brincoJueves = 0;
+                                            $brincoViernes = 0;
+                                            $brincoSabado = 0;
+                                            for($i = 0; $i<$Resta; $i++)
+                                            {
+                                                    //significa que si hay cupo en la hora deseada con los dias deseados
+                                                if($fila->lunes == "")
+                                                {
+                                                //echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    if($brincoLunes == 0)
+                                                    {
+                                                        $HoraReffLunes = substr($fila->lunes, 0, 2);
+                                                        echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                        $horaDiaLunes = 'lunes'.$HoraReffLunes;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaLunes);
+                                                        $HoraReffLunes = $HoraReffLunes + 1;
+                                                        $brincoLunes = 1;
+                                                        echo '<br>';
+                                                    }else{
+                                                        echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                        $horaDiaLunes = 'lunes'.$HoraReffLunes;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaLunes);
+                                                        $HoraReffLunes = $HoraReffLunes + 1;
+                                                        echo '<br>';
+                                                    }
+                                                }
+                                                if($fila->martes == "")
+                                                {
+                                                //echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    if($brincoMartes == 0)
+                                                    {
+                                                        $HoraReffMartes = substr($fila->martes, 0, 2);
+                                                        echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                        $horaDiaMartes = 'martes'.$HoraReffMartes;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaMartes);
+                                                        $HoraReffMartes = $HoraReffMartes + 1;
+                                                        $brincoMartes = 1;
+                                                        echo '<br>';
+                                                    }else{
+                                                        echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                        $horaDiaMartes = 'martes'.$HoraReffMartes;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaMartes);
+                                                        $HoraReffMartes = $HoraReffMartes + 1;
+                                                        echo '<br>';
+                                                    }
+                                                    $HoraReffMartes = substr($fila->martes, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                    $horaDiaMartes = 'martes'.$HoraReffMartes;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaMartes);
+                                                    $HoraReffMartes = $HoraReffMartes + 1;
+                                                    echo '<br>';
+                                                }
+                                                if($fila->miercoles == "")
+                                                {
+                                                // echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    if($brincoMiercoles == 0)
+                                                    {
+                                                        $HoraReffMiercoles = substr($fila->miercoles, 0, 2);
+                                                        echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                        $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
+                                                        $HoraReffMiercoles = $HoraReffMiercoles + 1;
+                                                        $brincoMiercoles = 1;
+                                                        echo '<br>';
+
+                                                    }else{
+                                                        echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                        $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
+                                                        $HoraReffMiercoles = $HoraReffMiercoles + 1;
+                                                        echo '<br>';
+                                                    }
+                                                }
+                                                if($fila->jueves == "")
+                                                {
+                                                // echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    if($brincoJueves == 0)
+                                                    {
+                                                        $horaDia = $HoraInicial."jueves";
+                                                        $HoraReffJueves = substr($fila->jueves, 0, 2);
+                                                        echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                        $horaDiaJueves = 'jueves'.$HoraReffJueves;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                        $HoraReffJueves = $HoraReffJueves + 1;
+                                                        $brincoJueves = 1;
+                                                        echo '<br>';
+                                                    }else{
+                                                        echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                        $horaDiaJueves = 'jueves'.$HoraReffJueves;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                        $HoraReffJueves = $HoraReffJueves + 1;
+                                                        echo '<br>';
+                                                    }
+                                                }
+                                                if($fila->viernes == "")
+                                                {
+                                                //echo "No existe clases los lunes ";
+                                                }else{
+                                                    
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    if($brincoViernes == 0)
+                                                    {
+                                                        $horaDia = $HoraInicial." viernes";
+                                                        $HoraReffViernes = substr($fila->viernes, 0, 2);
+                                                        echo 'La materia varias horas mismo dia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                        $horaDiaViernes = 'viernes'.$HoraReffViernes;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaViernes);
+                                                        $HoraReffViernes = $HoraReffViernes + 1;
+                                                        $brincoViernes = 1;
+                                                        echo '<br>';
+                                                    }else{
+                                                        echo 'La materia varias horas mismo dia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                        $horaDiaViernes = 'viernes'.$HoraReffViernes;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaViernes);
+                                                        $HoraReffViernes = $HoraReffViernes + 1;
+                                                        echo '<br>';
+                                                    }
+                                                   
+                                                }
+                                                if($fila->sabado == "")
+                                                {
+                                                // echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    if($brincoSabado == 0)
+                                                    {
+                                                        $HoraReffSabado = substr($fila->sabado, 0, 2);
+                                                        echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                        $horaDiaSabado = 'sabado'.$HoraReffSabado;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                        echo '<br>';
+                                                        $HoraReffSabado = $HoraReffSabado + 1;
+                                                        $brincoSabado = 1;
+                                                    }else{
+                                                        echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                        $horaDiaSabado = 'sabado'.$HoraReffSabado;
+                                                        array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                        echo '<br>';
+                                                        $HoraReffSabado = $HoraReffSabado + 1;
+                                                    }
+                                                }
+                                            }
+                                        }else{
+                                            //significa que hubo un empalme 
+                                            if($listass->valorGrupo==1)
+                                            {
+                                                //si existe pues se alerta
+                                                $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
+                                                //echo '<br>';
+                                                //metemos el texto completo a la lista de errores
+                                                array_push($listaERRORES,$error);
+                                            }else{
+                                                //si existe pues se alerta
+                                                $advertencia = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor.'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
+                                               // echo '<br>';
+                                                array_push($listaAdvertencias,$advertencia);
+                                            }
+                                        }
+                                        //si eres de una sola hora
+                                    }else{
+                                        //Si no es mayor a 1 significa que la clase solo es de una hora
+                                          //Referencia para saber de cuantos dias es la materia
+                                          if($fila->lunes == "")
+                                          {
+                                             //si esta vacio no cuenta 
+                                          }else{
+                                              $contadorDiasMateria = $contadorDiasMateria + 1;
+                                          }
+                                          if($fila->martes == "")
+                                          {
+                                             //si esta vacio no cuenta 
+                                          }else{
+                                              $contadorDiasMateria = $contadorDiasMateria + 1;
+                                          }
+                                          if($fila->miercoles == "")
+                                          {
+                                             //si esta vacio no cuenta 
+                                          }else{
+                                              $contadorDiasMateria = $contadorDiasMateria + 1;
+                                          }
+                                          if($fila->jueves == "")
+                                          {
+                                             //si esta vacio no cuenta 
+                                          }else{
+                                              $contadorDiasMateria = $contadorDiasMateria + 1;
+                                          }
+                                          if($fila->viernes == "")
+                                          {
+                                             //si esta vacio no cuenta 
+                                          }else{
+                                              $contadorDiasMateria = $contadorDiasMateria + 1;
+                                          }
+                                          if($fila->sabado == "")
+                                          {
+                                             //si esta vacio no cuenta 
+                                          }else{
+                                              $contadorDiasMateria = $contadorDiasMateria + 1;
+                                          }
+  
+
+
+                                        if($fila->lunes != "")
+                                            {
+                                                $HoraReffLunes = substr($fila->lunes, 0, 2);
+                                                $horaDiaLunes = 'lunes'.$HoraReffLunes;
+                                                if(in_array($horaDiaLunes,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                    
+                                                }
+                                            }
+                                            if($fila->martes != "")
+                                            {
+                                                $HoraReffMartes = substr($fila->martes, 0, 2);
+                                                $horaDiaMartes = 'martes'.$HoraReffMartes;
+                                                if(in_array($horaDiaMartes,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                    
+                                                }
+                                            }
+                                            if($fila->miercoles != "")
+                                            {
+                                                $HoraReffMiercoles = substr($fila->miercoles, 0, 2);
+                                                $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
+                                                if(in_array($horaDiaMiercoles,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                   
+                                                }
+                                            }
+                                            if($fila->jueves != "")
+                                            {
+                                                $HoraReffJueves = substr($fila->jueves, 0, 2);
+                                                $horaDiaJueves = 'jueves'.$HoraReffJueves;
+                                                if(in_array($horaDiaJueves,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                   
+                                                }
+                                            }
+                                            if($fila->viernes != "")
+                                            {
+                                                $HoraReffViernes = substr($fila->viernes, 0, 2);
+                                                $horaDiaViernes = 'viernes'.$HoraReffViernes;
+                                                if(in_array($horaDiaViernes,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                    
+                                                }
+                                            }
+                                            if($fila->sabado != "")
+                                            {
+                                                $HoraReffSabado = substr($fila->sabado, 0, 2);
+                                                $horaDiaSabado = 'sabado'.$HoraReffSabado;
+                                                if(in_array($horaDiaSabado,$listaDiaHoraOcupado))
+                                                {
+                                                    //si existes significa que no se puede insertar 
+                                                }else{
+                                                    $contadorFinalMateria = $contadorFinalMateria + 1;
+                                                   
+                                                }
+                                            }
+                                            //TERMINACION DE COMPARACION
+                                            if($contadorFinalMateria == $contadorDiasMateria)
+                                            {
+                                                //significa que si hay cupo en la hora deseada con los dias deseados
+                                                if($fila->lunes == "")
+                                                {
+                                                   //echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    $horaDia = $HoraInicial."lunes";
+                                                    //array_push($listaDiaHoraOcupada,$horaDia);
+                                                    $HoraReff = substr($fila->lunes, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReff;
+                                                    $horaDiaLunes = 'lunes'.$HoraReff;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaLunes);
+                                                    echo '<br>';
+                                                }
+                                                if($fila->martes == "")
+                                                {
+                                                   //echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    $horaDia = $HoraInicial."martes";
+                                                    $HoraReff = substr($fila->martes, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReff;
+                                                    $horaDiaMartes = 'martes'.$HoraReff;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaMartes);
+                                                    echo '<br>';
+                                                }
+                                                if($fila->miercoles == "")
+                                                {
+                                                  // echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    $horaDia = $HoraInicial." miercoles";
+                                                    $HoraReff = substr($fila->miercoles, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReff;
+                                                    $horaDiaMiercoles = 'miercoles'.$HoraReff;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
+                                                    echo '<br>';
+                                                }
+                                                if($fila->jueves == "")
+                                                {
+                                                  // echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    $horaDia = $HoraInicial."jueves";
+                                                    $HoraReff = substr($fila->jueves, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReff;
+                                                    $horaDiaJueves = 'jueves'.$HoraReff;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                    echo '<br>';
+                                                }
+                                                if($fila->viernes == "")
+                                                {
+                                                   //echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    $horaDia = $HoraInicial." viernes";
+                                                    $HoraReff = substr($fila->viernes, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReff;
+                                                    $horaDiaViernes = 'viernes'.$HoraReff;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaViernes);
+                                                    echo '<br>';
+                                                }
+                                                if($fila->sabado == "")
+                                                {
+                                                  // echo "No existe clases los lunes ";
+                                                }else{
+                                                    //si fila es diferente de vacio significa que la hora se ocupa ahi
+                                                    $horaDia = $HoraInicial."sabado";
+                                                    $HoraReff = substr($fila->sabado, 0, 2);
+                                                    echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReff;
+                                                    $horaDiaSabado = 'sabado'.$HoraReff;
+                                                    array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                    echo '<br>';
+                                                }
+
+                                            }else{
+                                                //significa que hubo un empalme 
                                                 if($listass->valorGrupo==1)
                                                 {
                                                     //si existe pues se alerta
                                                     $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
-                                                   // echo '<br>';
+                                                    //echo '<br>';
                                                     //metemos el texto completo a la lista de errores
                                                     array_push($listaERRORES,$error);
                                                 }else{
@@ -487,39 +1009,8 @@ class CarrerasController extends Controller
                                                     //echo '<br>';
                                                     array_push($listaAdvertencias,$advertencia);
                                                 }
-                                            }else{
-                                                //Si no existe se agrega a la lista 
-                                                array_push($listaHorasOcupada,$HoraInicial);
-                                                //echo "La materia ".$nombreM;
-                                                //echo "Con el profesor ".$fila->profesor." ";
-                                                //echo "Se inserto la hora: ".$HoraInicial;
-                                                //echo '<br>';
-                                                //Se aumenta la hora en 1
-                                                $HoraInicial = $HoraInicial + 1;
                                             }
-                                        }
-                                    }else{
-                                        //Si no es mayor a 1 significa que la clase solo es de una hora
-                                        if (in_array($HoraInicial, $listaHorasOcupada)) {
-                                            if($listass->valorGrupo==1)
-                                            {
-                                                 //si existe pues se alerta
-                                                 $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
-                                                 // echo '<br>';
-                                                 //metemos el texto completo a la lista de errores
-                                                 array_push($listaERRORES,$error);
-                                            }else{
-                                                //si existe pues se alerta
-                                                $advertencia = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
-                                                // echo '<br>';
-                                                //metemos el texto completo a la lista de errores
-                                                array_push($listaAdvertencias,$advertencia);
-                                            }        
-                                        }else{
-                                            array_push($listaHorasOcupada,$HoraInicial);
-                                            // "ENTRADA En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." en a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor;
-                                            //echo '<br>';
-                                        }
+
                                     }
                                 }
                             }
@@ -530,8 +1021,6 @@ class CarrerasController extends Controller
                 }else{
                     //Se generaria una alerta critica
                     $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para la siguiente materia: ".$listass->Materia;
-                    //echo '<br>';
-                    //metemos el texto completo a la lista de errores
                     array_push($listaERRORES,$error);
                 }
             }
@@ -742,6 +1231,12 @@ class CarrerasController extends Controller
 
                                 // Inserta el objeto en el array de listaGrupos
                                 array_push($listaGrupos, $Grupo);
+                                $lunes = "";
+                                $martes = "";
+                                $miercoles = "";
+                                $jueves = "";
+                                $viernes = "";
+                                $sabado = "";
                             }
                         }
                     }
@@ -1117,6 +1612,7 @@ class CarrerasController extends Controller
                                                         //ya no hace falta buscar en esta materia
                                                         break;
                                                     }
+                                                    //si ya existe algo inscrito
                                                 } else {
                                                     $nnombre = $materiasOrdenadas->Materia;
                                                     if (in_array($nnombre, $listaNombres)) {  
@@ -1215,7 +1711,7 @@ class CarrerasController extends Controller
                                     }
                                 }
                             } else {
-                                //echo 'Mas opciones de materias ';
+                                //echo 'Mas opciones de horarios ';
                                 //echo '<h2>' . $lf->nombreCarrera . '</h2>';
                                 $listaMateriasInscritas = array();
                                 $listaNombres = array();
