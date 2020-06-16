@@ -24,6 +24,28 @@ $(document).ready(function () {
         },
     });
 
+    $('#example3').dataTable({
+        pageLength: 5,
+        lengthMenu: [[5, 10, 15, -1], [5, 10, 15, 'Todos']],
+        language: {
+            sInfo: "Mostrando Errores del _START_ al _END_ de un total de _TOTAL_ Erorres",
+            sSearch:         "Buscar:",
+            sLoadingRecords: "Cargando...",
+            sLengthMenu: "Mostrar _MENU_ Erorres",
+            sInfoFiltered: "",
+            sZeroRecords: "No se encontraron resultados",
+            sInfoEmpty: "",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            oPaginate: {
+                sFirst:    "Primero",
+                sLast:     "Último",
+                sNext:     "Siguiente",
+                sPrevious: "Anterior"
+            },
+
+        },
+    });
+
     $('#example2').dataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -103,7 +125,6 @@ function muestraDiv()
     $('#cargaexterna').show(200); 
     $('#cargaexterna2').hide(); 
 }
-
 
 function isMPN(input) {
     var value = input.value;
