@@ -364,6 +364,7 @@ class CarrerasController extends Controller
             include(app_path() . '/Horarios/Alumnos.php');
             include(app_path() . '/Horarios/ListaPrioridad.php');
             include(app_path() . '/Horarios/ListaErroresAdvertencias.php');
+            include(app_path() . '/Horarios/HorasOcio.php');
 
             
             include(app_path() . '/BD/abrir.php');
@@ -2796,22 +2797,22 @@ class CarrerasController extends Controller
             
             array_push($Hocio,$pordia);
         }
-        print_r("***************************************Final********************************");
-        echo "<br>";
+        //print_r("***************************************Final********************************");
+        //echo "<br>";
         foreach($Hocio as $h)
         {
-            echo "Horario:  ";
-            print_r($h->numHorario);
-            echo "       Carrera: ";
-            print_r($h->carrera);
-            echo "        Horas Ocio Totales:  ";
-            print_r($h->ocioTotal);
-            echo "<br>";
+          //  echo "Horario:  ";
+            //print_r($h->numHorario);
+            //echo "       Carrera: ";
+            //print_r($h->carrera);
+            //echo "        Horas Ocio Totales:  ";
+            //print_r($h->ocioTotal);
+            ///echo "<br>";
             foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
             {
-                echo "    Por dia:   ";
-                print_r($val['ocio']);
-                echo "<br>";
+             //   echo "    Por dia:   ";
+                //print_r($val['ocio']);
+               // echo "<br>";
             }
         }
         return $Hocio;
