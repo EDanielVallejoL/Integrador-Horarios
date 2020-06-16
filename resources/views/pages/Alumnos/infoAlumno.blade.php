@@ -3,7 +3,7 @@
     $id = $_GET['x'];
 
     include(app_path() . '/BD/abrir.php');
-    $consulta = "SELECT * FROM alumnos WHERE id = '$id' ";
+    $consulta = "SELECT * FROM alumnos WHERE id = '$id'";
         
     $res = mysqli_query($conexion,$consulta);
     echo '<div class="p-1 mb-2 bg-white text-dark"">';
@@ -24,13 +24,44 @@
         echo        "<b>Calificación: </b>".$mostrar['calificacion'];
         echo    '</div>
                  <div class="col-1">';
-        echo "<td><button  type='button' class='btn btn-success' onclick='ocultaEstediv()'>  <i>Ver otro alumno</i> </button></td>";
-        echo    '</div>
-            </div>
-        ';
+        echo        "<td><button  type='button' class='btn btn-success' onclick='ocultaEstediv()'>  <i>Ver otro alumno</i> </button></td>";
+        echo    '</div>';
+
         
         $opcion = $mostrar['opcion'];
         $carrera = $mostrar['carrera'];
+
+        $consulta2 = "SELECT * FROM horas_ocios WHERE opcion = '$opcion' AND carrera = '$carrera'";
+        
+        $res2 = mysqli_query($conexion,$consulta2);
+        
+        while($mostrar2 = mysqli_fetch_array($res2)){
+            echo '<div class="col-3">';
+            echo    "<b>Horas de hocio totales: </b>".$mostrar2['hrsOcioTotales'];
+            echo '</div>';
+            echo '<div class="col-1">';
+            echo    "<b>Lunes: </b>".$mostrar2['Lunes'];
+            echo '</div>';
+            echo '<div class="col-1">';
+            echo    "<b>Martes: </b>".$mostrar2['Martes'];
+            echo '</div>';
+            echo '<div class="col-1">';
+            echo    "<b>Miercoles: </b>".$mostrar2['Miercoles'];
+            echo '</div>';
+            echo '<div class="col-1">';
+            echo    "<b>Jueves: </b>".$mostrar2['Jueves'];
+            echo '</div>';
+            echo '<div class="col-1">';
+            echo    "<b>Viernes: </b>".$mostrar2['Viernes'];
+            echo '</div>';
+            echo '<div class="col-1">';
+            echo    "<b>Sabado: </b>".$mostrar2['Sabado'];
+            echo '</div>';
+
+        }
+
+        echo '</div>
+        ';
     }
 
 
