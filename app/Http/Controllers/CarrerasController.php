@@ -367,7 +367,7 @@ class CarrerasController extends Controller
                 
             ';
             
-            //return view('pages/Horarios/opcionesHorarios');
+            return view('pages/Horarios/opcionesHorarios');
 
 
         } else {
