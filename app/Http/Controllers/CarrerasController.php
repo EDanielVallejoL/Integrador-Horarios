@@ -322,12 +322,13 @@ class CarrerasController extends Controller
             $this->AsignaValor($listaFinal, $listaGrupos);
 
             //Este solo sirve para imprimir
-            $this->Imprime($listaFinal);
+            //$this->Imprime($listaFinal);
 
             //Lista donde vienen errores y advertencias 
             $ReporteErroresAdvertencias = $this->Errores($listaFinal,$listaGrupos);
 
-            $this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
+            //Muestra en texto plano los errores y advertencias
+            //$this->MostrarErroresyAdvertencias($ReporteErroresAdvertencias);
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
@@ -362,13 +363,25 @@ class CarrerasController extends Controller
             include(app_path() . '/Horarios/Horarios.php');
             include(app_path() . '/Horarios/Alumnos.php');
             include(app_path() . '/Horarios/ListaPrioridad.php');
-            echo ' 
-                
-                
-            ';
-            
-            return view('pages/Horarios/opcionesHorarios');
+            include(app_path() . '/Horarios/ListaErroresAdvertencias.php');
+            include(app_path() . '/Horarios/HorasOcio.php');
 
+            
+            include(app_path() . '/BD/abrir.php');
+
+            $consulta = "SELECT * FROM lista_errores_advertencias";
+                    
+            $res = mysqli_query($conexion,$consulta);
+
+            if($res->num_rows > 0)
+            {
+                return view('pages/Advertencias/listaErroresAdvertencias');
+            }
+            else
+            {
+                return view('pages/Carreras/listaPrioridad');
+            }
+            mysqli_close($conexion);
 
         } else {
             return "Fallo al cargar archivo, intenta de nuevo";
@@ -431,7 +444,7 @@ class CarrerasController extends Controller
         foreach ($listaFinal as $lf) {
             //guardamos el nombre de la carrera
             $carrera = $lf->nombreCarrera;
-            echo '<h5>'.$carrera.'</h5>';
+        //echo '<h5>'.$carrera.'</h5>';
             //echo '<br>';
             //lista donde se va a guardar las horas de la carrera
             $listaHorasOcupada = array();
@@ -654,18 +667,18 @@ class CarrerasController extends Controller
                                                             if($brincoLunes == 0)
                                                             {
                                                                 $HoraReffLunes = substr($fila->lunes, 0, 2);
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
                                                                 $horaDiaLunes = 'lunes'.$HoraReffLunes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaLunes);
                                                                 $HoraReffLunes = $HoraReffLunes + 1;
                                                                 $brincoLunes = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'El laboratorio'.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                            //echo 'El laboratorio'.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
                                                                 $horaDiaLunes = 'lunes'.$HoraReffLunes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaLunes);
                                                                 $HoraReffLunes = $HoraReffLunes + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                         }
                                                         if($fila->martes == "")
@@ -676,25 +689,25 @@ class CarrerasController extends Controller
                                                             if($brincoMartes == 0)
                                                             {
                                                                 $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                                 $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                                 $HoraReffMartes = $HoraReffMartes + 1;
                                                                 $brincoMartes = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                                 $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                                 $HoraReffMartes = $HoraReffMartes + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                             $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                            echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                             $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                             array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                             $HoraReffMartes = $HoraReffMartes + 1;
-                                                            echo '<br>';
+                                                        //echo '<br>';
                                                         }
                                                         if($fila->miercoles == "")
                                                         {
@@ -704,19 +717,19 @@ class CarrerasController extends Controller
                                                             if($brincoMiercoles == 0)
                                                             {
                                                                 $HoraReffMiercoles = substr($fila->miercoles, 0, 2);
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
                                                                 $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
                                                                 $HoraReffMiercoles = $HoraReffMiercoles + 1;
                                                                 $brincoMiercoles = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
         
                                                             }else{
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
                                                                 $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
                                                                 $HoraReffMiercoles = $HoraReffMiercoles + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                         }
                                                         if($fila->jueves == "")
@@ -728,18 +741,18 @@ class CarrerasController extends Controller
                                                             {
                                                                 $horaDia = $HoraInicial."jueves";
                                                                 $HoraReffJueves = substr($fila->jueves, 0, 2);
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
                                                                 $horaDiaJueves = 'jueves'.$HoraReffJueves;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
                                                                 $HoraReffJueves = $HoraReffJueves + 1;
                                                                 $brincoJueves = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
                                                                 $horaDiaJueves = 'jueves'.$HoraReffJueves;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
                                                                 $HoraReffJueves = $HoraReffJueves + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                         }
                                                         if($fila->viernes == "")
@@ -752,18 +765,18 @@ class CarrerasController extends Controller
                                                             {
                                                                 $horaDia = $HoraInicial." viernes";
                                                                 $HoraReffViernes = substr($fila->viernes, 0, 2);
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
                                                                 $horaDiaViernes = 'viernes'.$HoraReffViernes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaViernes);
                                                                 $HoraReffViernes = $HoraReffViernes + 1;
                                                                 $brincoViernes = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
                                                                 $horaDiaViernes = 'viernes'.$HoraReffViernes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaViernes);
                                                                 $HoraReffViernes = $HoraReffViernes + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                            
                                                         }
@@ -775,17 +788,17 @@ class CarrerasController extends Controller
                                                             if($brincoSabado == 0)
                                                             {
                                                                 $HoraReffSabado = substr($fila->sabado, 0, 2);
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
                                                                 $horaDiaSabado = 'sabado'.$HoraReffSabado;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                                 $HoraReffSabado = $HoraReffSabado + 1;
                                                                 $brincoSabado = 1;
                                                             }else{
-                                                                echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                            //echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
                                                                 $horaDiaSabado = 'sabado'.$HoraReffSabado;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                                 $HoraReffSabado = $HoraReffSabado + 1;
                                                             }
                                                         }
@@ -800,18 +813,18 @@ class CarrerasController extends Controller
                                                             if($brincoLunes == 0)
                                                             {
                                                                 $HoraReffLunes = substr($fila->lunes, 0, 2);
-                                                                echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
                                                                 $horaDiaLunes = 'lunes'.$HoraReffLunes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaLunes);
                                                                 $HoraReffLunes = $HoraReffLunes + 1;
                                                                 $brincoLunes = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
                                                                 $horaDiaLunes = 'lunes'.$HoraReffLunes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaLunes);
                                                                 $HoraReffLunes = $HoraReffLunes + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                         }
                                                         if($fila->martes == "")
@@ -822,25 +835,25 @@ class CarrerasController extends Controller
                                                             if($brincoMartes == 0)
                                                             {
                                                                 $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                                echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                                 $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                                 $HoraReffMartes = $HoraReffMartes + 1;
                                                                 $brincoMartes = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                                 $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                                 $HoraReffMartes = $HoraReffMartes + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                             $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                            echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                        //echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                             $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                             array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                             $HoraReffMartes = $HoraReffMartes + 1;
-                                                            echo '<br>';
+                                                        //echo '<br>';
                                                         }
                                                         if($fila->miercoles == "")
                                                         {
@@ -850,19 +863,19 @@ class CarrerasController extends Controller
                                                             if($brincoMiercoles == 0)
                                                             {
                                                                 $HoraReffMiercoles = substr($fila->miercoles, 0, 2);
-                                                                echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
                                                                 $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
                                                                 $HoraReffMiercoles = $HoraReffMiercoles + 1;
                                                                 $brincoMiercoles = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
         
                                                             }else{
-                                                                echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
                                                                 $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
                                                                 $HoraReffMiercoles = $HoraReffMiercoles + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                         }
                                                         if($fila->jueves == "")
@@ -874,18 +887,18 @@ class CarrerasController extends Controller
                                                             {
                                                                 $horaDia = $HoraInicial."jueves";
                                                                 $HoraReffJueves = substr($fila->jueves, 0, 2);
-                                                                echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
                                                                 $horaDiaJueves = 'jueves'.$HoraReffJueves;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
                                                                 $HoraReffJueves = $HoraReffJueves + 1;
                                                                 $brincoJueves = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
                                                                 $horaDiaJueves = 'jueves'.$HoraReffJueves;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
                                                                 $HoraReffJueves = $HoraReffJueves + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                         }
                                                         if($fila->viernes == "")
@@ -898,18 +911,18 @@ class CarrerasController extends Controller
                                                             {
                                                                 $horaDia = $HoraInicial." viernes";
                                                                 $HoraReffViernes = substr($fila->viernes, 0, 2);
-                                                                echo 'La materia varias horas mismo dia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                            //echo 'La materia varias horas mismo dia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
                                                                 $horaDiaViernes = 'viernes'.$HoraReffViernes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaViernes);
                                                                 $HoraReffViernes = $HoraReffViernes + 1;
                                                                 $brincoViernes = 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }else{
-                                                                echo 'La materia varias horas mismo dia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                            //echo 'La materia varias horas mismo dia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
                                                                 $horaDiaViernes = 'viernes'.$HoraReffViernes;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaViernes);
                                                                 $HoraReffViernes = $HoraReffViernes + 1;
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                             }
                                                            
                                                         }
@@ -921,17 +934,17 @@ class CarrerasController extends Controller
                                                             if($brincoSabado == 0)
                                                             {
                                                                 $HoraReffSabado = substr($fila->sabado, 0, 2);
-                                                                echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
                                                                 $horaDiaSabado = 'sabado'.$HoraReffSabado;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                                 $HoraReffSabado = $HoraReffSabado + 1;
                                                                 $brincoSabado = 1;
                                                             }else{
-                                                                echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                            //echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
                                                                 $horaDiaSabado = 'sabado'.$HoraReffSabado;
                                                                 array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                                echo '<br>';
+                                                            //echo '<br>';
                                                                 $HoraReffSabado = $HoraReffSabado + 1;
                                                             }
                                                         }
@@ -1083,18 +1096,18 @@ class CarrerasController extends Controller
                                                          if($brincoLunes == 0)
                                                          {
                                                              $HoraReffLunes = substr($fila->lunes, 0, 2);
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
                                                              $horaDiaLunes = 'lunes'.$HoraReffLunes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaLunes);
                                                              $HoraReffLunes = $HoraReffLunes + 1;
                                                              $brincoLunes = 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }else{
-                                                             echo 'El laboratorio'.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
+                                                        //echo 'El laboratorio'.$nombreM." Se inserto el dia lunes a las: ".$HoraReffLunes;
                                                              $horaDiaLunes = 'lunes'.$HoraReffLunes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaLunes);
                                                              $HoraReffLunes = $HoraReffLunes + 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }
                                                      }
                                                      if($fila->martes == "")
@@ -1105,25 +1118,25 @@ class CarrerasController extends Controller
                                                          if($brincoMartes == 0)
                                                          {
                                                              $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                              $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                              $HoraReffMartes = $HoraReffMartes + 1;
                                                              $brincoMartes = 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }else{
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                              $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                              $HoraReffMartes = $HoraReffMartes + 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }
                                                          $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                         echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                    //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                          $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                          array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                          $HoraReffMartes = $HoraReffMartes + 1;
-                                                         echo '<br>';
+                                                    //echo '<br>';
                                                      }
                                                      if($fila->miercoles == "")
                                                      {
@@ -1133,19 +1146,19 @@ class CarrerasController extends Controller
                                                          if($brincoMiercoles == 0)
                                                          {
                                                              $HoraReffMiercoles = substr($fila->miercoles, 0, 2);
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
                                                              $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
                                                              array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
                                                              $HoraReffMiercoles = $HoraReffMiercoles + 1;
                                                              $brincoMiercoles = 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
      
                                                          }else{
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReffMiercoles;
                                                              $horaDiaMiercoles = 'miercoles'.$HoraReffMiercoles;
                                                              array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
                                                              $HoraReffMiercoles = $HoraReffMiercoles + 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }
                                                      }
                                                      if($fila->jueves == "")
@@ -1157,18 +1170,18 @@ class CarrerasController extends Controller
                                                          {
                                                              $horaDia = $HoraInicial."jueves";
                                                              $HoraReffJueves = substr($fila->jueves, 0, 2);
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
                                                              $horaDiaJueves = 'jueves'.$HoraReffJueves;
                                                              array_push($listaDiaHoraOcupado,$horaDiaJueves);
                                                              $HoraReffJueves = $HoraReffJueves + 1;
                                                              $brincoJueves = 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }else{
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia jueves a las: ".$HoraReffJueves;
                                                              $horaDiaJueves = 'jueves'.$HoraReffJueves;
                                                              array_push($listaDiaHoraOcupado,$horaDiaJueves);
                                                              $HoraReffJueves = $HoraReffJueves + 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }
                                                      }
                                                      if($fila->viernes == "")
@@ -1181,18 +1194,18 @@ class CarrerasController extends Controller
                                                          {
                                                              $horaDia = $HoraInicial." viernes";
                                                              $HoraReffViernes = substr($fila->viernes, 0, 2);
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
                                                              $horaDiaViernes = 'viernes'.$HoraReffViernes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaViernes);
                                                              $HoraReffViernes = $HoraReffViernes + 1;
                                                              $brincoViernes = 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }else{
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia viernes a las: ".$HoraReffViernes;
                                                              $horaDiaViernes = 'viernes'.$HoraReffViernes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaViernes);
                                                              $HoraReffViernes = $HoraReffViernes + 1;
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                          }
                                                         
                                                      }
@@ -1204,17 +1217,17 @@ class CarrerasController extends Controller
                                                          if($brincoSabado == 0)
                                                          {
                                                              $HoraReffSabado = substr($fila->sabado, 0, 2);
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
                                                              $horaDiaSabado = 'sabado'.$HoraReffSabado;
                                                              array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                              $HoraReffSabado = $HoraReffSabado + 1;
                                                              $brincoSabado = 1;
                                                          }else{
-                                                             echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
+                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia sabado a las: ".$HoraReffSabado;
                                                              $horaDiaSabado = 'sabado'.$HoraReffSabado;
                                                              array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                             echo '<br>';
+                                                        //echo '<br>';
                                                              $HoraReffSabado = $HoraReffSabado + 1;
                                                          }
                                                      }
@@ -1229,10 +1242,10 @@ class CarrerasController extends Controller
                                                         $horaDia = $HoraInicial."lunes";
                                                         //array_push($listaDiaHoraOcupada,$horaDia);
                                                         $HoraReff = substr($fila->lunes, 0, 2);
-                                                        echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReff;
+                                                    //echo 'La materia '.$nombreM." Se inserto el dia lunes a las: ".$HoraReff;
                                                         $horaDiaLunes = 'lunes'.$HoraReff;
                                                         array_push($listaDiaHoraOcupado,$horaDiaLunes);
-                                                        echo '<br>';
+                                                    //echo '<br>';
                                                     }
                                                     if($fila->martes == "")
                                                     {
@@ -1241,10 +1254,10 @@ class CarrerasController extends Controller
                                                         //si fila es diferente de vacio significa que la hora se ocupa ahi
                                                         $horaDia = $HoraInicial."martes";
                                                         $HoraReff = substr($fila->martes, 0, 2);
-                                                        echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReff;
+                                                    //echo 'La materia '.$nombreM." Se inserto el dia martes a las: ".$HoraReff;
                                                         $horaDiaMartes = 'martes'.$HoraReff;
                                                         array_push($listaDiaHoraOcupado,$horaDiaMartes);
-                                                        echo '<br>';
+                                                    //echo '<br>';
                                                     }
                                                     if($fila->miercoles == "")
                                                     {
@@ -1253,10 +1266,10 @@ class CarrerasController extends Controller
                                                         //si fila es diferente de vacio significa que la hora se ocupa ahi
                                                         $horaDia = $HoraInicial." miercoles";
                                                         $HoraReff = substr($fila->miercoles, 0, 2);
-                                                        echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReff;
+                                                    //echo 'La materia '.$nombreM." Se inserto el dia miercoles a las: ".$HoraReff;
                                                         $horaDiaMiercoles = 'miercoles'.$HoraReff;
                                                         array_push($listaDiaHoraOcupado,$horaDiaMiercoles);
-                                                        echo '<br>';
+                                                    //echo '<br>';
                                                     }
                                                     if($fila->jueves == "")
                                                     {
@@ -1265,10 +1278,10 @@ class CarrerasController extends Controller
                                                         //si fila es diferente de vacio significa que la hora se ocupa ahi
                                                         $horaDia = $HoraInicial."jueves";
                                                         $HoraReff = substr($fila->jueves, 0, 2);
-                                                        echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReff;
+                                                    //echo 'La materia '.$nombreM." Se inserto el dia jueves a las: ".$HoraReff;
                                                         $horaDiaJueves = 'jueves'.$HoraReff;
                                                         array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                        echo '<br>';
+                                                    //echo '<br>';
                                                     }
                                                     if($fila->viernes == "")
                                                     {
@@ -1277,10 +1290,10 @@ class CarrerasController extends Controller
                                                         //si fila es diferente de vacio significa que la hora se ocupa ahi
                                                         $horaDia = $HoraInicial." viernes";
                                                         $HoraReff = substr($fila->viernes, 0, 2);
-                                                        echo 'La materia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReff;
+                                                    //echo 'La materia '.$nombreM." Se inserto el dia viernes a las: ".$HoraReff;
                                                         $horaDiaViernes = 'viernes'.$HoraReff;
                                                         array_push($listaDiaHoraOcupado,$horaDiaViernes);
-                                                        echo '<br>';
+                                                    //echo '<br>';
                                                     }
                                                     if($fila->sabado == "")
                                                     {
@@ -1289,10 +1302,10 @@ class CarrerasController extends Controller
                                                         //si fila es diferente de vacio significa que la hora se ocupa ahi
                                                         $horaDia = $HoraInicial."sabado";
                                                         $HoraReff = substr($fila->sabado, 0, 2);
-                                                        echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReff;
+                                                    //echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReff;
                                                         $horaDiaSabado = 'sabado'.$HoraReff;
                                                         array_push($listaDiaHoraOcupado,$horaDiaJueves);
-                                                        echo '<br>';
+                                                    //echo '<br>';
                                                     }
                                                   }
                                                 /*********************************************************************** */
@@ -1940,7 +1953,7 @@ class CarrerasController extends Controller
                                                             if($lg->cupo != 0)
                                                             {
                                                                 //print_r($lg->cupo);
-                                                                echo '<br>';
+                                                                //echo '<br>';
                                                         
                                                             }
 
@@ -2784,22 +2797,22 @@ class CarrerasController extends Controller
             
             array_push($Hocio,$pordia);
         }
-        print_r("***************************************Final********************************");
-        echo "<br>";
+        //print_r("***************************************Final********************************");
+        //echo "<br>";
         foreach($Hocio as $h)
         {
-            echo "Horario:  ";
-            print_r($h->numHorario);
-            echo "       Carrera: ";
-            print_r($h->carrera);
-            echo "        Horas Ocio Totales:  ";
-            print_r($h->ocioTotal);
-            echo "<br>";
+          //  echo "Horario:  ";
+            //print_r($h->numHorario);
+            //echo "       Carrera: ";
+            //print_r($h->carrera);
+            //echo "        Horas Ocio Totales:  ";
+            //print_r($h->ocioTotal);
+            ///echo "<br>";
             foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
             {
-                echo "    Por dia:   ";
-                print_r($val['ocio']);
-                echo "<br>";
+             //   echo "    Por dia:   ";
+                //print_r($val['ocio']);
+               // echo "<br>";
             }
         }
         return $Hocio;

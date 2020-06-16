@@ -3,7 +3,7 @@
     $id = $_GET['x'];
 
     include(app_path() . '/BD/abrir.php');
-    $consulta = "SELECT * FROM alumnos WHERE id = '$id'";
+    $consulta = "SELECT * FROM alumnos WHERE id = '$id' ";
         
     $res = mysqli_query($conexion,$consulta);
     echo '<div class="p-1 mb-2 bg-white text-dark"">';

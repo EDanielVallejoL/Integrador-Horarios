@@ -13,7 +13,8 @@ if($res->num_rows > 0)
    mysqli_query($conexion, "TRUNCATE TABLE horarios");
    mysqli_query($conexion, "TRUNCATE TABLE lista_prioridad");
    mysqli_query($conexion, "TRUNCATE TABLE alumnos");
-
+   mysqli_query($conexion, "TRUNCATE TABLE lista_errores_advertencias");
+   mysqli_query($conexion, "TRUNCATE TABLE horas_ocios");
 }
 
 
