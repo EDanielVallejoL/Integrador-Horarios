@@ -2882,15 +2882,37 @@ class CarrerasController extends Controller
             //echo "       Carrera: ";
             //print_r($h->carrera);
             //echo "        Horas Ocio Totales:  ";
+            
+            //Algoritmo descomposicion
+            $numeros = str_split($h->ocioTotal);
+            while(count($numeros) < 3){
+                array_unshift($numeros,0);
+            };
+            //$numero[0], $numero[1],$numero[3]
+
+
+            //print_r($numeros);
             //print_r($h->ocioTotal);
-            ///echo "<br>";
+            //echo "<br>";
             foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
             {
-             //   echo "    Por dia:   ";
+                //echo "    Por dia:   ";
                 //print_r($val['ocio']);
-               // echo "<br>";
+
+
+                //Algoritmo descomposicion
+                $numeros = str_split($val['ocio']);
+                while(count($numeros) < 2){
+                array_unshift($numeros,0);
+                };
+                //$numero[0], $numero[1]
+
+                //print_r($numeros);
+                //echo "<br>";
             }
         }
+
+        
         return $Hocio;
     }
 
