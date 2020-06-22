@@ -2777,29 +2777,102 @@ class CarrerasController extends Controller
         {
             foreach($obj->listaDia as $dia)
             {
+                $HocioxHora = array();
                 $carrera = $dia->carr;
+                $libxSem = "true"; //Bandera para saber es hora libre x semana
 
                 if (strpos($dia->dias, 'L') !== false) {
-                    $arrAux = $this->ObtenHoraOcio( 0 , $arrAux,$dia );
+                    $i = 0;
+                    $valAnt = $arrAux[$i]['ocio'];//Guardamos el valor de ocio anterior a la evaluacion
+                    $arrAux = $this->ObtenHoraOcio( $i , $arrAux,$dia );
+                    $valDesp = $arrAux[$i]['ocio'];//Guardamos el valor de ocio posterior a la evaluacion
+                    if($arrAux[$i]['ocio'] > $valAnt)//Si hay diferencia hubo hora ocio
+                    {                        
+                        $resta = $arrAux[$i]['ocio'] - $valAnt;
+                        array_push($HocioxHora,   $resta);//guardamos la diferencia
+                    }
+                    else
+                    {
+                        $libxSem = "false";
+                    }
                 }
                 if (strpos($dia->dias, 'Ma') !== false) {
-                    $arrAux = $this->ObtenHoraOcio( 1 , $arrAux,$dia );
+                    $i = 1;
+                    $valAnt = $arrAux[$i]['ocio'];//Guardamos el valor de ocio anterior a la evaluacion
+                    $arrAux = $this->ObtenHoraOcio( $i , $arrAux,$dia );
+                    $valDesp = $arrAux[$i]['ocio'];//Guardamos el valor de ocio posterior a la evaluacion
+                    if($arrAux[$i]['ocio'] > $valAnt)//Si hay diferencia hubo hora ocio
+                    {
+                        $resta = $arrAux[$i]['ocio'] - $valAnt;
+                        array_push($HocioxHora,   $resta);//guardamos la diferencia
+                    }
+                    else
+                    {
+                        $libxSem = "false";
+                    }
                 }
                 if (strpos($dia->dias, 'Mi') !== false) {
-                    $arrAux = $this->ObtenHoraOcio( 2 , $arrAux,$dia );
+                    $i = 2;
+                    $valAnt = $arrAux[$i]['ocio'];//Guardamos el valor de ocio anterior a la evaluacion
+                    $arrAux = $this->ObtenHoraOcio( $i , $arrAux,$dia );
+                    $valDesp = $arrAux[$i]['ocio'];//Guardamos el valor de ocio posterior a la evaluacion
+                    if($arrAux[$i]['ocio'] > $valAnt)//Si hay diferencia hubo hora ocio
+                    {
+                        $resta = $arrAux[$i]['ocio'] - $valAnt;
+                        array_push($HocioxHora,   $resta);//guardamos la diferencia
+                    }
+                    else
+                    {
+                        $libxSem = "false";
+                    }
                 }
                 if (strpos($dia->dias, 'J') !== false) {
-                    $arrAux = $this->ObtenHoraOcio( 3 , $arrAux,$dia );
+                    $i = 3;
+                    $valAnt = $arrAux[$i]['ocio'];//Guardamos el valor de ocio anterior a la evaluacion
+                    $arrAux = $this->ObtenHoraOcio( $i , $arrAux,$dia );
+                    $valDesp = $arrAux[$i]['ocio'];//Guardamos el valor de ocio posterior a la evaluacion
+                    if($arrAux[$i]['ocio'] > $valAnt)//Si hay diferencia hubo hora ocio
+                    {
+                        $resta = $arrAux[$i]['ocio'] - $valAnt;
+                        array_push($HocioxHora,   $resta);//guardamos la diferencia
+                    }
+                    else
+                    {
+                        $libxSem = "false";
+                    }
                 }
                 if (strpos($dia->dias, 'V') !== false) {
-                    $arrAux = $this->ObtenHoraOcio( 4 , $arrAux,$dia );
+                    $i = 4;
+                    $valAnt = $arrAux[$i]['ocio'];//Guardamos el valor de ocio anterior a la evaluacion
+                    $arrAux = $this->ObtenHoraOcio( $i , $arrAux,$dia );
+                    $valDesp = $arrAux[$i]['ocio'];//Guardamos el valor de ocio posterior a la evaluacion
+                    if($arrAux[$i]['ocio'] > $valAnt)//Si hay diferencia hubo hora ocio
+                    {
+                        $resta = $arrAux[$i]['ocio'] - $valAnt;
+                        array_push($HocioxHora,   $resta);//guardamos la diferencia
+                    }
+                    else
+                    {
+                        $libxSem = "false";
+                    }
                 }
+
+                
+
+                if($libxSem === "true")//Significa que hubo hora libre toda la semana
+                {
+                    if($HocioxHora != null && count($HocioxHora) >= 5)
+                        $arrAux = $this->CalculaOcio($HocioxHora, $arrAux);
+                }
+
                 if (strpos($dia->dias, 'S') !== false) {
                     $arrAux = $this->ObtenHoraOcio( 5 , $arrAux,$dia );
                 }
 
+                
+
             }
-            $tot = $arrAux[0]['ocio'] +$arrAux[1]['ocio'] +$arrAux[2]['ocio'] +$arrAux[3]['ocio'] +$arrAux[4]['ocio'] +$arrAux[5]['ocio'];
+            $tot = $arrAux[0]['ocio'] +$arrAux[1]['ocio'] +$arrAux[2]['ocio'] +$arrAux[3]['ocio'] +$arrAux[4]['ocio'] +$arrAux[5]['ocio']+$arrAux[0]['total'];
             $pordia = new HoraLibres($obj->numeroHorario, $carrera, $arrAux, $tot); // arrAux = horas libres por dia, tot = total de horas libres por horario
             $arrAux = $this->arrDias();
             
@@ -2814,15 +2887,37 @@ class CarrerasController extends Controller
             //echo "       Carrera: ";
             //print_r($h->carrera);
             //echo "        Horas Ocio Totales:  ";
+            
+            //Algoritmo descomposicion
+            $numeros = str_split($h->ocioTotal);
+            while(count($numeros) < 3){
+                array_unshift($numeros,0);
+            };
+            //$numero[0], $numero[1],$numero[3]
+
+
+            //print_r($numeros);
             //print_r($h->ocioTotal);
-            ///echo "<br>";
+            //echo "<br>";
             foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
             {
-             //   echo "    Por dia:   ";
+                //echo "    Por dia:   ";
                 //print_r($val['ocio']);
-               // echo "<br>";
+
+
+                //Algoritmo descomposicion
+                $numeros = str_split($val['ocio']);
+                while(count($numeros) < 2){
+                array_unshift($numeros,0);
+                };
+                //$numero[0], $numero[1]
+
+                //print_r($numeros);
+                //echo "<br>";
             }
         }
+
+        
         return $Hocio;
     }
 
@@ -2835,6 +2930,7 @@ class CarrerasController extends Controller
                 "inicio"    => "false",
                 "Hanterio"  => 0,
                 "ocio"  => 0,
+                "total"  => 0,
             );
             array_push($dias,$array);
         }
@@ -2845,18 +2941,80 @@ class CarrerasController extends Controller
     {
         if($arrAux[$i]['inicio'] === "true")//verifica si ya comenzaron las clases
         {
-                        if( $arrAux[$i]['Hanterio'] !== substr($dia->hora, 0,2)  )//Detectamos hora ocio
-                        {
-                            $arrAux[$i]['ocio'] =  $arrAux[$i]['ocio'] + (substr($dia->hora, 0,2)-$arrAux[$i]['Hanterio'] ) ;//Aumentamos el contador de ocio
-                        }
-                        $arrAux[$i]['Hanterio'] = substr($dia->hora, -2); 
+            if( $arrAux[$i]['Hanterio'] !== substr($dia->hora, 0,2)  )//Detectamos hora ocio
+            {
+                $dif = (substr($dia->hora, 0,2)-$arrAux[$i]['Hanterio'] ); //Detectamos si hay horas libres seguidas
+                if($dif > 1)//si hay mas de una hora libre
+                {
+                    $arrAux[$i]['ocio'] =  $arrAux[$i]['ocio'] + (10 * $dif);// mas 10 por cada hora libre seguida
+                }
+                else//solo hay una hora libre seguida
+                {
+                    $arrAux[$i]['ocio'] =  $arrAux[$i]['ocio'] + $dif ;//Aumentamos el contador de ocio + 1 por hora libre
+                }
+            }
+            $arrAux[$i]['Hanterio'] = substr($dia->hora, -2); 
         }
         else
         {
-                        $arrAux[$i]['inicio'] = "true";
-                        $arrAux[$i]['Hanterio'] = substr($dia->hora, -2); 
+            $arrAux[$i]['inicio'] = "true";
+            $arrAux[$i]['Hanterio'] = substr($dia->hora, -2); 
         }
 
+        return $arrAux;
+    }
+
+    public function CalculaOcio($HocioxHora , $arrAux)
+    {
+        $NumMen = min($HocioxHora);//Obtenemos el dato menor del arreglo
+
+        if($NumMen <= 10)
+        {
+            for($i = 0; $i<=4; $i++)
+            {
+                if($HocioxHora[$i] < 10)
+                {
+                    $arrAux[$i]['ocio'] = $HocioxHora[$i] -$NumMen; //0
+                }
+                else
+                {
+                    $res =  $HocioxHora[$i] - ($NumMen * 10);
+                    if($res <= 10)
+                    {
+                        $arrAux[$i]['ocio'] =   1;
+                    }
+                    else
+                    {
+                        $arrAux[$i]['ocio'] =  $arrAux[$i]['ocio'] - ($NumMen * 10);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for($i = 0; $i<=4; $i++)
+            {
+                //$res =  $HocioxHora[$i] - ($NumMen * 10);
+                $res =  $HocioxHora[$i] - ($NumMen * 10);
+                if($res <= 10)
+                {
+                    $arrAux[$i]['ocio'] =   1;
+                }
+                else
+                {
+                    $arrAux[$i]['ocio'] =  $arrAux[$i]['ocio'] - ($NumMen * 10);
+                }
+            }
+        }
+        if($NumMen <= 10)
+        {
+            $arrAux[0]['total'] = $NumMen*100;
+        }
+        else
+        {
+            $arrAux[0]['total'] = $NumMen*10;
+        }
+        
         return $arrAux;
     }
 
