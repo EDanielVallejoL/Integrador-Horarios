@@ -13,31 +13,56 @@ echo '<div class="card alert alert-success text-black " style="width: 47rem;">';
 echo '
 
 <div class="row bg-dark text-white">
+    <div class="Carrera col-3 border">
+        <p class="dato">Lugar</p>
+    </div>
     <div class="Promedio col-3 border">
         <p class="label">Promedio</p>
     </div>
-    <div class="Carrera col-9 border">
+    <div class="Carrera col-6 border">
         <p class="dato">Carrera</p>
     </div>
 </div>
 
 
-<div class="lista" id="lista">';
+<div class="row">
+
+    <div class="Carrera col-3 border bg-white">
+        <p class="dato">1</p>
+        <p class="dato">2</p>
+        <p class="dato">3</p>
+        <p class="dato">4</p>
+        <p class="dato">5</p>
+        <p class="dato">6</p>
+        <p class="dato">7</p>
+        <p class="dato">8</p>
+        <p class="dato">9</p>
+        <p class="dato">10</p>
+        <p class="dato">11</p>
+        <p class="dato">12</p>
+        <p class="dato">13</p>
+        <p class="dato">14</p>
+        <p class="dato">15</p>
+    </div>
+    
+
+<div class="lista col-9" id="lista">';
 
 while ($mostrar = mysqli_fetch_array($res)) {
 
     echo'
     <div class="renglon row" data-id="',$mostrar['id'],'">
-        <div class="Promedio col-3 border">
+        <div class="Promedio col-4 border">
             <p class="label">', $mostrar['promedio'],  '</p>
         </div>
-        <div class="Carrera col-9 border">
+        <div class="Carrera col-8 border">
             <p class="dato">', $mostrar['carrera'],  '</p>
         </div>
     </div>
     ';
 }
 echo '
+</div>
 </div>
 ';
 
