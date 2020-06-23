@@ -351,7 +351,7 @@ class CarrerasController extends Controller
             $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
 
 
-
+            
             $listaOcio = $this->HorasOcio($listaHorariosFinal);
             
             //// IMPRIMER ESTO MAS TARDE ----->

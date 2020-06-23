@@ -8,16 +8,16 @@
         
     $res = mysqli_query($conexion,$consulta);
     echo '<div class="p-1 mb-2 bg-white text-dark"">';
-    echo '<table class="table table-sm">
+    echo '<table class="table table-sm table-striped">
         <thead class="thead-dark">
             <tr>
                 <th>Hora</th>
                 <th>Lunes</th>
                 <th>Martes</th>
-                <th>Miercoles</th>
+                <th>Miércoles</th>
                 <th>Jueves</th>
                 <th>Viernes</th>
-                <th>Sabado</th>
+                <th>Sábado</th>
             </tr>
         </thead>';
 
@@ -26,66 +26,78 @@
         echo '
         <tr>
             <td>' , $mostrar['Hora'],  '</td>';
-            echo '<td>';
                 if($mostrar['Lunes'] == 'si')
                 {
-                    echo $mostrar['NombreMateria'];
+                    echo '<td>';
+                        echo $mostrar['NombreMateria'];
+                    echo '</td>';
                 }
                 else
                 {
-                    echo "----";
+                    echo '<td class="bg bg-warning">';
+                        echo "----";
+                    echo '</td>';
                 }
-            echo '</td>';
-            echo '<td>';
                 if($mostrar['Martes'] == 'si')
                 {
-                    echo $mostrar['NombreMateria'];
+                    echo '<td>';
+                        echo $mostrar['NombreMateria'];
+                    echo '</td>';
                 }
                 else
                 {
-                    echo "----";
+                    echo '<td class="bg bg-warning">';
+                        echo "----";
+                    echo '</td>';
                 }
-            echo '</td>';
-            echo '<td>';
                 if($mostrar['Miercoles'] == 'si')
                 {
-                    echo $mostrar['NombreMateria'];
+                    echo '<td>';
+                        echo $mostrar['NombreMateria'];
+                    echo '</td>';
                 }
                 else
                 {
-                    echo "----";
+                    echo '<td class="bg bg-warning">';
+                        echo "----";
+                    echo '</td>';
                 }
-            echo '</td>';
-            echo '<td>';
                 if($mostrar['Jueves'] == 'si')
                 {
-                    echo $mostrar['NombreMateria'];
+                    echo '<td>';
+                        echo $mostrar['NombreMateria'];
+                    echo '</td>';
                 }
                 else
                 {
-                    echo "----";
+                    echo '<td class="bg bg-warning">';
+                        echo "----";
+                    echo '</td>';
                 }
-            echo '</td>';
-            echo '<td>';
                 if($mostrar['Viernes'] == 'si')
                 {
-                    echo $mostrar['NombreMateria'];
+                    echo '<td>';
+                        echo $mostrar['NombreMateria'];
+                    echo '</td>';
                 }
                 else
                 {
-                    echo "----";
+                    echo '<td class="bg bg-warning">';
+                        echo "----";
+                    echo '</td>';
                 }
-            echo '</td>';
-            echo '<td>';
                 if($mostrar['Sabado'] == 'si')
                 {
-                    echo $mostrar['NombreMateria'];
+                    echo '<td>';
+                        echo $mostrar['NombreMateria'];
+                    echo '</td>';
                 }
                 else
                 {
-                    echo "----";
+                    echo '<td>';
+                        echo "----";
+                    echo '</td>';
                 }
-            echo '</td>';
             
          echo '</tr>';
          
@@ -93,4 +105,5 @@
     echo '</tbody>';
     echo '</table>';
     echo '</div>';
+
 ?>

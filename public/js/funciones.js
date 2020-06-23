@@ -46,6 +46,28 @@ $(document).ready(function () {
         },
     });
 
+    $('#example4').dataTable({
+        pageLength: -1,
+        lengthMenu: [[-1], ['Todos']],
+        language: {
+            sInfo: "",
+            sSearch:         "Buscar:",
+            sLoadingRecords: "Cargando...",
+            sLengthMenu: "",
+            sInfoFiltered: "",
+            sZeroRecords: "No se encontraron resultados",
+            sInfoEmpty: "",
+            sEmptyTable: "Ningún dato disponible en esta tabla",
+            oPaginate: {
+                sFirst:    "",
+                sLast:     "",
+                sNext:     "",
+                sPrevious: ""
+            },
+
+        },
+    });
+
     $('#example2').dataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -88,7 +110,7 @@ $(document).ready(function () {
             });
         }
         else {
-            alertify.error("Porfavor selecciona una carrera");
+            alertify.error("Por favor selecciona una carrera");
         }
     });
 
@@ -170,3 +192,36 @@ function isAlumnosAceptados(input) {
     }
     return res;
 }
+
+
+const lista = document.getElementById('lista');
+
+Sortable.create(lista, {
+    animation: 150,
+    chosenClass: "seleccionado",
+    //ghostClass: "fantasma"
+    dragClass: "drag",
+
+    onEnd: () => {
+        alertify.success("Se movio carrera correctamente");
+    },
+
+    group: "lista-Orden",
+
+    store: {
+        // Guardamos el orden de la lista
+        set: (sortable) => {
+            const orden = sortable.toArray();
+            console.log(orden);
+            localStorage.setItem(sortable.options.group.name, orden.join('|'));
+        },
+
+        // obtenemos el orden de la lista
+        get: (sortable) => {
+            const orden = localStorage.getItem(sortable.options.group.name);
+            return orden ? orden.split('|') : [];
+        }
+    }
+
+
+});
