@@ -28,21 +28,21 @@ echo '
 <div class="row">
 
     <div class="Carrera col-3 border bg-white">
-        <p class="dato">1</p>
-        <p class="dato">2</p>
-        <p class="dato">3</p>
-        <p class="dato">4</p>
-        <p class="dato">5</p>
-        <p class="dato">6</p>
-        <p class="dato">7</p>
-        <p class="dato">8</p>
-        <p class="dato">9</p>
-        <p class="dato">10</p>
-        <p class="dato">11</p>
-        <p class="dato">12</p>
-        <p class="dato">13</p>
-        <p class="dato">14</p>
-        <p class="dato">15</p>
+        <p class="dato col-sm border">1</p>
+        <p class="dato col-sm border">2</p>
+        <p class="dato col-sm border">3</p>
+        <p class="dato col-sm border">4</p>
+        <p class="dato col-sm border">5</p>
+        <p class="dato col-sm border">6</p>
+        <p class="dato col-sm border">7</p>
+        <p class="dato col-sm border">8</p>
+        <p class="dato col-sm border">9</p>
+        <p class="dato col-sm border">10</p>
+        <p class="dato col-sm border">11</p>
+        <p class="dato col-sm border">12</p>
+        <p class="dato col-sm border">13</p>
+        <p class="dato col-sm border">14</p>
+        <p class="dato col-sm border">15</p>
     </div>
     
 
