@@ -8,23 +8,39 @@ $consulta = "SELECT * FROM lista_prioridad ";
 
 $res = mysqli_query($conexion, $consulta);
 echo '<div class="card alert alert-success text-black " style="width: 47rem;">';
-echo '<table id="example" class="table table-striped table-bordered " style="width:100%">
-        <thead class="thead-dark">
-            <tr>
-                <th>Promedio</th>
-                <th>Carrera</th>
-            </tr>
-        </thead>';
 
-echo '<tbody>';
+
+echo '
+
+<div class="row bg-dark text-white">
+    <div class="Promedio col-3 border">
+        <p class="label">Promedio</p>
+    </div>
+    <div class="Carrera col-9 border">
+        <p class="dato">Carrera</p>
+    </div>
+</div>
+
+
+<div class="lista" id="lista">';
+
 while ($mostrar = mysqli_fetch_array($res)) {
-    echo '<tr>
-            <td>', $mostrar['promedio'],  '</td>    
-            <td>', $mostrar['carrera'],  '</td>';
-    echo '</tr>';
+
+    echo'
+    <div class="renglon row" data-id="',$mostrar['id'],'">
+        <div class="Promedio col-3 border">
+            <p class="label">', $mostrar['promedio'],  '</p>
+        </div>
+        <div class="Carrera col-9 border">
+            <p class="dato">', $mostrar['carrera'],  '</p>
+        </div>
+    </div>
+    ';
 }
-echo '</tbody>';
-echo '</table>';
+echo '
+</div>
+';
+
 echo '</div>';
 ?>
 @endsection
@@ -35,15 +51,14 @@ echo '</div>';
     <div class="p-3 mb-2 card bg-info" style="width: 15rem;">
         <h3 class="text-white">Obtención de orden</h3>
         <p><b><i>Esta lista se genera a partir de que si la matería tiene muchos grupos va a ser de las ultimas
-                    en generar sus horarios
+                    en generar sus horarios, pero este resultado es libre de mover si así se desea.
                     <i></b></p>
 
     </div>
-</div>
 
-<script>
-    alertify.success("Puedes ver los horarios bloques que se generaron si ya revisaste esta información");
-    alertify.success("Puedes ya ir a ver los alumnos directamente si es el caso o exportar a excel los datos");
-</script>
+    <div class="p-3 mb-2" style="width: 15rem;">
+        <button class="btn-success">Siguiente paso</button>
+    </div>
+</div>
 
 @endsection
