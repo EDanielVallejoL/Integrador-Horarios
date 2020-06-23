@@ -351,6 +351,7 @@ class CarrerasController extends Controller
             $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
 
 
+
             $listaOcio = $this->HorasOcio($listaHorariosFinal);
             
             //// IMPRIMER ESTO MAS TARDE ----->
@@ -3275,7 +3276,7 @@ class CarrerasController extends Controller
                                         //echo "Se compara las horas totales: ".$contadorDiasMateria." contra las horas disponibles".$contadorFinalMateria;
                                         if($contadorFinalMateria == $contadorDiasMateria)
                                         {
-                                            echo $listass->valorGrupo;
+                                           // echo $listass->valorGrupo;
                                             //SI ENTRA AQUI SIGNIFICA QUE SI HAY ESPACIO PARA METER LA MATERIA
                                             
                                             $brincoLunes = 0;
@@ -3713,7 +3714,8 @@ class CarrerasController extends Controller
                                             //TERMINACION DE COMPARACION
                                             if($contadorFinalMateria == $contadorDiasMateria)
                                             {
-                                                echo $listass->valorGrupo;
+                                                
+                                                //echo $listass->valorGrupo;
                                                 $brincoLunes = 0;
                                                 $brincoMartes = 0;
                                                 $brincoMiercoles = 0;
@@ -4108,7 +4110,8 @@ class CarrerasController extends Controller
 
                                             //cuando una materia tiene multiples horas seguidas
 
-                                            echo $listass->valorGrupo;
+                                            
+                                            //echo $listass->valorGrupo;
                                             $bandera = 0;
 
                                             if($listass->valorGrupo > 2)
@@ -4582,7 +4585,7 @@ class CarrerasController extends Controller
                                             //TERMINACION DE COMPARACION
                                             if($contadorFinalMateria == $contadorDiasMateria)
                                             {
-                                                echo $listass->valorGrupo;
+                                                //echo $listass->valorGrupo;
                                                 $bandera = 0;
 
                                                 if($listass->valorGrupo > 2)
@@ -4791,11 +4794,7 @@ class CarrerasController extends Controller
             
             sort($listaMateriasHorario);
             $HF = new HorarioFinal($i,$listaAuxiliarHorarios);
-            array_push($listaMateriasInscritasHora, $HF);
-            //print_r($listaMateriasInscritasHora);
-            //echo '<br>';
-            //echo '<br>'; 
-            //echo '<br>';                 
+            array_push($listaMateriasInscritasHora, $HF);                
         }
 
 
