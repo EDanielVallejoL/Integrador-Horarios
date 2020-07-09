@@ -355,9 +355,6 @@ class CarrerasController extends Controller
             //Como imprimir la segunda opcion
             $this->ImprimeListaHorariosFinal2($listaHorariosFinal2);
 
-            //Funcion para asignar horario a los alumnos
-            $this->AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos);
-
 
 
 
@@ -369,6 +366,10 @@ class CarrerasController extends Controller
             //$this->imprimeAsignacion($listaAsignacionAlumnos);
             $listaAlumnosInscritos =  $this->AsigaHorarios($listaHorariosFinal,$listaAsignacionAlumnos,$listaFinal);
             //$this->recorreLista($listaAsignacionAlumnos);
+
+
+            //Funcion para asignar horario a los alumnos
+            $this->AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos);
 
             
             //$this->imprimeAsignacion($listaAlumnosInscritos);
@@ -1351,7 +1352,7 @@ class CarrerasController extends Controller
                         //se sigue no hace falta hacer nada
                     }
                 }else{
-                    if($fila->tipo == "L"){
+                   if($fila->tipo == "L"){
                          //Se generaria una alerta critica
                         $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para el siguiente laboratorio: ".$listass->Materia;
                         array_push($listaERRORES,$error);
@@ -4909,12 +4910,14 @@ class CarrerasController extends Controller
     //asignar los horarios
     public function AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos)
     {
+
         foreach($listaAsignacionAlumnos as $listaAlumnos)
         {
             echo $listaAlumnos->CalificacionAlumno;
             echo $listaAlumnos->NombreAlumno;
             echo $listaAlumnos->CarreraAlumno;
             echo '<br>';
+            //$alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
         }
     }
 }
