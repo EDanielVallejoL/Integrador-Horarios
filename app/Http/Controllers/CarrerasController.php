@@ -351,10 +351,6 @@ class CarrerasController extends Controller
             $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
 
             //segundaOpcion
-<<<<<<< HEAD
-            $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
-            
-=======
             $listaHorariosFinal2 = $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
 
             //Como imprimir la segunda opcion
@@ -364,7 +360,6 @@ class CarrerasController extends Controller
             $this->AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos);
 
 
->>>>>>> b02806f64ef910224e72ef3530f8188eec20e571
 
 
             
@@ -1358,6 +1353,11 @@ class CarrerasController extends Controller
                         //se sigue no hace falta hacer nada
                     }
                 }else{
+                    /* Vallejo no se puede generar tu error porque $fila no existe 
+                    y fila no existe porque solo haces el recorrido en el if
+                    falta este recorrido:  foreach ($listaGrupos as $clave => $fila) {
+                
+
                     if($fila->tipo == "L"){
                          //Se generaria una alerta critica
                         $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para el siguiente laboratorio: ".$listass->Materia;
@@ -1368,6 +1368,13 @@ class CarrerasController extends Controller
                         $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para la siguiente materia: ".$listass->Materia;
                         array_push($listaERRORES,$error);
                     }
+                    */
+
+                    //En su defecto coloque esto
+                     //Se generaria una alerta critica
+                     $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para: ".$listass->Materia;
+                     array_push($listaERRORES,$error);
+
                 }
             }
         }
@@ -2529,9 +2536,14 @@ class CarrerasController extends Controller
                         //Este foreach solo es para saber cuantos horarios tiene cada carrera 
                         foreach($listaHorarios as $lh)
                         { 
+                            
+                            if($lh->listaDia != null)//Verifica que la lista no este vacia
+                            {
+                                
                             if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
                             {
                                 $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                            }
                             }
                         }
 
@@ -2554,9 +2566,13 @@ class CarrerasController extends Controller
                         //Este foreach solo es para saber cuantos horarios tiene cada carrera 
                         foreach($listaHorarios as $lh)
                         { 
+                            if($lh->listaDia != null)//Verifica que la lista no este vacia
+                            {
+                                
                             if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
                             {
                                 $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                            }
                             }
                         }
 
@@ -4854,10 +4870,11 @@ class CarrerasController extends Controller
                     }
 
                 }
+                sort($listaMateriasHorario);
+                $HF = new HorarioFinal($r,$listaAuxiliarHorarios);
+                array_push($listaMateriasInscritasHora, $HF); 
             }           
-            sort($listaMateriasHorario);
-            $HF = new HorarioFinal($i,$listaAuxiliarHorarios);
-            array_push($listaMateriasInscritasHora, $HF);                
+                           
         }
 
 
