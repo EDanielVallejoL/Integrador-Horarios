@@ -4169,9 +4169,12 @@ class CarrerasController extends Controller
                                                             //echo 'La materia '.$nombreM." Hora: ".$HoraA.' VS '.' La materia '.$recorrido->campo.' Hora: '.$HoraB;
                                                             //echo '<br>';
                                                             if($HoraA == $HoraB)
-                                                            {          
-                                                                //echo 'Entro';                                       
-                                                                $bandera = 1;
+                                                            {
+                                                                if($fila->profesor == $recorrido->profesor)
+                                                                {
+                                                                    //echo 'Entro';                                       
+                                                                    $bandera = 1;
+                                                                }          
                                                             }
                                                         }
                                                     }
@@ -4654,7 +4657,11 @@ class CarrerasController extends Controller
                                                                 //echo '<br>';
                                                                 if($HoraA == $HoraB)
                                                                 {                                                 
-                                                                    $bandera = 1;
+                                                                    if($fila->profesor == $recorrido->profesor)
+                                                                    {
+                                                                        //echo 'Entro';                                       
+                                                                        $bandera = 1;
+                                                                    }     
                                                                 }
                                                             }
                                                         }
@@ -4884,11 +4891,11 @@ class CarrerasController extends Controller
                 $TotalCupo = 0;
                 foreach($horario as $p)
                 {
-                    //echo $p->hora; //08-09  
-                    //echo $p->campo; // Quimica
-                    //echo $p->carr;
-                    //echo $p->dias;
-                    //echo $p->profesor;
+                    echo $p->hora; //08-09  
+                    echo $p->campo; // Quimica
+                    echo $p->carr;
+                    echo $p->dias;
+                    echo $p->profesor;
                     if($TotalCupo == 0)
                     {
                         $TotalCupo = $p->cupo;
@@ -4898,10 +4905,15 @@ class CarrerasController extends Controller
                             $TotalCupo = $p->cupo;
                         }
                     }
-                    //echo $p->cupo;
-                    //echo '<br>';
+                    echo $p->cupo;
+                    echo '<br>';
                 }
                 //echo $TotalCupo;
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
+                echo '<br>';
             }
         }
     }
@@ -4913,10 +4925,10 @@ class CarrerasController extends Controller
 
         foreach($listaAsignacionAlumnos as $listaAlumnos)
         {
-            echo $listaAlumnos->CalificacionAlumno;
-            echo $listaAlumnos->NombreAlumno;
-            echo $listaAlumnos->CarreraAlumno;
-            echo '<br>';
+            //echo $listaAlumnos->CalificacionAlumno;
+            //echo $listaAlumnos->NombreAlumno;
+            //echo $listaAlumnos->CarreraAlumno;
+            //echo '<br>';
             //$alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
         }
     }
