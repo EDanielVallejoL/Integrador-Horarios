@@ -13,7 +13,7 @@ echo '<div class="card alert alert-success text-black " style="width: 47rem;">';
 echo '
 
 <div class="row bg-dark text-white">
-    <div class="Carrera col-3 border">
+    <div class="Carrera col-2 border">
         <p class="dato">Lugar</p>
     </div>
     <div class="Promedio col-3 border">
@@ -27,22 +27,14 @@ echo '
 
 <div class="row">
 
-    <div class="Carrera col-3 border bg-white">
-        <p class="dato col-sm border">1</p>
-        <p class="dato col-sm border">2</p>
-        <p class="dato col-sm border">3</p>
-        <p class="dato col-sm border">4</p>
-        <p class="dato col-sm border">5</p>
-        <p class="dato col-sm border">6</p>
-        <p class="dato col-sm border">7</p>
-        <p class="dato col-sm border">8</p>
-        <p class="dato col-sm border">9</p>
-        <p class="dato col-sm border">10</p>
-        <p class="dato col-sm border">11</p>
-        <p class="dato col-sm border">12</p>
-        <p class="dato col-sm border">13</p>
-        <p class="dato col-sm border">14</p>
-        <p class="dato col-sm border">15</p>
+    <div class="Carrera col-2 border bg-white">';
+
+
+    for ($i = 1; $i <= 14; $i++) {
+        echo '<p class="dato col-sm border">',$i,'°</p>';
+    }
+
+    echo'
     </div>
     
 

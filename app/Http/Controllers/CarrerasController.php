@@ -345,7 +345,7 @@ class CarrerasController extends Controller
 
             //ListaHorarios final ya tiene TODA la informacion de los horarios
             //carrera, materia y hora de inscripcion
-            $php = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
+            $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
 
             //segundaOpcion
             $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
