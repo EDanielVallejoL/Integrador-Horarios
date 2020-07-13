@@ -20,6 +20,9 @@ if($res->num_rows > 0)
 
 
 foreach ($listaHorariosFinal as $lista) {
+  
+   if($lista->listaDia != null)//Si el arreglo no esta vacio
+   {
     $c1 = $lista->listaDia[0]->carr;
     $c2 = $lista->numeroHorario;
 
@@ -68,6 +71,7 @@ foreach ($listaHorariosFinal as $lista) {
 
         $query = mysqli_query($conexion, $insertar);
     }
+   }
 }
 
 

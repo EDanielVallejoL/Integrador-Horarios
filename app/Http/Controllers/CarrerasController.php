@@ -347,6 +347,7 @@ class CarrerasController extends Controller
 
             //ListaHorarios final ya tiene TODA la informacion de los horarios
             //carrera, materia y hora de inscripcion
+//          $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
             $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
 
             //segundaOpcion
@@ -358,6 +359,7 @@ class CarrerasController extends Controller
 
 
 
+            
             $listaOcio = $this->HorasOcio($listaHorariosFinal);
             
             //// IMPRIMER ESTO MAS TARDE ----->
@@ -1352,7 +1354,12 @@ class CarrerasController extends Controller
                         //se sigue no hace falta hacer nada
                     }
                 }else{
-                   if($fila->tipo == "L"){
+                    /* Vallejo no se puede generar tu error porque $fila no existe 
+                    y fila no existe porque solo haces el recorrido en el if
+                    falta este recorrido:  foreach ($listaGrupos as $clave => $fila) {
+                
+
+                    if($fila->tipo == "L"){
                          //Se generaria una alerta critica
                         $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para el siguiente laboratorio: ".$listass->Materia;
                         array_push($listaERRORES,$error);
@@ -1362,6 +1369,13 @@ class CarrerasController extends Controller
                         $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para la siguiente materia: ".$listass->Materia;
                         array_push($listaERRORES,$error);
                     }
+                    */
+
+                    //En su defecto coloque esto
+                     //Se generaria una alerta critica
+                     $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para: ".$listass->Materia;
+                     array_push($listaERRORES,$error);
+
                 }
             }
         }
@@ -2523,9 +2537,14 @@ class CarrerasController extends Controller
                         //Este foreach solo es para saber cuantos horarios tiene cada carrera 
                         foreach($listaHorarios as $lh)
                         { 
+                            
+                            if($lh->listaDia != null)//Verifica que la lista no este vacia
+                            {
+                                
                             if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
                             {
                                 $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                            }
                             }
                         }
 
@@ -2548,9 +2567,13 @@ class CarrerasController extends Controller
                         //Este foreach solo es para saber cuantos horarios tiene cada carrera 
                         foreach($listaHorarios as $lh)
                         { 
+                            if($lh->listaDia != null)//Verifica que la lista no este vacia
+                            {
+                                
                             if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
                             {
                                 $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                            }
                             }
                         }
 
@@ -2896,11 +2919,11 @@ class CarrerasController extends Controller
         //echo "<br>";
         foreach($Hocio as $h)
         {
-          //  echo "Horario:  ";
-            //print_r($h->numHorario);
-            //echo "       Carrera: ";
-            //print_r($h->carrera);
-            //echo "        Horas Ocio Totales:  ";
+            echo "Horario:  ";
+            print_r($h->numHorario);
+            echo "       Carrera: ";
+            print_r($h->carrera);
+            echo "        Horas Ocio Totales:  ";
             
             //Algoritmo descomposicion
             $numeros = str_split($h->ocioTotal);
@@ -2910,7 +2933,7 @@ class CarrerasController extends Controller
             //$numero[0], $numero[1],$numero[3]
 
 
-            //print_r($numeros);
+            print_r($numeros);
             //print_r($h->ocioTotal);
             //echo "<br>";
             foreach($h->listOscio as $key => $val) // Horas ocio por dia, cda vuelta del ciclo imprime las horas libres de ese dia ej: lunes  , martes..
@@ -4855,10 +4878,11 @@ class CarrerasController extends Controller
                     }
 
                 }
+                sort($listaMateriasHorario);
+                $HF = new HorarioFinal($r,$listaAuxiliarHorarios);
+                array_push($listaMateriasInscritasHora, $HF); 
             }           
-            sort($listaMateriasHorario);
-            $HF = new HorarioFinal($i,$listaAuxiliarHorarios);
-            array_push($listaMateriasInscritasHora, $HF);                
+                           
         }
 
 
