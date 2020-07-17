@@ -474,6 +474,9 @@ class CarrerasController extends Controller
 
     public function listaPrioridad()
     {        
+
+
+        /// AQUI miguel es donde llega la lista en forma de cadena, solo separala porfa jeje en una lista
         $carreras =  $_GET['var'];
         echo 'Recibi '.$carreras;
     }
