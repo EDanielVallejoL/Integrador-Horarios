@@ -40,6 +40,7 @@ echo '
 
 <div class="lista col-9" id="lista">';
 
+$i=1;
 while ($mostrar = mysqli_fetch_array($res)) {
 
     echo'
@@ -47,11 +48,12 @@ while ($mostrar = mysqli_fetch_array($res)) {
         <div class="Promedio col-4 border">
             <p class="label">', $mostrar['promedio'],  '</p>
         </div>
-        <div class="Carrera col-8 border">
+        <div class="Carrera col-8 border" id="carrera',$i,'">
             <p class="dato">', $mostrar['carrera'],  '</p>
         </div>
     </div>
     ';
+    $i++;
 }
 echo '
 </div>
@@ -74,7 +76,7 @@ echo '</div>';
     </div>
 
     <div class="p-3 mb-2" style="width: 15rem;">
-        <button class="btn-success">Siguiente paso</button>
+        <button class="btn-success" id="nextStep">Siguiente paso</button>
     </div>
 </div>
 
