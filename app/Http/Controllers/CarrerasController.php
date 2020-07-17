@@ -48,6 +48,22 @@ class Carrera
 }
 
 
+class CarreraCupo
+{
+    //nombre de la carrera
+    public $nombreCarrera;
+    //lista de objeto carrera
+    public $CupoCarrera;
+
+
+    public function __construct($nombreCarrera,$CupoCarrera)
+    {
+        $this->nombreCarrera = $nombreCarrera;
+        $this->CupoCarrera = $CupoCarrera;
+    }
+}
+
+
 
 
 class HoraClase
@@ -316,6 +332,10 @@ class CarrerasController extends Controller
             //se obtiene informacion del primer documento pero tambien otros calculados
             $listaFinal = $this->Carreras($name);
 
+            //lista de carreras y el cupo de alumnos admitidos
+            $this->TotalAlumnosAdmitidos($name2);
+
+
             //En listaFinal se pueden encontrar la carrera con sus materias y el valor de las mismas
 
             //TERCER DOCUMENTO EXCEL
@@ -335,6 +355,8 @@ class CarrerasController extends Controller
 
             $listaPrioridad = $this->OrdenInscripcion($listaFinal);
 
+            $this->EvaluaCupo($listaFinal,$listaGrupos);
+
             //listaprioridad viene el orden BARO
 
             //echo '<h2>' . "Orden de Inscripcion" . '</h2>';
@@ -353,7 +375,7 @@ class CarrerasController extends Controller
             $listaHorariosFinal2 = $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
 
             //Como imprimir la segunda opcion
-            $this->ImprimeListaHorariosFinal2($listaHorariosFinal2);
+            //$this->ImprimeListaHorariosFinal2($listaHorariosFinal2);
 
 
 
@@ -1432,10 +1454,86 @@ class CarrerasController extends Controller
         }
     }
 
+    public function EvaluaCupo($listaFinal,$listaGlobal)
+    {
+        $auxiliarCupo = 0;
+        $nombreAux = "";
+        foreach ($listaFinal as $lf) {
+            $carrera = $lf->nombreCarrera;
+            echo '<h4>'.$carrera.'</h4>';
+            echo '<br>';
+            uasort($lf->listaMaterias, array($this, 'sbo'));
+            foreach ($lf->listaMaterias as $listass) {
+                $materiaPivote = $listass->Materia;
+                foreach ($listaGlobal as $mg) {
+                    if ($mg->nombreMateria == $materiaPivote) {
+                        $num = (int)$mg->cupo;
+                        $auxiliarCupo = $auxiliarCupo + $num;
+                    } 
+                }
+                echo 'Materia: '.$materiaPivote.' Cupo Total: '.$auxiliarCupo;
+                $auxiliarCupo = 0;
+                echo '<br>';
+            }
+        }
+    }
+
     // funcion nueva de ordenamiento
     function sbo($a, $b)
     {
         return $a->valorGrupo - $b->valorGrupo;
+    }
+
+    public function TotalAlumnosAdmitidos($nombreArchivo)
+    {
+        echo '<h5>Comienza analisis</h5>';
+        $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
+        $documento = IOFactory::load($rutaArchivo);
+
+        # obtenemos la primera celda para la validacion del archivo CPM
+        $coordenadas = "A1";
+        $hojaActual = $documento->getSheet(1);
+        $celda = $hojaActual->getCell($coordenadas);
+        $valorRaw1 = $celda->getValue();
+
+
+        foreach ($hojaActual->getRowIterator() as $fila) {
+            foreach ($fila->getCellIterator() as $celdaPrueba) {
+
+                # El valor, así como está en el documento
+                $valorRaw = $celdaPrueba->getValue();
+                # Fila, que comienza en 1, luego 2 y así...
+                $fila = $celdaPrueba->getRow();
+                # Columna, que es la A, B, C y así...
+                $columna = $celdaPrueba->getColumn();
+
+                //revisar que las primeras opciones de las letras sean las correctas
+
+
+
+                if ($valorRaw != "") {
+                    if ($columna == "A") {
+                        if ($valorRaw != "Carrera") {
+                            $nombreCarrera = $valorRaw;
+                        }
+                    }
+                    if ($columna == "B") {
+                        if ($valorRaw != "Cupo") {
+                            $Cupo = $valorRaw;
+
+                            // Crea objeto
+                            $Carrera = new CarreraCupo($Carrera, $Cupo);
+                            echo "Entro la materia ".$nombreCarrera." De Cupo: ".$Cupo."";
+                            
+                            echo '<br>';
+
+                            // Inserta el objeto en el array de listaGrupos
+                            //array_push($listaCarreras, $Carrera);
+                        }
+                    }
+                }
+            }
+        }   
     }
 
     //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO NOS DA TODA LA INFORMACION
