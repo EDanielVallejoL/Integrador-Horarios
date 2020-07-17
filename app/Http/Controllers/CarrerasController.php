@@ -369,7 +369,6 @@ class CarrerasController extends Controller
 
             //ListaHorarios final ya tiene TODA la informacion de los horarios
             //carrera, materia y hora de inscripcion
-//          $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
             $listaHorariosFinal = $this->HorariosChidos($listaFinal, $listaGrupos,$listaPrioridad);
 
             //segundaOpcion
@@ -458,7 +457,8 @@ class CarrerasController extends Controller
      */
     public function update(Request $request, Carreras $carreras)
     {
-        //
+        $listaPrioridad = $request;
+        echo $listaPrioridad[0];
     }
 
     /**
@@ -471,6 +471,16 @@ class CarrerasController extends Controller
     {
         //
     }
+
+    public function listaPrioridad()
+    {        
+
+
+        /// AQUI miguel es donde llega la lista en forma de cadena, solo separala porfa jeje en una lista
+        $carreras =  $_GET['var'];
+        echo 'Recibi '.$carreras;
+    }
+
 
 
 

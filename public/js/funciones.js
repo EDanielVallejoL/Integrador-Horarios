@@ -1,4 +1,6 @@
+var ordenCarreras;
 $(document).ready(function () {
+    
 
     $(".loader").fadeOut("slow");
 
@@ -114,6 +116,33 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', 'button[id^="nextStep"]', function (e) {
+
+        const lista = document.getElementById('lista');
+        var arrayCalificacion = [];
+        var arrayCarrera = [];
+
+        for (var i = 0; i <= lista.children.length - 1; i++) {
+
+            var aux = lista.children[i].innerText;
+            var arrayDeCadenas = aux.split("\n\n");
+            arrayCalificacion.push(arrayDeCadenas[0])
+            arrayCarrera.push(arrayDeCadenas[1])
+            
+
+        }
+        
+        $.ajax({
+            url: "listaPCarreras?var=" + arrayCarrera,
+            success: function (data) {
+              //data es la respuesta del php
+              alert( 'El servidor devolvio "' + data + '"' );
+    
+          }
+    });
+
+    });
+
     $(document).on('click', 'button[id^="idA_"]', function (e) {
         alertify.success("Horarios cargado correctamente");
         var $id = $(this).attr('id');
@@ -193,7 +222,6 @@ function isAlumnosAceptados(input) {
     return res;
 }
 
-
 const lista = document.getElementById('lista');
 
 Sortable.create(lista, {
@@ -212,6 +240,7 @@ Sortable.create(lista, {
         // Guardamos el orden de la lista
         set: (sortable) => {
             const orden = sortable.toArray();
+            ordenCarreras = orden;
             console.log(orden);
             localStorage.setItem(sortable.options.group.name, orden.join('|'));
         },

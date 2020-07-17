@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/horarios', 'HorariosController@index')->name('horarios');
     Route::get('/listaPrioridad', 'ListaPrioridadController@index')->name('listaPrioridad');
     Route::get('/exporta', 'ListaPrioridadController@show')->name('exporta');
+    Route::get('/listaPCarreras', 'CarrerasController@listaPrioridad')->name('listaPCarreras');
 
 
     Route::get('/Tabla', function () {
