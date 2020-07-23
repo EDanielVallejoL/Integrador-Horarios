@@ -478,7 +478,10 @@ class CarrerasController extends Controller
 
         /// AQUI miguel es donde llega la lista en forma de cadena, solo separala porfa jeje en una lista
         $carreras =  $_GET['var'];
-        echo 'Recibi '.$carreras;
+        //echo 'Recibi '.$carreras;
+        $nuevCarreras =  explode(",",$carreras);
+        
+        echo 'Recibí '. $nuevCarreras[0];
     }
 
 
