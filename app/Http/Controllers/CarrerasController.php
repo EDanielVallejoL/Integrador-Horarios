@@ -17,13 +17,14 @@ class Materias
     public $Materia;
     public $valorGrupo;
     public $valorMateria;
+    public $clave;
 
-
-    public function __construct($Materia, $valorGrupo, $valorMateria)
+    public function __construct($Materia, $valorGrupo, $valorMateria, $clave)
     {
         $this->Materia = $Materia;
         $this->valorGrupo = $valorGrupo;
         $this->valorMateria = $valorMateria;
+        $this->clave = $clave;
     }
 }
 
@@ -1771,7 +1772,7 @@ class CarrerasController extends Controller
                             if ($valorRaw != "carrera") {
                                 array_push($listaCarreras, $valorRaw);
                                 if ($band == 0) {
-                                    $nombreDeCarrera = $valorRaw;
+                                    $nombreDeCarrera = $valorRaw;//Guardamos la carrera solo la 1 vez
                                     $band = 1;
                                 } else {
                                     if ($nombreDeCarrera != $valorRaw) {
@@ -1787,14 +1788,22 @@ class CarrerasController extends Controller
                                 }
                             }
                         }
-                        if ($columna == "D") {
 
-
-                            if ($valorRaw != "materia") {
-                                $mat = new Materias($valorRaw, "", "");
-                                array_push($listaMaterias, $mat);
+                        if ( $columna == "C" || $columna == "D") {    
+                            if ($columna == "C") {
+                                if ($valorRaw != "cve_materia") {
+                                    $clv = $valorRaw;
+                                }
+                            }
+                            if ($columna == "D") {
+                                if ($valorRaw != "materia") {
+                                    $mat = new Materias($valorRaw, "", "",$clv);
+                                    print_r($mat);
+                                    array_push($listaMaterias, $mat);
+                                }
                             }
                         }
+                        
                     }
                 }
             }
