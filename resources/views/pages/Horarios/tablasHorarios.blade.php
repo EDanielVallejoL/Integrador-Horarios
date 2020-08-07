@@ -77,7 +77,7 @@
                 }
                 else
                 {
-                    echo '<td class="bg bg-warning">';
+                    echo '<td class="">';
                         echo "----";
                     echo '</td>';
                 }
@@ -89,7 +89,7 @@
                 }
                 else
                 {
-                    echo '<td class="bg bg-warning">';
+                    echo '<td class="">';
                         echo "----";
                     echo '</td>';
                 }
@@ -101,7 +101,7 @@
                 }
                 else
                 {
-                    echo '<td class="bg bg-warning">';
+                    echo '<td class="">';
                         echo "----";
                     echo '</td>';
                 }
@@ -113,7 +113,7 @@
                 }
                 else
                 {
-                    echo '<td class="bg bg-warning">';
+                    echo '<td class="">';
                         echo "----";
                     echo '</td>';
                 }
@@ -125,7 +125,7 @@
                 }
                 else
                 {
-                    echo '<td class="bg bg-warning">';
+                    echo '<td class="">';
                         echo "----";
                     echo '</td>';
                 }

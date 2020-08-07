@@ -1011,12 +1011,12 @@ class CarrerasController extends Controller
                                             if($listass->valorGrupo==1)
                                             {
                                                 //si existe pues se alerta
-                                                $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
+                                                $error = "En la carrera: ".$lf->nombreCarrera." La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
                                                 //metemos el texto completo a la lista de errores
                                                 array_push($listaERRORES,$error);
                                             }else{
                                                 //si existe pues se alerta
-                                                $advertencia = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor.'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
+                                                $advertencia = "En la carrera: ".$lf->nombreCarrera." La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor.'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
                                                
                                                 array_push($listaAdvertencias,$advertencia);
                                             }
@@ -1360,7 +1360,7 @@ class CarrerasController extends Controller
                                                         $HoraReff = substr($fila->sabado, 0, 2);
                                                     //echo 'La materia '.$nombreM." Se inserto el dia sabado a las: ".$HoraReff;
                                                         $horaDiaSabado = 'sabado'.$HoraReff;
-                                                        array_push($listaDiaHoraOcupado,$horaDiaJueves);
+                                                        array_push($listaDiaHoraOcupado,$horaDiaSabado);
                                                     //echo '<br>';
                                                     }
                                                   }
@@ -1370,13 +1370,13 @@ class CarrerasController extends Controller
                                                 if($listass->valorGrupo==1)
                                                 {
                                                     //si existe pues se alerta
-                                                    $error = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
+                                                    $error = "En la carrera: ".$lf->nombreCarrera." La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor." ".'ERROR: LA MATERIA ES UNICA Y SE EMPALMA CON OTRA MATERIA CRITICA';
                                                     //echo '<br>';
                                                     //metemos el texto completo a la lista de errores
                                                     array_push($listaERRORES,$error);
                                                 }else{
                                                     //si existe pues se alerta
-                                                    $advertencia = "En la carrera: ".$lf->nombreCarrera."La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor.'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
+                                                    $advertencia = "En la carrera: ".$lf->nombreCarrera." La materia ".$nombreM." es a la hora: ".$HoraInicial."Con el profesor ".$fila->profesor.'ADVERTENCIA: La hora ya esta ocupada pero tiene mas de una opcion';
                                                     //echo '<br>';
                                                     array_push($listaAdvertencias,$advertencia);
                                                 }
@@ -1397,19 +1397,19 @@ class CarrerasController extends Controller
 
                     if($fila->tipo == "L"){
                          //Se generaria una alerta critica
-                        $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para el siguiente laboratorio: ".$listass->Materia;
+                        $error = "Para la carrera: ". $lf->nombreCarrera." ERROR: Revisar el documento Excel ya que no se encontro grupos para el siguiente laboratorio: ".$listass->Materia;
                         array_push($listaERRORES,$error);
 
                     }else{
                         //Se generaria una alerta critica
-                        $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para la siguiente materia: ".$listass->Materia;
+                        $error = "Para la carrera: ". $lf->nombreCarrera." ERROR: Revisar el documento Excel ya que no se encontro grupos para la siguiente materia: ".$listass->Materia;
                         array_push($listaERRORES,$error);
                     }
                     */
 
                     //En su defecto coloque esto
                      //Se generaria una alerta critica
-                     $error = "Para la carrera: ". $lf->nombreCarrera."ERROR: Revisar el documento Excel ya que no se encontro grupos para: ".$listass->Materia;
+                     $error = "Para la carrera: ". $lf->nombreCarrera." ERROR: Revisar el documento Excel ya que no se encontro grupos para: ".$listass->Materia;
                      array_push($listaERRORES,$error);
 
                 }
@@ -1467,8 +1467,8 @@ class CarrerasController extends Controller
         $nombreAux = "";
         foreach ($listaFinal as $lf) {
             $carrera = $lf->nombreCarrera;
-            echo '<h4>'.$carrera.'</h4>';
-            echo '<br>';
+            //echo '<h4>'.$carrera.'</h4>';
+            //echo '<br>';
             uasort($lf->listaMaterias, array($this, 'sbo'));
             foreach ($lf->listaMaterias as $listass) {
                 $materiaPivote = $listass->Materia;
@@ -1478,9 +1478,9 @@ class CarrerasController extends Controller
                         $auxiliarCupo = $auxiliarCupo + $num;
                     } 
                 }
-                echo 'Materia: '.$materiaPivote.' Cupo Total: '.$auxiliarCupo;
+                //echo 'Materia: '.$materiaPivote.' Cupo Total: '.$auxiliarCupo;
                 $auxiliarCupo = 0;
-                echo '<br>';
+                //echo '<br>';
             }
         }
     }
@@ -1493,7 +1493,6 @@ class CarrerasController extends Controller
 
     public function TotalAlumnosAdmitidos($nombreArchivo)
     {
-        echo '<h5>Comienza analisis</h5>';
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
         $documento = IOFactory::load($rutaArchivo);
 
@@ -1530,9 +1529,9 @@ class CarrerasController extends Controller
 
                             // Crea objeto
                             $Carrera = new CarreraCupo($Carrera, $Cupo);
-                            echo "Entro la materia ".$nombreCarrera." De Cupo: ".$Cupo."";
+                            //echo "Entro la materia ".$nombreCarrera." De Cupo: ".$Cupo."";
                             
-                            echo '<br>';
+                            //echo '<br>';
 
                             // Inserta el objeto en el array de listaGrupos
                             //array_push($listaCarreras, $Carrera);
@@ -1585,9 +1584,6 @@ class CarrerasController extends Controller
         if($valorRaw1 = "materia" and $valorRaw2 = "creditos" and $valorRaw3 = "profesor" and $valorRaw4 = "tipo" 
         and $valorRaw5 = "horas" and $valorRaw6 = "dias")
         {
-                //echo '<h4>Entro</h4>';
-                //echo 'br>';
-                
 
             // Sin comillas para objetos
             $listaGrupos = array();
@@ -1619,8 +1615,7 @@ class CarrerasController extends Controller
                     $columna = $celdaPrueba->getColumn();
 
                     //revisar que las primeras opciones de las letras sean las correctas
-
-
+                    
 
                     if ($valorRaw != "") {
                         if ($columna == "A") {
@@ -1692,25 +1687,35 @@ class CarrerasController extends Controller
                         if ($columna == "N") {
                             if ($valorRaw != "salon") {
                                 $salon = $valorRaw;
-
-                                // Crea objeto
-                                $Grupo = new HoraClase($nombreMateria, $creditos, $profesor, $tipo, $horas, $dias, $lunes, $martes, $miercoles, $jueves, $viernes, $sabado, $cupo, $salon);
-                                //echo "Entro la materia ".$nombreMateria." De tipo: ".$tipo."";
-                                //echo '<br>';
-
-                                // Inserta el objeto en el array de listaGrupos
-                                array_push($listaGrupos, $Grupo);
-                                $lunes = "";
-                                $martes = "";
-                                $miercoles = "";
-                                $jueves = "";
-                                $viernes = "";
-                                $sabado = "";
-                                $cupo = "";
-                                $tipo = "";
                             }
                         }
                     }
+                }
+
+                if($nombreMateria != "")
+                {
+                     // Crea objeto
+                 $Grupo = new HoraClase(trim($nombreMateria), $creditos, $profesor, $tipo, $horas, $dias, $lunes, $martes, $miercoles, $jueves, $viernes, $sabado, $cupo, $salon);
+                 //print_r($Grupo);
+                 //echo "Entro la materia ".$nombreMateria." De tipo: ".$tipo."";
+                 
+
+                 // Inserta el objeto en el array de listaGrupos
+                 array_push($listaGrupos, $Grupo);
+                 $nombreMateria = "";
+                 $creditos = "";
+                 $profesor = "";
+                 $tipo = "";
+                 $horas = "";
+                 $dias = "";
+                 $lunes = "";
+                 $martes = "";
+                 $miercoles = "";
+                 $jueves = "";
+                 $viernes = "";
+                 $sabado = "";
+                 $cupo = "";
+                 $tipo = "";
                 }
             }            
         }else{
@@ -1728,11 +1733,8 @@ class CarrerasController extends Controller
     {
 
         //promedio
-
-
         $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
         $documento = IOFactory::load($rutaArchivo);
-
         $this->validaMPN($documento);// Regresa un reporte con errores
 
         # obtenemos la primera celda para la validacion del archivo CPM
@@ -1748,16 +1750,12 @@ class CarrerasController extends Controller
         // Sin comillas para objetos
         $listaCarreraFinal = array();
 
-
         $nombreDeCarrera = "";
         $band = 0;
-        foreach ($hojaActual->getRowIterator() as $fila) {
+        foreach ($hojaActual->getRowIterator() as $fila) {            
             foreach ($fila->getCellIterator() as $celdaPrueba) {
-
                 # El valor, así como está en el documento
                 $valorRaw = $celdaPrueba->getValue();
-
-
                 # Fila, que comienza en 1, luego 2 y así...
                 $fila = $celdaPrueba->getRow();
                 # Columna, que es la A, B, C y así...
@@ -1770,6 +1768,7 @@ class CarrerasController extends Controller
                         #valorRaw nos da lo que tenemos en las celdas
                         if ($columna == "B") {
                             if ($valorRaw != "carrera") {
+                                
                                 array_push($listaCarreras, $valorRaw);
                                 if ($band == 0) {
                                     $nombreDeCarrera = $valorRaw;//Guardamos la carrera solo la 1 vez
@@ -1795,10 +1794,11 @@ class CarrerasController extends Controller
                                     $clv = $valorRaw;
                                 }
                             }
+                            
                             if ($columna == "D") {
                                 if ($valorRaw != "materia") {
-                                    $mat = new Materias($valorRaw, "", "",$clv);
-                                    print_r($mat);
+                                    $nombre = trim($valorRaw);
+                                    $mat = new Materias($nombre, "", "",$clv);
                                     array_push($listaMaterias, $mat);
                                 }
                             }
@@ -1808,6 +1808,7 @@ class CarrerasController extends Controller
                 }
             }
         }
+        
         return $listaCarreraFinal;
     }
 
@@ -1823,10 +1824,10 @@ class CarrerasController extends Controller
                 foreach ($listaMateriasGlobal as $mg) {
                     //echo 'Se compara'.$listass->Materia.'Contra: '.$mg->nombreMateria;
                     //echo "Se compara ".$mg->nombreMateria."contra:  ".$listass->Materia."  ";
-                    if ($mg->nombreMateria == $listass->Materia) {
-                        //echo "COINCIDEN";
+                    $nom1 = trim($mg->nombreMateria);
+                    $nom2 = trim($listass->Materia);
+                    if ($nom1 == $nom2) {
                         $contador = $contador + 1;
-                        //echo '<br>';
                     } else {
                         //echo '   NO entro'.'<br>';
                     }
@@ -2917,7 +2918,6 @@ class CarrerasController extends Controller
         }else{
             $errors[] = array('No valido' => "Error el archivo esta vacio");
         }
-
         //return $errors;//Regresa un array con los errores encontrados en el archivo
         //PODRIAMOS VER Y SI ESTE ARRAY ESTA VACIO CONTINUAR
         // SINO SOLICITAR QUE SE VUELVAN A CARGAR LOS ARCHIVOS
