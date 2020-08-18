@@ -5001,6 +5001,7 @@ class CarrerasController extends Controller
                 }
                 sort($listaMateriasHorario);
                 $HF = new HorarioFinal($r,$listaAuxiliarHorarios);
+                $listaAuxiliarHorarios = array();
                 array_push($listaMateriasInscritasHora, $HF); 
             }           
                            
