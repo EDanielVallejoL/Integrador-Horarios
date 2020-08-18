@@ -376,7 +376,7 @@ class CarrerasController extends Controller
             $listaHorariosFinal2 = $this->GenerarHorariosBloque($listaFinal,$listaGrupos,$listaPrioridad);
 
             //Como imprimir la segunda opcion
-            //$this->ImprimeListaHorariosFinal2($listaHorariosFinal2);
+            $this->ImprimeListaHorariosFinal2($listaHorariosFinal2);
 
 
 
@@ -393,7 +393,7 @@ class CarrerasController extends Controller
 
 
             //Funcion para asignar horario a los alumnos
-            $this->AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos);
+            $listaAlumnosInscritos2 = $this->AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos);
 
             
             //$this->imprimeAsignacion($listaAlumnosInscritos);
@@ -2662,10 +2662,10 @@ class CarrerasController extends Controller
                             if($lh->listaDia != null)//Verifica que la lista no este vacia
                             {
                                 
-                            if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
-                            {
-                                $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
-                            }
+                                if($aux = $lh->listaDia[0]->carr == $lf->nombreCarrera)
+                                {
+                                    $numeroTotaldeHorarios = $numeroTotaldeHorarios + 1;
+                                }
                             }
                         }
 
@@ -4313,6 +4313,7 @@ class CarrerasController extends Controller
                                                             //echo '<br>';
                                                             if($HoraA == $HoraB)
                                                             {
+                                                                //posibilidadborrar
                                                                 if($fila->profesor == $recorrido->profesor)
                                                                 {
                                                                     //echo 'Entro';                                       
@@ -5030,16 +5031,20 @@ class CarrerasController extends Controller
     {
         foreach($listaMateriasInscritasHora as $final)
         {
+            echo '<h3>'.$final->numeroHorario.'</h3>';
+            echo '<br>';
+            
             foreach($final->listaDia as $horario)
             {
+                //print_r($horario);
                 $TotalCupo = 0;
                 foreach($horario as $p)
                 {
-                    echo $p->hora; //08-09  
-                    echo $p->campo; // Quimica
-                    echo $p->carr;
-                    echo $p->dias;
-                    echo $p->profesor;
+                    echo ' '.$p->hora; //08-09  
+                    echo ' '.$p->campo; // Quimica
+                    echo ' '.$p->carr;
+                    echo ' '.$p->dias;
+                    echo ' '.$p->profesor;
                     if($TotalCupo == 0)
                     {
                         $TotalCupo = $p->cupo;
@@ -5054,10 +5059,10 @@ class CarrerasController extends Controller
                 }
                 //echo $TotalCupo;
                 echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
-                echo '<br>';
+                 echo '<br>';
+                 echo '<br>';
+                 echo '<br>';
+                 echo '<br>';
             }
         }
     }
@@ -5066,14 +5071,63 @@ class CarrerasController extends Controller
     //asignar los horarios
     public function AsignaHorarios2($listaHorariosFinal2,$listaAsignacionAlumnos)
     {
+        $contador = 0;
+        $carreraActual = "";
+        $numeroHorarioActual = 1;
+        $listaAlumnosIn = array();
+
+
 
         foreach($listaAsignacionAlumnos as $listaAlumnos)
         {
-            //echo $listaAlumnos->CalificacionAlumno;
-            //echo $listaAlumnos->NombreAlumno;
-            //echo $listaAlumnos->CarreraAlumno;
-            //echo '<br>';
-            //$alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+            if($contador < 30)
+            {
+                $refecarrera = $listaAlumnos->CarreraAlumno;
+                if($carreraActual == "")
+                {
+                    $carreraActual = $listaAlumnos->CarreraAlumno;
+                    $contador = $contador + 1;
+
+                    $Cve = $listaAlumnos->ClaveAlumno;
+                    $Cal = $listaAlumnos->CalificacionAlumno;
+                    $Nom = $listaAlumnos->NombreAlumno;
+                    $Car = $listaAlumnos->CarreraAlumno;
+                    echo "Se inscribio a el alumno ".$Cve." Con el horario ".$numeroHorarioActual." Carrera: ".$Car;
+                    echo '<br>';
+                    $alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                    array_push($listaAlumnosIn,$alumno);
+                }else{
+                    if($carreraActual == $refecarrera)
+                    {
+                        $contador = $contador + 1;
+                        $Cve = $listaAlumnos->ClaveAlumno;
+                        $Cal = $listaAlumnos->CalificacionAlumno;
+                        $Nom = $listaAlumnos->NombreAlumno;
+                        $Car = $listaAlumnos->CarreraAlumno;
+                        echo "Se inscribio a el alumno ".$Cve." Con el horario ".$numeroHorarioActual." Carrera: ".$Car;
+                        echo '<br>';
+                        $alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                        array_push($listaAlumnosIn,$alumno);
+                    }else{
+                        $contador = 0;
+                        $carreraActual = $listaAlumnos->CarreraAlumno;
+                        $numeroHorarioActual = 1;
+                        $Cve = $listaAlumnos->ClaveAlumno;
+                        $Cal = $listaAlumnos->CalificacionAlumno;
+                        $Nom = $listaAlumnos->NombreAlumno;
+                        $Car = $listaAlumnos->CarreraAlumno;
+                        echo "Se inscribio a el alumno ".$Cve." Con el horario ".$numeroHorarioActual." Carrera: ".$Car;
+                        echo '<br>';
+                        $alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                        array_push($listaAlumnosIn,$alumno);
+                    }
+                }
+            }else{
+                //pasariamos al siguiente horario
+                $numeroHorarioActual = $numeroHorarioActual + 1;
+                $contador = 0;;
+            }
         }
+        return $listaAlumnosIn;
     }
 }
