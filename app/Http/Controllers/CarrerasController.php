@@ -2648,7 +2648,7 @@ class CarrerasController extends Controller
 
                     //cambiar a la otra forma de algoritmo
                     //revision22/06
-                    if($numeroHorariosRepartidos < 28)
+                    if($numeroHorariosRepartidos < 27)
                     {
             
                     
@@ -5001,8 +5001,8 @@ class CarrerasController extends Controller
                 }
                 sort($listaMateriasHorario);
                 $HF = new HorarioFinal($r,$listaAuxiliarHorarios);
-                $listaAuxiliarHorarios = array();
                 array_push($listaMateriasInscritasHora, $HF); 
+                $listaAuxiliarHorarios = array();
             }           
                            
         }
