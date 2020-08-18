@@ -2648,7 +2648,7 @@ class CarrerasController extends Controller
 
                     //cambiar a la otra forma de algoritmo
                     //revision22/06
-                    if($numeroHorariosRepartidos < 2)
+                    if($numeroHorariosRepartidos < 28)
                     {
             
                     
