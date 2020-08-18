@@ -37,7 +37,7 @@
             $res = mysqli_query($conexion,$consulta);
 
             while($mostrar = mysqli_fetch_array($res)){
-                $numero = $mostrar['Opcion'] + 1;
+                $numero = $mostrar['Opcion'];
                 echo '<option value="' . $mostrar['Opcion'] . '">' .  $numero . '</option>';
             }
 
