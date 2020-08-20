@@ -1528,7 +1528,7 @@ class CarrerasController extends Controller
                             $Cupo = $valorRaw;
 
                             // Crea objeto
-                            $Carrera = new CarreraCupo($Carrera, $Cupo);
+                            $Carrera = new CarreraCupo($nombreCarrera, $Cupo);
                             //echo "Entro la materia ".$nombreCarrera." De Cupo: ".$Cupo."";
                             
                             //echo '<br>';
@@ -2930,8 +2930,10 @@ class CarrerasController extends Controller
     {
         $Hocio = array();
         $arrAux = $this->arrDias();
+        print_r($listaHorariosFinal);
         foreach($listaHorariosFinal as $obj)
         {
+            
             foreach($obj->listaDia as $dia)
             {
                 $HocioxHora = array();
