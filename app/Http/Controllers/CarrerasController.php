@@ -1024,7 +1024,13 @@ class CarrerasController extends Controller
                                         //si eres de una sola hora
                                         //----------------------------------------------------------------------------------------
                                     }else{
-                                        //Si no es mayor a 1 significa que la clase solo es de una hora
+                                            //Si no es mayor a 1 significa que la clase solo es de una hora
+                                            $brincoLunes = 0;
+                                            $brincoMartes = 0;
+                                            $brincoMiercoles = 0;
+                                            $brincoJueves = 0;
+                                            $brincoViernes = 0;
+                                            $brincoSabado = 0;
                                           
                                         //Referencia para saber de cuantos dias es la materia
                                           if($fila->lunes == "")
@@ -1174,7 +1180,7 @@ class CarrerasController extends Controller
                                                          if($brincoMartes == 0)
                                                          {
                                                              $HoraReffMartes = substr($fila->martes, 0, 2);
-                                                        //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
+                                                             //echo 'El laboratorio '.$nombreM." Se inserto el dia martes a las: ".$HoraReffMartes;
                                                              $horaDiaMartes = 'martes'.$HoraReffMartes;
                                                              array_push($listaDiaHoraOcupado,$horaDiaMartes);
                                                              $HoraReffMartes = $HoraReffMartes + 1;
