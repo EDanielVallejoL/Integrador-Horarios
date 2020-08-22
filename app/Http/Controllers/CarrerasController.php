@@ -1024,13 +1024,14 @@ class CarrerasController extends Controller
                                         //si eres de una sola hora
                                         //----------------------------------------------------------------------------------------
                                     }else{
-                                            //Si no es mayor a 1 significa que la clase solo es de una hora
-                                            $brincoLunes = 0;
-                                            $brincoMartes = 0;
-                                            $brincoMiercoles = 0;
-                                            $brincoJueves = 0;
-                                            $brincoViernes = 0;
-                                            $brincoSabado = 0;
+                                        $brincoLunes = 0;
+                                        $brincoMartes = 0;
+                                        $brincoMiercoles = 0;
+                                        $brincoJueves = 0;
+                                        $brincoViernes = 0;
+                                        $brincoSabado = 0;
+                                        //Si no es mayor a 1 significa que la clase solo es de una hora
+                                        
                                           
                                         //Referencia para saber de cuantos dias es la materia
                                           if($fila->lunes == "")
