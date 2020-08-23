@@ -329,6 +329,8 @@ class CarrerasController extends Controller
             //Toda la informacion del segundo documento HORACLASE
             $listaGrupos = $this->leeHorariosCompletos($name2);
 
+            //cambiobase
+
 
            // $this->PruebasCupo($name2);
 
