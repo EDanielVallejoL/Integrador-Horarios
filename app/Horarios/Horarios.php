@@ -27,6 +27,7 @@ foreach ($listaHorariosFinal2 as $final) {
       
 
          $c1 = $horario->carr;
+         $ClMa = $horario->ClaveMateria; // Quimica
          $c3 = $horario->campo; // Quimica
          $c4 = $horario->hora; //08-09  
          $c5 = $horario->profesor;
@@ -69,7 +70,7 @@ foreach ($listaHorariosFinal2 as $final) {
          }
 
         // Inserción 
-        $insertar = "INSERT INTO horarios  VALUES (NULL, '$c1', '$c2', '$c3', '$c5', '$c4', '$Lunes', '$Martes', '$Miercoles', '$Jueves', '$Viernes', '$Sabado')";
+        $insertar = "INSERT INTO horarios  VALUES (NULL, '$c1', '$c2', '$ClMa', '$c3', '$c5', '$c4', '$Lunes', '$Martes', '$Miercoles', '$Jueves', '$Viernes', '$Sabado')";
 
         $query = mysqli_query($conexion, $insertar);
    }

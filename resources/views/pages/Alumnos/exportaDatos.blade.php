@@ -12,7 +12,8 @@
                 <th>Clave</th>
                 <th>Alumno</th>
                 <th>Carrera</th>
-                <th>Matera</th>
+                <th>Clave materia</th>
+                <th>Materia</th>
                 <th>Profesor</th>
                 <th>Hora</th>
                 <th>Lunes</th>
@@ -33,7 +34,8 @@
                 echo '<tr>'; 
                     echo '<td>' , $mostrar['clave'],  '</td>';   
                     echo '<td>' , $mostrar['alumno'],  '</td>';   
-                    echo '<td>' , $mostrar['carrera'],  '</td>';   
+                    echo '<td>' , $mostrar['carrera'],  '</td>'; 
+                    echo '<td>' , $mostrar['ClaveMateria'],  '</td>';     
                     echo '<td>' , $mostrar['NombreMateria'],  '</td>';          
                     echo '<td>' , $mostrar['Profesor'],  '</td>'; 
                     echo '<td>' , $mostrar['Hora'],  '</td>';

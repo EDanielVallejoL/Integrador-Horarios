@@ -124,7 +124,7 @@ class Hora1
     public $dias;
     public $profesor;
     public $cupo;
-    public $ClaveMateria;
+    public $php;
 
     public function __construct($hora, $campo, $carr,$dias,$profesor,$cupo,$ClaveMateria)
     {
