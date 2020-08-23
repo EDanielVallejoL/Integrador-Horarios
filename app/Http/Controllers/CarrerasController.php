@@ -3204,7 +3204,7 @@ class CarrerasController extends Controller
             //
             $listaAuxiliarHorarios = array();
 
-            for($r=0; $r<4; $r++)
+            for($r=0; $r<6; $r++)
             {
                 //VARIABLE QUE NOS VA A INDICAR CUANTO CUPO TIENE CADA HORARIO
                 $CupoTotalHorario = 0;
@@ -5147,6 +5147,17 @@ class CarrerasController extends Controller
                 }
             }else{
                 //pasariamos al siguiente horario
+                $contador = 0;
+                $carreraActual = $listaAlumnos->CarreraAlumno;
+                $numeroHorarioActual = 1;
+                $Cve = $listaAlumnos->ClaveAlumno;
+                $Cal = $listaAlumnos->CalificacionAlumno;
+                $Nom = $listaAlumnos->NombreAlumno;
+                $Car = $listaAlumnos->CarreraAlumno;
+                //echo "Se inscribio a el alumno ".$Cve." Con el horario ".$numeroHorarioActual." Carrera: ".$Car;
+                //echo '<br>';
+                $alumno = new AlumnoInscrito($Cve,$Nom,$Cal,$Car,$numeroHorarioActual);
+                array_push($listaAlumnosIn,$alumno);
                 $numeroHorarioActual = $numeroHorarioActual + 1;
                 $contador = 0;;
             }
