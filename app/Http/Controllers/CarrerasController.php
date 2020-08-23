@@ -118,6 +118,7 @@ class HoraClase
 
 class Hora1
 {
+    // simple comment
     public $hora; //08-09  
     public $campo; // Quimica
     public $carr;
