@@ -338,8 +338,6 @@ class CarrerasController extends Controller
             //se obtiene informacion del primer documento pero tambien otros calculados
             $listaFinal = $this->Carreras($name);
 
-            //lista de carreras y el cupo de alumnos admitidos
-            $this->TotalAlumnosAdmitidos($name2);
 
 
             //En listaFinal se pueden encontrar la carrera con sus materias y el valor de las mismas
@@ -1503,56 +1501,7 @@ class CarrerasController extends Controller
         return $a->valorGrupo - $b->valorGrupo;
     }
 
-    public function TotalAlumnosAdmitidos($nombreArchivo)
-    {
-        $rutaArchivo = \public_path() . '/archivos/' . $nombreArchivo;
-        $documento = IOFactory::load($rutaArchivo);
 
-        # obtenemos la primera celda para la validacion del archivo CPM
-        $coordenadas = "A1";
-        $hojaActual = $documento->getSheet(1);
-        $celda = $hojaActual->getCell($coordenadas);
-        $valorRaw1 = $celda->getValue();
-
-
-        foreach ($hojaActual->getRowIterator() as $fila) {
-            foreach ($fila->getCellIterator() as $celdaPrueba) {
-
-                # El valor, así como está en el documento
-                $valorRaw = $celdaPrueba->getValue();
-                # Fila, que comienza en 1, luego 2 y así...
-                $fila = $celdaPrueba->getRow();
-                # Columna, que es la A, B, C y así...
-                $columna = $celdaPrueba->getColumn();
-
-                //revisar que las primeras opciones de las letras sean las correctas
-
-
-
-                if ($valorRaw != "") {
-                    if ($columna == "A") {
-                        if ($valorRaw != "Carrera") {
-                            $nombreCarrera = $valorRaw;
-                        }
-                    }
-                    if ($columna == "B") {
-                        if ($valorRaw != "Cupo") {
-                            $Cupo = $valorRaw;
-
-                            // Crea objeto
-                            $Carrera = new CarreraCupo($nombreCarrera, $Cupo);
-                            //echo "Entro la materia ".$nombreCarrera." De Cupo: ".$Cupo."";
-                            
-                            //echo '<br>';
-
-                            // Inserta el objeto en el array de listaGrupos
-                            //array_push($listaCarreras, $Carrera);
-                        }
-                    }
-                }
-            }
-        }   
-    }
 
     //Fucion que nos ayuda a leer y guardar informacion DEL SEGUNDO DOCUMENTO NOS DA TODA LA INFORMACION
     public function leeHorariosCompletos($nombreArchivo)
